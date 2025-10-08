@@ -28,11 +28,17 @@ class UniFRABackendTester:
         self.test_results = []
         self.auth_token = None
         self.session_cookie = None
+        self.test_user_email = f"test_user_{uuid.uuid4().hex[:8]}@unifra.test"
+        self.test_user_password = "TestPassword123!"
+        self.test_user_name = "Test User"
+        self.upload_id = None
+        self.analysis_id = None
         
-        print(f"🚀 UniFRA Backend API Test Suite")
+        print(f"🚀 UniFRA ML Models & Integration Flow Test Suite")
         print(f"📡 Testing backend at: {self.backend_url}")
+        print(f"👤 Test user: {self.test_user_email}")
         print(f"⏰ Test started at: {datetime.now().isoformat()}")
-        print("=" * 60)
+        print("=" * 80)
 
     def log_result(self, test_name, success, details, response_time=None, status_code=None):
         """Log test result with details."""
