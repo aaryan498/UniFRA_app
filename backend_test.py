@@ -974,37 +974,86 @@ class UniFRABackendTester:
             return False
 
     def run_all_tests(self):
-        """Run all backend API tests."""
-        print("\n🧪 Starting Backend API Tests...")
+        """Run comprehensive backend API tests following critical path."""
+        print("\n🧪 Starting Comprehensive Backend API Tests...")
         print("-" * 40)
         
-        tests = [
-            self.test_health_check,
-            self.test_auth_me_unauthenticated,
-            self.test_auth_logout_unauthenticated,
-            self.test_assets_unauthenticated,
-            self.test_cors_headers,
-            self.test_content_type_headers,
-            self.test_supported_formats,
-            self.test_root_endpoint
+        # Phase 1: Basic connectivity and health
+        basic_tests = [
+            ("Health Check", self.test_health_check_ml_models),
+            ("Root Endpoint", self.test_root_endpoint),
+            ("Supported Formats", self.test_supported_formats_detailed),
+            ("CORS Headers", self.test_cors_headers),
+            ("Content-Type Headers", self.test_content_type_headers)
         ]
         
-        passed = 0
-        total = len(tests)
+        # Phase 2: Unauthenticated endpoint security
+        security_tests = [
+            ("Auth Me (Unauthenticated)", self.test_auth_me_unauthenticated),
+            ("Auth Logout (Unauthenticated)", self.test_auth_logout_unauthenticated),
+            ("Assets (Unauthenticated)", self.test_assets_unauthenticated)
+        ]
         
-        for test in tests:
-            if test():
-                passed += 1
+        # Phase 3: Authentication flow
+        auth_tests = [
+            ("User Registration", self.test_user_registration),
+            ("Authenticated User Profile", self.test_authenticated_user_profile)
+        ]
         
-        print("-" * 40)
-        print(f"📊 Test Results: {passed}/{total} tests passed")
+        # Phase 4: File upload and ML analysis
+        ml_tests = [
+            ("File Upload Flow", self.test_file_upload_flow),
+            ("FRA Analysis Flow", self.test_fra_analysis_flow),
+            ("Analysis Retrieval", self.test_analysis_retrieval)
+        ]
         
-        if passed == total:
-            print("🎉 All tests passed! Backend API is working correctly.")
+        # Phase 5: Asset management
+        asset_tests = [
+            ("Asset Management Flow", self.test_asset_management_flow)
+        ]
+        
+        all_test_phases = [
+            ("Basic Connectivity", basic_tests),
+            ("Security Tests", security_tests),
+            ("Authentication", auth_tests),
+            ("ML Analysis Pipeline", ml_tests),
+            ("Asset Management", asset_tests)
+        ]
+        
+        total_passed = 0
+        total_tests = 0
+        
+        for phase_name, tests in all_test_phases:
+            print(f"\n🔍 {phase_name} Tests:")
+            print("-" * 30)
+            
+            phase_passed = 0
+            phase_total = len(tests)
+            
+            for test_name, test_func in tests:
+                if test_func():
+                    phase_passed += 1
+                total_tests += 1
+            
+            total_passed += phase_passed
+            print(f"   Phase Result: {phase_passed}/{phase_total} passed")
+            
+            # Stop if critical tests fail
+            if phase_name == "Basic Connectivity" and phase_passed < phase_total:
+                print("❌ Critical connectivity tests failed. Stopping test suite.")
+                break
+        
+        print("\n" + "=" * 60)
+        print(f"📊 FINAL RESULTS: {total_passed}/{total_tests} tests passed")
+        print(f"🎯 Success Rate: {(total_passed/total_tests)*100:.1f}%")
+        
+        if total_passed == total_tests:
+            print("🎉 ALL TESTS PASSED! Backend API is fully operational.")
         else:
-            print(f"⚠️  {total - passed} test(s) failed. Check details above.")
+            failed = total_tests - total_passed
+            print(f"⚠️  {failed} test(s) failed. Check details above.")
         
-        return passed, total, self.test_results
+        return total_passed, total_tests, self.test_results
 
 def main():
     """Main test execution."""
