@@ -16,7 +16,6 @@
     "js-cookie": "^3.0.5",
     "jspdf": "^3.0.3",
     "plotly.js": "^3.1.1",
-    "plotly.js-dist-min": "^3.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-is": "^19.2.0",
@@ -31,7 +30,8 @@
     "start": "craco start",
     "build": "GENERATE_SOURCEMAP=false craco build",
     "test": "craco test",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "build:analyze": "GENERATE_SOURCEMAP=false craco build && npm run analyze"
   },
   "browserslist": {
     "production": [
@@ -58,6 +58,7 @@
     "globals": "15.15.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
+    "terser-webpack-plugin": "^5.3.11",
     "webpack-bundle-analyzer": "^4.10.2"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"

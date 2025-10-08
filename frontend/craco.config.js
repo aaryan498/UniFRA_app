@@ -1,4 +1,6 @@
 const path = require('path');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   webpack: {
@@ -16,9 +18,9 @@ module.exports = {
           chunks: 'all',
           maxInitialRequests: 30,
           minSize: 20000,
-          maxSize: 244000, // 244KB max chunk size
+          maxSize: 244000, // 244KB max chunk size for optimal loading
           cacheGroups: {
-            // Separate chunk for plotly (3MB library)
+            // Separate chunk for plotly (3MB library) - highest priority
             plotly: {
               test: /[\\/]node_modules[\\/](plotly\.js|react-plotly\.js)[\\/]/,
               name: 'plotly',
@@ -32,6 +34,7 @@ module.exports = {
               name: 'recharts',
               priority: 35,
               reuseExistingChunk: true,
+              enforce: true,
             },
             // Separate chunk for PDF/export libraries
             exportLibs: {
@@ -39,6 +42,7 @@ module.exports = {
               name: 'export-libs',
               priority: 30,
               reuseExistingChunk: true,
+              enforce: true,
             },
             // Radix UI components
             radixUI: {
@@ -70,6 +74,8 @@ module.exports = {
           },
         },
         runtimeChunk: 'single',
+        usedExports: true, // Enable tree shaking
+        sideEffects: false, // Aggressive tree shaking
       };
 
       // Production-specific optimizations
@@ -77,8 +83,67 @@ module.exports = {
         // Disable source maps to reduce bundle size
         webpackConfig.devtool = false;
         
-        // Enable minimize
-        webpackConfig.optimization.minimize = true;
+        // Enhanced minification with Terser
+        webpackConfig.optimization.minimizer = [
+          new TerserPlugin({
+            terserOptions: {
+              parse: {
+                ecma: 8,
+              },
+              compress: {
+                ecma: 5,
+                warnings: false,
+                comparisons: false,
+                inline: 2,
+                drop_console: true, // Remove console.logs in production
+                drop_debugger: true,
+                pure_funcs: ['console.log', 'console.info', 'console.debug'],
+              },
+              mangle: {
+                safari10: true,
+              },
+              output: {
+                ecma: 5,
+                comments: false,
+                ascii_only: true,
+              },
+            },
+            parallel: true,
+            extractComments: false,
+          }),
+        ];
+
+        // Add compression plugins for production
+        webpackConfig.plugins.push(
+          new CompressionWebpackPlugin({
+            filename: '[path][base].gz',
+            algorithm: 'gzip',
+            test: /\.(js|css|html|svg)$/,
+            threshold: 10240, // Only compress files > 10KB
+            minRatio: 0.8,
+          })
+        );
+
+        // Additional performance optimizations
+        webpackConfig.performance = {
+          maxEntrypointSize: 512000, // 500KB
+          maxAssetSize: 512000,
+          hints: 'warning',
+        };
+      }
+
+      // Development optimizations
+      if (env === 'development') {
+        // Faster rebuild times
+        webpackConfig.optimization.removeAvailableModules = false;
+        webpackConfig.optimization.removeEmptyChunks = false;
+        webpackConfig.optimization.splitChunks = {
+          ...webpackConfig.optimization.splitChunks,
+          cacheGroups: {
+            ...webpackConfig.optimization.splitChunks.cacheGroups,
+            default: false,
+          },
+        };
       }
 
       return webpackConfig;
@@ -95,6 +160,16 @@ module.exports = {
             require('autoprefixer'),
           ],
         },
+      },
+    },
+  },
+  devServer: {
+    compress: true,
+    hot: true,
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
       },
     },
   },
