@@ -636,8 +636,8 @@ class UniFRABackendTester:
             return False
 
     def create_sample_fra_data(self):
-        """Create sample FRA data for testing."""
-        # Create realistic FRA test data
+        """Create sample FRA data for testing with more comprehensive frequency sweep."""
+        # Create realistic FRA test data with more frequency points
         sample_data = """# UniFRA Test Data - Transformer FRA Measurement
 # Asset: TEST-TRANSFORMER-001
 # Manufacturer: Test Corp
@@ -646,20 +646,35 @@ class UniFRABackendTester:
 # 
 # Frequency (Hz), Magnitude (dB), Phase (degrees)
 10,45.2,12.5
+15,44.8,13.1
 20,43.8,15.2
+30,42.9,16.8
 50,41.5,18.7
+75,40.3,20.2
 100,39.2,22.1
+150,38.1,23.8
 200,36.8,25.9
+300,35.7,27.4
 500,33.4,31.2
+750,31.8,34.1
 1000,29.7,38.5
+1500,27.9,42.3
 2000,25.3,47.2
+3000,22.8,52.1
 5000,19.8,58.9
+7500,16.4,65.7
 10000,13.2,72.4
+15000,9.8,79.3
 20000,5.7,89.1
+30000,1.2,98.7
 50000,-2.8,108.7
+75000,-7.1,118.2
 100000,-12.4,125.3
+150000,-18.2,134.1
 200000,-23.1,142.8
+300000,-28.9,152.4
 500000,-35.7,165.2
+750000,-42.1,172.8
 1000000,-48.9,178.9
 """
         return sample_data
