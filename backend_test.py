@@ -2,7 +2,8 @@
 """
 UniFRA Backend API Comprehensive Test Suite
 
-Tests all backend endpoints including health check, authentication, and assets.
+Tests ML models, parsers, preprocessing pipeline, and complete integration flows.
+Covers authentication, file upload, analysis, asset management, and export functionality.
 Uses the production backend URL from frontend/.env configuration.
 """
 
@@ -11,6 +12,9 @@ import json
 import time
 from datetime import datetime
 import os
+import io
+import tempfile
+import uuid
 from dotenv import load_dotenv
 
 # Load frontend environment to get backend URL
