@@ -3,7 +3,7 @@
     "passed": 7,
     "total": 8,
     "success_rate": 0.875,
-    "backend_url": "https://unifra-efficiency.preview.emergentagent.com",
+    "backend_url": "https://flow-analyzer-5.preview.emergentagent.com",
     "test_timestamp": "2025-10-08T18:17:16.593255"
   },
   "detailed_results": [
