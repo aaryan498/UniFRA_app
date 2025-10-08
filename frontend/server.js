@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'build'), {
 }));
 
 // Handle React routing - return index.html for all routes
-app.get('/*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
