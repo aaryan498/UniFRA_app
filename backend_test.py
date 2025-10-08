@@ -28,7 +28,7 @@ class UniFRABackendTester:
         self.test_results = []
         self.auth_token = None
         self.session_cookie = None
-        self.test_user_email = f"test_user_{uuid.uuid4().hex[:8]}@unifra.test"
+        self.test_user_email = f"test_user_{uuid.uuid4().hex[:8]}@example.com"
         self.test_user_password = "TestPass123"  # Shorter password to avoid bcrypt length issues
         self.test_user_name = "Test User"
         self.upload_id = None
