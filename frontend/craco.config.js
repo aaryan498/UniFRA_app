@@ -132,16 +132,31 @@ module.exports = {
         };
       }
 
-      // Development optimizations
+      // Development optimizations for memory efficiency
       if (env === 'development') {
-        // Faster rebuild times
+        // Faster rebuild times and lower memory usage
+        webpackConfig.cache = {
+          type: 'filesystem',
+          buildDependencies: {
+            config: [__filename],
+          },
+        };
         webpackConfig.optimization.removeAvailableModules = false;
         webpackConfig.optimization.removeEmptyChunks = false;
+        // Simplify code splitting in development
         webpackConfig.optimization.splitChunks = {
-          ...webpackConfig.optimization.splitChunks,
+          chunks: 'async',
           cacheGroups: {
-            ...webpackConfig.optimization.splitChunks.cacheGroups,
-            default: false,
+            defaultVendors: {
+              test: /[\\/]node_modules[\\/]/,
+              priority: -10,
+              reuseExistingChunk: true,
+            },
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
           },
         };
       }
