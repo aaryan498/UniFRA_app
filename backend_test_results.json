@@ -1,0 +1,75 @@
+{
+  "summary": {
+    "passed": 7,
+    "total": 8,
+    "success_rate": 0.875,
+    "backend_url": "https://unifra-efficiency.preview.emergentagent.com",
+    "test_timestamp": "2025-10-08T18:17:16.593255"
+  },
+  "detailed_results": [
+    {
+      "test": "Health Check",
+      "success": true,
+      "details": "All components operational. Version: 2.0.0",
+      "response_time_ms": 72.89481163024902,
+      "status_code": 200,
+      "timestamp": "2025-10-08T18:17:16.418360"
+    },
+    {
+      "test": "Auth Me (Unauthenticated)",
+      "success": true,
+      "details": "Correctly returned 401 for unauthenticated request",
+      "response_time_ms": 49.77726936340332,
+      "status_code": 401,
+      "timestamp": "2025-10-08T18:17:16.468181"
+    },
+    {
+      "test": "Auth Logout (Unauthenticated)",
+      "success": true,
+      "details": "Correctly returned 401 for unauthenticated request",
+      "response_time_ms": 8.78453254699707,
+      "status_code": 401,
+      "timestamp": "2025-10-08T18:17:16.477007"
+    },
+    {
+      "test": "Assets (Unauthenticated)",
+      "success": true,
+      "details": "Correctly returned 401 for unauthenticated request",
+      "response_time_ms": 8.008480072021484,
+      "status_code": 401,
+      "timestamp": "2025-10-08T18:17:16.485048"
+    },
+    {
+      "test": "CORS Headers",
+      "success": false,
+      "details": "Missing CORS headers: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Credentials']",
+      "response_time_ms": 47.747135162353516,
+      "status_code": 405,
+      "timestamp": "2025-10-08T18:17:16.532836"
+    },
+    {
+      "test": "Content-Type Headers",
+      "success": true,
+      "details": "Correct content-type: application/json",
+      "response_time_ms": 5.80906867980957,
+      "status_code": 200,
+      "timestamp": "2025-10-08T18:17:16.538689"
+    },
+    {
+      "test": "Supported Formats",
+      "success": true,
+      "details": "Endpoint accessible, returned 3",
+      "response_time_ms": 47.16610908508301,
+      "status_code": 200,
+      "timestamp": "2025-10-08T18:17:16.585899"
+    },
+    {
+      "test": "Root Endpoint",
+      "success": true,
+      "details": "API info accessible. Version: 2.0.0",
+      "response_time_ms": 7.177829742431641,
+      "status_code": 200,
+      "timestamp": "2025-10-08T18:17:16.593129"
+    }
+  ]
+}
