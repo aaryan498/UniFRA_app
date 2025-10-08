@@ -259,11 +259,14 @@ backend:
     file: "backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: true
         agent: "testing"
         comment: "All critical backend endpoints tested and working: GET /api/health (✅ 200, all components operational), GET /api/auth/me (✅ 401 unauthenticated), POST /api/auth/logout (✅ 401 unauthenticated), GET /api/assets (✅ 401 unauthenticated), GET /api/supported-formats (✅ 200), GET /api/ (✅ 200). Response times excellent (6-73ms). Content-type headers correct. Authentication properly enforced. Backend fully operational at https://flow-analyzer-5.preview.emergentagent.com"
+      - working: "NA"
+        agent: "main"
+        comment: "System reinitialized. Fixed missing google-auth dependency. Backend health check confirms all components operational. Marked for comprehensive retesting."
 
 metadata:
   created_by: "main_agent"
