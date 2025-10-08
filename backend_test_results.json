@@ -4,80 +4,80 @@
     "total": 14,
     "success_rate": 0.5714285714285714,
     "backend_url": "https://flow-analyzer-5.preview.emergentagent.com",
-    "test_timestamp": "2025-10-08T20:11:03.871862"
+    "test_timestamp": "2025-10-08T20:13:34.827789"
   },
   "detailed_results": [
     {
       "test": "ML Models Health Check",
       "success": true,
       "details": "ML models loaded and operational. All components: ['parser', 'ml_models', 'database', 'authentication']",
-      "response_time_ms": 58.1057071685791,
+      "response_time_ms": 58.80284309387207,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:11:03.624349"
+      "timestamp": "2025-10-08T20:13:34.637548"
     },
     {
       "test": "Root Endpoint",
       "success": true,
       "details": "API info accessible. Version: 2.0.0",
-      "response_time_ms": 7.933139801025391,
+      "response_time_ms": 48.70343208312988,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:11:03.632348"
+      "timestamp": "2025-10-08T20:13:34.686307"
     },
     {
       "test": "Parser - Supported Formats",
       "success": true,
       "details": "Parser supports 3 format categories: ['text_formats', 'binary_formats', 'vendor_formats']",
-      "response_time_ms": 47.34015464782715,
+      "response_time_ms": 10.370016098022461,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:11:03.679753"
+      "timestamp": "2025-10-08T20:13:34.696740"
     },
     {
       "test": "CORS Headers",
       "success": true,
       "details": "CORS handling operational. Origin header: handled by ingress",
-      "response_time_ms": 8.040904998779297,
+      "response_time_ms": 48.51484298706055,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:11:03.687844"
+      "timestamp": "2025-10-08T20:13:34.745300"
     },
     {
       "test": "Content-Type Headers",
       "success": true,
       "details": "Correct content-type: application/json",
-      "response_time_ms": 50.08292198181152,
+      "response_time_ms": 7.39741325378418,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:11:03.737974"
+      "timestamp": "2025-10-08T20:13:34.752741"
     },
     {
       "test": "Auth Me (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 15.442609786987305,
+      "response_time_ms": 11.27314567565918,
       "status_code": 401,
-      "timestamp": "2025-10-08T20:11:03.753468"
+      "timestamp": "2025-10-08T20:13:34.764061"
     },
     {
       "test": "Auth Logout (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 47.553062438964844,
+      "response_time_ms": 49.184322357177734,
       "status_code": 401,
-      "timestamp": "2025-10-08T20:11:03.801068"
+      "timestamp": "2025-10-08T20:13:34.813286"
     },
     {
       "test": "Assets (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 11.766195297241211,
+      "response_time_ms": 7.424592971801758,
       "status_code": 401,
-      "timestamp": "2025-10-08T20:11:03.812882"
+      "timestamp": "2025-10-08T20:13:34.820753"
     },
     {
       "test": "User Registration",
       "success": false,
-      "details": "Unexpected status code: 422",
-      "response_time_ms": 58.698415756225586,
+      "details": "Validation error: {'detail': [{'type': 'value_error', 'loc': ['body', 'email'], 'msg': 'value is not a valid email address: The part after the @-sign is a special-use or reserved name that cannot be used with email.', 'input': 'test_user_d5817987@unifra.test', 'ctx': {'reason': 'The part after the @-sign is a special-use or reserved name that cannot be used with email.'}}]}",
+      "response_time_ms": 6.75511360168457,
       "status_code": 422,
-      "timestamp": "2025-10-08T20:11:03.871647"
+      "timestamp": "2025-10-08T20:13:34.827585"
     },
     {
       "test": "Authenticated User Profile",
@@ -85,7 +85,7 @@
       "details": "No auth token available",
       "response_time_ms": null,
       "status_code": null,
-      "timestamp": "2025-10-08T20:11:03.871695"
+      "timestamp": "2025-10-08T20:13:34.827622"
     },
     {
       "test": "File Upload Flow",
@@ -93,7 +93,7 @@
       "details": "No auth token available",
       "response_time_ms": null,
       "status_code": null,
-      "timestamp": "2025-10-08T20:11:03.871709"
+      "timestamp": "2025-10-08T20:13:34.827635"
     },
     {
       "test": "FRA Analysis Flow",
@@ -101,7 +101,7 @@
       "details": "No auth token or upload ID available",
       "response_time_ms": null,
       "status_code": null,
-      "timestamp": "2025-10-08T20:11:03.871715"
+      "timestamp": "2025-10-08T20:13:34.827640"
     },
     {
       "test": "Analysis Retrieval",
@@ -109,7 +109,7 @@
       "details": "No auth token or analysis ID available",
       "response_time_ms": null,
       "status_code": null,
-      "timestamp": "2025-10-08T20:11:03.871720"
+      "timestamp": "2025-10-08T20:13:34.827646"
     },
     {
       "test": "Asset Management Flow",
@@ -117,7 +117,7 @@
       "details": "No auth token available",
       "response_time_ms": null,
       "status_code": null,
-      "timestamp": "2025-10-08T20:11:03.871731"
+      "timestamp": "2025-10-08T20:13:34.827656"
     }
   ]
 }
