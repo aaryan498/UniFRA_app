@@ -60,8 +60,8 @@ class UniFRABackendTester:
         if not success or details:
             print(f"   📝 {details}")
 
-    def test_health_check(self):
-        """Test the health check endpoint."""
+    def test_health_check_ml_models(self):
+        """Test the health check endpoint with focus on ML models status."""
         try:
             start_time = time.time()
             response = self.session.get(f"{self.backend_url}/api/health", timeout=10)
@@ -76,7 +76,7 @@ class UniFRABackendTester:
                 
                 if missing_fields:
                     self.log_result(
-                        "Health Check", False, 
+                        "ML Models Health Check", False, 
                         f"Missing fields: {missing_fields}",
                         response_time, response.status_code
                     )
@@ -85,20 +85,20 @@ class UniFRABackendTester:
                 # Check if status is healthy
                 if data.get('status') != 'healthy':
                     self.log_result(
-                        "Health Check", False,
+                        "ML Models Health Check", False,
                         f"Status is '{data.get('status')}', expected 'healthy'",
                         response_time, response.status_code
                     )
                     return False
                 
-                # Check components
+                # Check ML models component specifically
                 components = data.get('components', {})
                 expected_components = ['parser', 'ml_models', 'database', 'authentication']
                 
                 for component in expected_components:
                     if component not in components:
                         self.log_result(
-                            "Health Check", False,
+                            "ML Models Health Check", False,
                             f"Missing component: {component}",
                             response_time, response.status_code
                         )
@@ -106,31 +106,40 @@ class UniFRABackendTester:
                     
                     if components[component] != 'operational':
                         self.log_result(
-                            "Health Check", False,
+                            "ML Models Health Check", False,
                             f"Component '{component}' is '{components[component]}', expected 'operational'",
                             response_time, response.status_code
                         )
                         return False
                 
-                self.log_result(
-                    "Health Check", True,
-                    f"All components operational. Version: {data.get('version')}",
-                    response_time, response.status_code
-                )
-                return True
+                # Specifically verify ML models are loaded
+                if components.get('ml_models') == 'operational':
+                    self.log_result(
+                        "ML Models Health Check", True,
+                        f"ML models loaded and operational. All components: {list(components.keys())}",
+                        response_time, response.status_code
+                    )
+                    return True
+                else:
+                    self.log_result(
+                        "ML Models Health Check", False,
+                        f"ML models not operational: {components.get('ml_models')}",
+                        response_time, response.status_code
+                    )
+                    return False
             else:
                 self.log_result(
-                    "Health Check", False,
+                    "ML Models Health Check", False,
                     f"Unexpected status code: {response.status_code}",
                     response_time, response.status_code
                 )
                 return False
                 
         except requests.exceptions.RequestException as e:
-            self.log_result("Health Check", False, f"Request failed: {str(e)}")
+            self.log_result("ML Models Health Check", False, f"Request failed: {str(e)}")
             return False
         except json.JSONDecodeError as e:
-            self.log_result("Health Check", False, f"Invalid JSON response: {str(e)}")
+            self.log_result("ML Models Health Check", False, f"Invalid JSON response: {str(e)}")
             return False
 
     def test_auth_me_unauthenticated(self):
