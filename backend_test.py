@@ -560,6 +560,419 @@ class UniFRABackendTester:
             self.log_result("Authenticated User Profile", False, f"Invalid JSON response: {str(e)}")
             return False
 
+    # ========== PARSER AND PREPROCESSING TESTS ==========
+    
+    def test_supported_formats_detailed(self):
+        """Test supported formats endpoint for parser functionality."""
+        try:
+            start_time = time.time()
+            response = self.session.get(f"{self.backend_url}/api/supported-formats", timeout=10)
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                try:
+                    data = response.json()
+                    
+                    # Check if we get format information
+                    if isinstance(data, dict) and len(data) > 0:
+                        self.log_result(
+                            "Parser - Supported Formats", True,
+                            f"Parser supports {len(data)} format categories: {list(data.keys())}",
+                            response_time, response.status_code
+                        )
+                        return True
+                    elif isinstance(data, list) and len(data) > 0:
+                        self.log_result(
+                            "Parser - Supported Formats", True,
+                            f"Parser supports {len(data)} formats",
+                            response_time, response.status_code
+                        )
+                        return True
+                    else:
+                        self.log_result(
+                            "Parser - Supported Formats", False,
+                            "No supported formats returned",
+                            response_time, response.status_code
+                        )
+                        return False
+                except json.JSONDecodeError:
+                    self.log_result(
+                        "Parser - Supported Formats", False,
+                        "Invalid JSON response",
+                        response_time, response.status_code
+                    )
+                    return False
+            else:
+                self.log_result(
+                    "Parser - Supported Formats", False,
+                    f"Unexpected status code: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("Parser - Supported Formats", False, f"Request failed: {str(e)}")
+            return False
+
+    def create_sample_fra_data(self):
+        """Create sample FRA data for testing."""
+        # Create realistic FRA test data
+        sample_data = """# UniFRA Test Data - Transformer FRA Measurement
+# Asset: TEST-TRANSFORMER-001
+# Manufacturer: Test Corp
+# Rating: 100 MVA
+# Date: 2024-01-15
+# 
+# Frequency (Hz), Magnitude (dB), Phase (degrees)
+10,45.2,12.5
+20,43.8,15.2
+50,41.5,18.7
+100,39.2,22.1
+200,36.8,25.9
+500,33.4,31.2
+1000,29.7,38.5
+2000,25.3,47.2
+5000,19.8,58.9
+10000,13.2,72.4
+20000,5.7,89.1
+50000,-2.8,108.7
+100000,-12.4,125.3
+200000,-23.1,142.8
+500000,-35.7,165.2
+1000000,-48.9,178.9
+"""
+        return sample_data
+
+    def test_file_upload_flow(self):
+        """Test file upload and parsing flow."""
+        if not self.auth_token:
+            self.log_result("File Upload Flow", False, "No auth token available")
+            return False
+            
+        try:
+            start_time = time.time()
+            
+            # Create sample FRA data file
+            sample_data = self.create_sample_fra_data()
+            
+            # Prepare file upload
+            files = {
+                'file': ('test_fra_data.csv', io.StringIO(sample_data), 'text/csv')
+            }
+            
+            headers = {"Authorization": f"Bearer {self.auth_token}"}
+            
+            response = self.session.post(
+                f"{self.backend_url}/api/upload",
+                files=files,
+                headers=headers,
+                timeout=30
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check required fields
+                required_fields = ['status', 'upload_id', 'message', 'asset_metadata']
+                missing_fields = [field for field in required_fields if field not in data]
+                
+                if missing_fields:
+                    self.log_result(
+                        "File Upload Flow", False,
+                        f"Missing fields in response: {missing_fields}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                if data.get('status') != 'success':
+                    self.log_result(
+                        "File Upload Flow", False,
+                        f"Upload status is '{data.get('status')}', expected 'success'",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Store upload ID for analysis
+                self.upload_id = data.get('upload_id')
+                
+                # Check asset metadata
+                asset_metadata = data.get('asset_metadata', {})
+                if not asset_metadata.get('asset_id'):
+                    self.log_result(
+                        "File Upload Flow", False,
+                        "No asset_id in metadata",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Check measurement summary
+                measurement_summary = data.get('measurement_summary', {})
+                freq_points = measurement_summary.get('frequency_points', 0)
+                
+                self.log_result(
+                    "File Upload Flow", True,
+                    f"File uploaded and parsed successfully. Upload ID: {self.upload_id}, Frequency points: {freq_points}",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "File Upload Flow", False,
+                    f"Upload failed with status: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("File Upload Flow", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("File Upload Flow", False, f"Invalid JSON response: {str(e)}")
+            return False
+
+    # ========== ML ANALYSIS FLOW TESTS ==========
+    
+    def test_fra_analysis_flow(self):
+        """Test FRA analysis with ML models."""
+        if not self.auth_token or not self.upload_id:
+            self.log_result("FRA Analysis Flow", False, "No auth token or upload ID available")
+            return False
+            
+        try:
+            start_time = time.time()
+            
+            # Prepare analysis request
+            analysis_request = {
+                "apply_filtering": True,
+                "apply_wavelet": False,
+                "include_features": True,
+                "confidence_threshold": 0.7
+            }
+            
+            headers = {"Authorization": f"Bearer {self.auth_token}"}
+            
+            response = self.session.post(
+                f"{self.backend_url}/api/analyze/{self.upload_id}",
+                json=analysis_request,
+                headers=headers,
+                timeout=60  # ML analysis might take longer
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check required analysis result fields
+                required_fields = [
+                    'analysis_id', 'user_id', 'asset_metadata', 'fault_probabilities',
+                    'predicted_fault_type', 'severity_level', 'confidence_score',
+                    'is_anomaly', 'recommended_actions', 'analysis_timestamp'
+                ]
+                missing_fields = [field for field in required_fields if field not in data]
+                
+                if missing_fields:
+                    self.log_result(
+                        "FRA Analysis Flow", False,
+                        f"Missing fields in analysis result: {missing_fields}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Store analysis ID
+                self.analysis_id = data.get('analysis_id')
+                
+                # Verify ML model predictions
+                fault_probabilities = data.get('fault_probabilities', {})
+                expected_fault_types = [
+                    'healthy', 'axial_displacement', 'radial_deformation', 'core_grounding',
+                    'turn_turn_short', 'open_circuit', 'insulation_degradation',
+                    'partial_discharge', 'lamination_deform', 'saturation_effect'
+                ]
+                
+                missing_fault_types = [ft for ft in expected_fault_types if ft not in fault_probabilities]
+                if missing_fault_types:
+                    self.log_result(
+                        "FRA Analysis Flow", False,
+                        f"Missing fault probability types: {missing_fault_types}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Verify confidence score
+                confidence_score = data.get('confidence_score', 0)
+                if not (0 <= confidence_score <= 1):
+                    self.log_result(
+                        "FRA Analysis Flow", False,
+                        f"Invalid confidence score: {confidence_score} (should be 0-1)",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Verify recommendations exist
+                recommendations = data.get('recommended_actions', [])
+                if not recommendations or len(recommendations) == 0:
+                    self.log_result(
+                        "FRA Analysis Flow", False,
+                        "No maintenance recommendations provided",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                predicted_fault = data.get('predicted_fault_type')
+                severity = data.get('severity_level')
+                
+                self.log_result(
+                    "FRA Analysis Flow", True,
+                    f"ML analysis completed. Fault: {predicted_fault}, Severity: {severity}, Confidence: {confidence_score:.3f}, Processing time: {data.get('processing_time_ms', 0):.1f}ms",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "FRA Analysis Flow", False,
+                    f"Analysis failed with status: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("FRA Analysis Flow", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("FRA Analysis Flow", False, f"Invalid JSON response: {str(e)}")
+            return False
+
+    def test_analysis_retrieval(self):
+        """Test retrieving analysis results by ID."""
+        if not self.auth_token or not self.analysis_id:
+            self.log_result("Analysis Retrieval", False, "No auth token or analysis ID available")
+            return False
+            
+        try:
+            start_time = time.time()
+            
+            headers = {"Authorization": f"Bearer {self.auth_token}"}
+            
+            response = self.session.get(
+                f"{self.backend_url}/api/analysis/{self.analysis_id}",
+                headers=headers,
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Verify it's the same analysis
+                if data.get('analysis_id') != self.analysis_id:
+                    self.log_result(
+                        "Analysis Retrieval", False,
+                        f"Analysis ID mismatch: expected {self.analysis_id}, got {data.get('analysis_id')}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                self.log_result(
+                    "Analysis Retrieval", True,
+                    f"Analysis retrieved successfully. Fault: {data.get('predicted_fault_type')}, Confidence: {data.get('confidence_score', 0):.3f}",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "Analysis Retrieval", False,
+                    f"Failed to retrieve analysis: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("Analysis Retrieval", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("Analysis Retrieval", False, f"Invalid JSON response: {str(e)}")
+            return False
+
+    # ========== ASSET MANAGEMENT TESTS ==========
+    
+    def test_asset_management_flow(self):
+        """Test asset listing and management."""
+        if not self.auth_token:
+            self.log_result("Asset Management Flow", False, "No auth token available")
+            return False
+            
+        try:
+            start_time = time.time()
+            
+            headers = {"Authorization": f"Bearer {self.auth_token}"}
+            
+            response = self.session.get(
+                f"{self.backend_url}/api/assets",
+                headers=headers,
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check response structure
+                if 'assets' not in data or 'total_count' not in data:
+                    self.log_result(
+                        "Asset Management Flow", False,
+                        "Missing 'assets' or 'total_count' in response",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                assets = data.get('assets', [])
+                total_count = data.get('total_count', 0)
+                
+                # If we uploaded and analyzed data, we should have at least one asset
+                if self.upload_id and total_count == 0:
+                    self.log_result(
+                        "Asset Management Flow", False,
+                        "No assets found despite successful upload and analysis",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Check asset structure if assets exist
+                if assets:
+                    asset = assets[0]
+                    required_asset_fields = ['asset_id', 'latest_analysis', 'total_analyses', 'latest_fault_type']
+                    missing_asset_fields = [field for field in required_asset_fields if field not in asset]
+                    
+                    if missing_asset_fields:
+                        self.log_result(
+                            "Asset Management Flow", False,
+                            f"Missing asset fields: {missing_asset_fields}",
+                            response_time, response.status_code
+                        )
+                        return False
+                
+                self.log_result(
+                    "Asset Management Flow", True,
+                    f"Assets retrieved successfully. Total: {total_count}, Assets with data: {len(assets)}",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "Asset Management Flow", False,
+                    f"Failed to retrieve assets: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("Asset Management Flow", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("Asset Management Flow", False, f"Invalid JSON response: {str(e)}")
+            return False
+
     def run_all_tests(self):
         """Run all backend API tests."""
         print("\n🧪 Starting Backend API Tests...")
