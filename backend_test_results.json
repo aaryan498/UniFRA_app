@@ -1,51 +1,123 @@
 {
   "summary": {
-    "passed": 4,
-    "total": 5,
-    "success_rate": 0.8,
+    "passed": 8,
+    "total": 14,
+    "success_rate": 0.5714285714285714,
     "backend_url": "https://flow-analyzer-5.preview.emergentagent.com",
-    "test_timestamp": "2025-10-08T20:10:44.878474"
+    "test_timestamp": "2025-10-08T20:11:03.871862"
   },
   "detailed_results": [
     {
       "test": "ML Models Health Check",
       "success": true,
       "details": "ML models loaded and operational. All components: ['parser', 'ml_models', 'database', 'authentication']",
-      "response_time_ms": 77.85439491271973,
+      "response_time_ms": 58.1057071685791,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:10:44.797239"
+      "timestamp": "2025-10-08T20:11:03.624349"
     },
     {
       "test": "Root Endpoint",
       "success": true,
       "details": "API info accessible. Version: 2.0.0",
-      "response_time_ms": 11.82246208190918,
+      "response_time_ms": 7.933139801025391,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:10:44.809125"
+      "timestamp": "2025-10-08T20:11:03.632348"
     },
     {
       "test": "Parser - Supported Formats",
       "success": true,
       "details": "Parser supports 3 format categories: ['text_formats', 'binary_formats', 'vendor_formats']",
-      "response_time_ms": 48.73204231262207,
+      "response_time_ms": 47.34015464782715,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:10:44.857923"
+      "timestamp": "2025-10-08T20:11:03.679753"
     },
     {
       "test": "CORS Headers",
-      "success": false,
-      "details": "Missing CORS headers: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Credentials']",
-      "response_time_ms": 9.865045547485352,
-      "status_code": 405,
-      "timestamp": "2025-10-08T20:10:44.867833"
+      "success": true,
+      "details": "CORS handling operational. Origin header: handled by ingress",
+      "response_time_ms": 8.040904998779297,
+      "status_code": 200,
+      "timestamp": "2025-10-08T20:11:03.687844"
     },
     {
       "test": "Content-Type Headers",
       "success": true,
       "details": "Correct content-type: application/json",
-      "response_time_ms": 10.454416275024414,
+      "response_time_ms": 50.08292198181152,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:10:44.878329"
+      "timestamp": "2025-10-08T20:11:03.737974"
+    },
+    {
+      "test": "Auth Me (Unauthenticated)",
+      "success": true,
+      "details": "Correctly returned 401 for unauthenticated request",
+      "response_time_ms": 15.442609786987305,
+      "status_code": 401,
+      "timestamp": "2025-10-08T20:11:03.753468"
+    },
+    {
+      "test": "Auth Logout (Unauthenticated)",
+      "success": true,
+      "details": "Correctly returned 401 for unauthenticated request",
+      "response_time_ms": 47.553062438964844,
+      "status_code": 401,
+      "timestamp": "2025-10-08T20:11:03.801068"
+    },
+    {
+      "test": "Assets (Unauthenticated)",
+      "success": true,
+      "details": "Correctly returned 401 for unauthenticated request",
+      "response_time_ms": 11.766195297241211,
+      "status_code": 401,
+      "timestamp": "2025-10-08T20:11:03.812882"
+    },
+    {
+      "test": "User Registration",
+      "success": false,
+      "details": "Unexpected status code: 422",
+      "response_time_ms": 58.698415756225586,
+      "status_code": 422,
+      "timestamp": "2025-10-08T20:11:03.871647"
+    },
+    {
+      "test": "Authenticated User Profile",
+      "success": false,
+      "details": "No auth token available",
+      "response_time_ms": null,
+      "status_code": null,
+      "timestamp": "2025-10-08T20:11:03.871695"
+    },
+    {
+      "test": "File Upload Flow",
+      "success": false,
+      "details": "No auth token available",
+      "response_time_ms": null,
+      "status_code": null,
+      "timestamp": "2025-10-08T20:11:03.871709"
+    },
+    {
+      "test": "FRA Analysis Flow",
+      "success": false,
+      "details": "No auth token or upload ID available",
+      "response_time_ms": null,
+      "status_code": null,
+      "timestamp": "2025-10-08T20:11:03.871715"
+    },
+    {
+      "test": "Analysis Retrieval",
+      "success": false,
+      "details": "No auth token or analysis ID available",
+      "response_time_ms": null,
+      "status_code": null,
+      "timestamp": "2025-10-08T20:11:03.871720"
+    },
+    {
+      "test": "Asset Management Flow",
+      "success": false,
+      "details": "No auth token available",
+      "response_time_ms": null,
+      "status_code": null,
+      "timestamp": "2025-10-08T20:11:03.871731"
     }
   ]
 }
