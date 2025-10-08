@@ -422,6 +422,28 @@ class UniFRABackendTester:
             elif response.status_code == 400:
                 # User might already exist, try login instead
                 return self.test_user_login()
+            elif response.status_code == 422:
+                try:
+                    error_data = response.json()
+                    self.log_result(
+                        "User Registration", False,
+                        f"Validation error: {error_data}",
+                        response_time, response.status_code
+                    )
+                except:
+                    self.log_result(
+                        "User Registration", False,
+                        f"Validation error (422) - unable to parse error details",
+                        response_time, response.status_code
+                    )
+                return False
+            elif response.status_code == 500:
+                self.log_result(
+                    "User Registration", False,
+                    f"Server error - check backend logs for bcrypt/password issues",
+                    response_time, response.status_code
+                )
+                return False
             else:
                 self.log_result(
                     "User Registration", False,
