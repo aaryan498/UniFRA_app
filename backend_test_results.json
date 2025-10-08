@@ -1,75 +1,51 @@
 {
   "summary": {
-    "passed": 7,
-    "total": 8,
-    "success_rate": 0.875,
+    "passed": 4,
+    "total": 5,
+    "success_rate": 0.8,
     "backend_url": "https://flow-analyzer-5.preview.emergentagent.com",
-    "test_timestamp": "2025-10-08T18:17:16.593255"
+    "test_timestamp": "2025-10-08T20:10:44.878474"
   },
   "detailed_results": [
     {
-      "test": "Health Check",
+      "test": "ML Models Health Check",
       "success": true,
-      "details": "All components operational. Version: 2.0.0",
-      "response_time_ms": 72.89481163024902,
+      "details": "ML models loaded and operational. All components: ['parser', 'ml_models', 'database', 'authentication']",
+      "response_time_ms": 77.85439491271973,
       "status_code": 200,
-      "timestamp": "2025-10-08T18:17:16.418360"
-    },
-    {
-      "test": "Auth Me (Unauthenticated)",
-      "success": true,
-      "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 49.77726936340332,
-      "status_code": 401,
-      "timestamp": "2025-10-08T18:17:16.468181"
-    },
-    {
-      "test": "Auth Logout (Unauthenticated)",
-      "success": true,
-      "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 8.78453254699707,
-      "status_code": 401,
-      "timestamp": "2025-10-08T18:17:16.477007"
-    },
-    {
-      "test": "Assets (Unauthenticated)",
-      "success": true,
-      "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 8.008480072021484,
-      "status_code": 401,
-      "timestamp": "2025-10-08T18:17:16.485048"
-    },
-    {
-      "test": "CORS Headers",
-      "success": false,
-      "details": "Missing CORS headers: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Credentials']",
-      "response_time_ms": 47.747135162353516,
-      "status_code": 405,
-      "timestamp": "2025-10-08T18:17:16.532836"
-    },
-    {
-      "test": "Content-Type Headers",
-      "success": true,
-      "details": "Correct content-type: application/json",
-      "response_time_ms": 5.80906867980957,
-      "status_code": 200,
-      "timestamp": "2025-10-08T18:17:16.538689"
-    },
-    {
-      "test": "Supported Formats",
-      "success": true,
-      "details": "Endpoint accessible, returned 3",
-      "response_time_ms": 47.16610908508301,
-      "status_code": 200,
-      "timestamp": "2025-10-08T18:17:16.585899"
+      "timestamp": "2025-10-08T20:10:44.797239"
     },
     {
       "test": "Root Endpoint",
       "success": true,
       "details": "API info accessible. Version: 2.0.0",
-      "response_time_ms": 7.177829742431641,
+      "response_time_ms": 11.82246208190918,
       "status_code": 200,
-      "timestamp": "2025-10-08T18:17:16.593129"
+      "timestamp": "2025-10-08T20:10:44.809125"
+    },
+    {
+      "test": "Parser - Supported Formats",
+      "success": true,
+      "details": "Parser supports 3 format categories: ['text_formats', 'binary_formats', 'vendor_formats']",
+      "response_time_ms": 48.73204231262207,
+      "status_code": 200,
+      "timestamp": "2025-10-08T20:10:44.857923"
+    },
+    {
+      "test": "CORS Headers",
+      "success": false,
+      "details": "Missing CORS headers: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Credentials']",
+      "response_time_ms": 9.865045547485352,
+      "status_code": 405,
+      "timestamp": "2025-10-08T20:10:44.867833"
+    },
+    {
+      "test": "Content-Type Headers",
+      "success": true,
+      "details": "Correct content-type: application/json",
+      "response_time_ms": 10.454416275024414,
+      "status_code": 200,
+      "timestamp": "2025-10-08T20:10:44.878329"
     }
   ]
 }
