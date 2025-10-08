@@ -1,107 +1,107 @@
 {
   "summary": {
-    "passed": 8,
+    "passed": 11,
     "total": 14,
-    "success_rate": 0.5714285714285714,
+    "success_rate": 0.7857142857142857,
     "backend_url": "https://flow-analyzer-5.preview.emergentagent.com",
-    "test_timestamp": "2025-10-08T20:13:34.827789"
+    "test_timestamp": "2025-10-08T20:13:45.367485"
   },
   "detailed_results": [
     {
       "test": "ML Models Health Check",
       "success": true,
       "details": "ML models loaded and operational. All components: ['parser', 'ml_models', 'database', 'authentication']",
-      "response_time_ms": 58.80284309387207,
+      "response_time_ms": 67.60430335998535,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:13:34.637548"
+      "timestamp": "2025-10-08T20:13:45.066569"
     },
     {
       "test": "Root Endpoint",
       "success": true,
       "details": "API info accessible. Version: 2.0.0",
-      "response_time_ms": 48.70343208312988,
+      "response_time_ms": 9.492874145507812,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:13:34.686307"
+      "timestamp": "2025-10-08T20:13:45.076121"
     },
     {
       "test": "Parser - Supported Formats",
       "success": true,
       "details": "Parser supports 3 format categories: ['text_formats', 'binary_formats', 'vendor_formats']",
-      "response_time_ms": 10.370016098022461,
+      "response_time_ms": 8.853912353515625,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:13:34.696740"
+      "timestamp": "2025-10-08T20:13:45.085027"
     },
     {
       "test": "CORS Headers",
       "success": true,
       "details": "CORS handling operational. Origin header: handled by ingress",
-      "response_time_ms": 48.51484298706055,
+      "response_time_ms": 49.13139343261719,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:13:34.745300"
+      "timestamp": "2025-10-08T20:13:45.134195"
     },
     {
       "test": "Content-Type Headers",
       "success": true,
       "details": "Correct content-type: application/json",
-      "response_time_ms": 7.39741325378418,
+      "response_time_ms": 48.79164695739746,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:13:34.752741"
+      "timestamp": "2025-10-08T20:13:45.183033"
     },
     {
       "test": "Auth Me (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 11.27314567565918,
+      "response_time_ms": 7.723093032836914,
       "status_code": 401,
-      "timestamp": "2025-10-08T20:13:34.764061"
+      "timestamp": "2025-10-08T20:13:45.190804"
     },
     {
       "test": "Auth Logout (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 49.184322357177734,
+      "response_time_ms": 7.841825485229492,
       "status_code": 401,
-      "timestamp": "2025-10-08T20:13:34.813286"
+      "timestamp": "2025-10-08T20:13:45.198680"
     },
     {
       "test": "Assets (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 7.424592971801758,
+      "response_time_ms": 49.11184310913086,
       "status_code": 401,
-      "timestamp": "2025-10-08T20:13:34.820753"
+      "timestamp": "2025-10-08T20:13:45.247824"
     },
     {
       "test": "User Registration",
-      "success": false,
-      "details": "Validation error: {'detail': [{'type': 'value_error', 'loc': ['body', 'email'], 'msg': 'value is not a valid email address: The part after the @-sign is a special-use or reserved name that cannot be used with email.', 'input': 'test_user_d5817987@unifra.test', 'ctx': {'reason': 'The part after the @-sign is a special-use or reserved name that cannot be used with email.'}}]}",
-      "response_time_ms": 6.75511360168457,
-      "status_code": 422,
-      "timestamp": "2025-10-08T20:13:34.827585"
+      "success": true,
+      "details": "User registered successfully. ID: 2e57b8e9-838e-40f8-b6ae-e7108b351ca6, Auth method: email",
+      "response_time_ms": 18.292665481567383,
+      "status_code": 200,
+      "timestamp": "2025-10-08T20:13:45.266182"
     },
     {
       "test": "Authenticated User Profile",
-      "success": false,
-      "details": "No auth token available",
-      "response_time_ms": null,
-      "status_code": null,
-      "timestamp": "2025-10-08T20:13:34.827622"
+      "success": true,
+      "details": "Profile retrieved. ID: 2e57b8e9-838e-40f8-b6ae-e7108b351ca6, Auth method: email",
+      "response_time_ms": 15.793085098266602,
+      "status_code": 200,
+      "timestamp": "2025-10-08T20:13:45.282033"
     },
     {
       "test": "File Upload Flow",
-      "success": false,
-      "details": "No auth token available",
-      "response_time_ms": null,
-      "status_code": null,
-      "timestamp": "2025-10-08T20:13:34.827635"
+      "success": true,
+      "details": "File uploaded and parsed successfully. Upload ID: f56c1938-1c68-479f-83a3-8e66fafbf605, Frequency points: 15",
+      "response_time_ms": 24.973630905151367,
+      "status_code": 200,
+      "timestamp": "2025-10-08T20:13:45.307073"
     },
     {
       "test": "FRA Analysis Flow",
       "success": false,
-      "details": "No auth token or upload ID available",
-      "response_time_ms": null,
-      "status_code": null,
-      "timestamp": "2025-10-08T20:13:34.827640"
+      "details": "Analysis failed with status: 500",
+      "response_time_ms": 10.174036026000977,
+      "status_code": 500,
+      "timestamp": "2025-10-08T20:13:45.317289"
     },
     {
       "test": "Analysis Retrieval",
@@ -109,15 +109,15 @@
       "details": "No auth token or analysis ID available",
       "response_time_ms": null,
       "status_code": null,
-      "timestamp": "2025-10-08T20:13:34.827646"
+      "timestamp": "2025-10-08T20:13:45.317326"
     },
     {
       "test": "Asset Management Flow",
       "success": false,
-      "details": "No auth token available",
-      "response_time_ms": null,
-      "status_code": null,
-      "timestamp": "2025-10-08T20:13:34.827656"
+      "details": "No assets found despite successful upload and analysis",
+      "response_time_ms": 49.9722957611084,
+      "status_code": 200,
+      "timestamp": "2025-10-08T20:13:45.367329"
     }
   ]
 }
