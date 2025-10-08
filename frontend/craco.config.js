@@ -3,6 +3,12 @@ const path = require('path');
 module.exports = {
   webpack: {
     configure: (webpackConfig, { env }) => {
+      // Configure path alias for @ imports
+      webpackConfig.resolve.alias = {
+        ...webpackConfig.resolve.alias,
+        '@': path.resolve(__dirname, 'src'),
+      };
+
       // Production optimizations
       if (env === 'production') {
         // Enable code splitting
