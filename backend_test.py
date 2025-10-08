@@ -365,6 +365,201 @@ class UniFRABackendTester:
             self.log_result("Root Endpoint", False, f"Request failed: {str(e)}")
             return False
 
+    # ========== AUTHENTICATION FLOW TESTS ==========
+    
+    def test_user_registration(self):
+        """Test user registration flow."""
+        try:
+            start_time = time.time()
+            
+            user_data = {
+                "email": self.test_user_email,
+                "password": self.test_user_password,
+                "full_name": self.test_user_name
+            }
+            
+            response = self.session.post(
+                f"{self.backend_url}/api/auth/register",
+                json=user_data,
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check required fields in response
+                required_fields = ['access_token', 'token_type', 'user']
+                missing_fields = [field for field in required_fields if field not in data]
+                
+                if missing_fields:
+                    self.log_result(
+                        "User Registration", False,
+                        f"Missing fields in response: {missing_fields}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Store auth token for subsequent tests
+                self.auth_token = data['access_token']
+                
+                # Verify user data
+                user = data.get('user', {})
+                if user.get('email') != self.test_user_email:
+                    self.log_result(
+                        "User Registration", False,
+                        f"Email mismatch: expected {self.test_user_email}, got {user.get('email')}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                self.log_result(
+                    "User Registration", True,
+                    f"User registered successfully. ID: {user.get('id')}, Auth method: {user.get('auth_method')}",
+                    response_time, response.status_code
+                )
+                return True
+                
+            elif response.status_code == 400:
+                # User might already exist, try login instead
+                return self.test_user_login()
+            else:
+                self.log_result(
+                    "User Registration", False,
+                    f"Unexpected status code: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("User Registration", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("User Registration", False, f"Invalid JSON response: {str(e)}")
+            return False
+
+    def test_user_login(self):
+        """Test user login flow."""
+        try:
+            start_time = time.time()
+            
+            # Use OAuth2 form data format
+            form_data = {
+                "username": self.test_user_email,
+                "password": self.test_user_password
+            }
+            
+            response = self.session.post(
+                f"{self.backend_url}/api/auth/login",
+                data=form_data,
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check required fields
+                required_fields = ['access_token', 'token_type', 'user']
+                missing_fields = [field for field in required_fields if field not in data]
+                
+                if missing_fields:
+                    self.log_result(
+                        "User Login", False,
+                        f"Missing fields in response: {missing_fields}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Store auth token
+                self.auth_token = data['access_token']
+                
+                # Check for session cookie
+                if 'Set-Cookie' in response.headers:
+                    self.session_cookie = response.headers['Set-Cookie']
+                
+                self.log_result(
+                    "User Login", True,
+                    f"Login successful. Token type: {data.get('token_type')}, User: {data.get('user', {}).get('email')}",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "User Login", False,
+                    f"Login failed with status: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("User Login", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("User Login", False, f"Invalid JSON response: {str(e)}")
+            return False
+
+    def test_authenticated_user_profile(self):
+        """Test getting user profile with authentication."""
+        if not self.auth_token:
+            self.log_result("Authenticated User Profile", False, "No auth token available")
+            return False
+            
+        try:
+            start_time = time.time()
+            
+            headers = {"Authorization": f"Bearer {self.auth_token}"}
+            response = self.session.get(
+                f"{self.backend_url}/api/auth/me",
+                headers=headers,
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check required profile fields
+                required_fields = ['id', 'email', 'full_name', 'auth_method', 'created_at']
+                missing_fields = [field for field in required_fields if field not in data]
+                
+                if missing_fields:
+                    self.log_result(
+                        "Authenticated User Profile", False,
+                        f"Missing profile fields: {missing_fields}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                if data.get('email') != self.test_user_email:
+                    self.log_result(
+                        "Authenticated User Profile", False,
+                        f"Email mismatch: expected {self.test_user_email}, got {data.get('email')}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                self.log_result(
+                    "Authenticated User Profile", True,
+                    f"Profile retrieved. ID: {data.get('id')}, Auth method: {data.get('auth_method')}",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "Authenticated User Profile", False,
+                    f"Failed to get profile: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("Authenticated User Profile", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("Authenticated User Profile", False, f"Invalid JSON response: {str(e)}")
+            return False
+
     def run_all_tests(self):
         """Run all backend API tests."""
         print("\n🧪 Starting Backend API Tests...")
