@@ -261,7 +261,37 @@ class AuthUploadTester:
         try:
             start_time = time.time()
             
-            # Test with session cookies (no Authorization header)
+            # First, ensure we have session cookies by doing a fresh login
+            form_data = {
+                "username": self.test_user_email,
+                "password": self.test_user_password
+            }
+            
+            login_response = self.session.post(
+                f"{self.backend_url}/api/auth/login",
+                data=form_data,
+                timeout=10
+            )
+            
+            if login_response.status_code != 200:
+                self.log_result(
+                    "Session Cookie Auth", False,
+                    f"Login failed for session cookie test: {login_response.status_code}",
+                    None, login_response.status_code
+                )
+                return False
+            
+            # Check if we have session cookies
+            session_cookies = [cookie for cookie in self.session.cookies if cookie.name == 'session_token']
+            if not session_cookies:
+                self.log_result(
+                    "Session Cookie Auth", False,
+                    "No session_token cookie found after login",
+                    None, None
+                )
+                return False
+            
+            # Now test with session cookies (no Authorization header)
             response = self.session.get(
                 f"{self.backend_url}/api/auth/me",
                 timeout=10
@@ -281,14 +311,14 @@ class AuthUploadTester:
                 
                 self.log_result(
                     "Session Cookie Auth", True,
-                    f"Session cookie authentication working. User: {data.get('email')}",
+                    f"Session cookie authentication working. User: {data.get('email')}, Cookie: {session_cookies[0].value[:20]}...",
                     response_time, response.status_code
                 )
                 return True
             else:
                 self.log_result(
                     "Session Cookie Auth", False,
-                    f"Session cookie auth failed: {response.status_code}. Cookies might not be working.",
+                    f"Session cookie auth failed: {response.status_code}. Cookie present but not accepted.",
                     response_time, response.status_code
                 )
                 return False
