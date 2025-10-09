@@ -68,8 +68,10 @@ function App() {
             id: response.data.id,
             email: response.data.email,
             full_name: response.data.name,
+            username: response.data.username || '',
             profile_picture: response.data.picture,
-            auth_method: 'emergent_oauth'
+            auth_method: 'emergent_oauth',
+            is_guest: false
           });
           
           // Clean URL
