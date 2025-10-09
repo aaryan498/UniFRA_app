@@ -1,123 +1,139 @@
 {
   "summary": {
-    "passed": 14,
-    "total": 14,
+    "passed": 16,
+    "total": 16,
     "success_rate": 1.0,
     "backend_url": "https://preview-guardian.preview.emergentagent.com",
-    "test_timestamp": "2025-10-08T20:14:26.231207"
+    "test_timestamp": "2025-10-09T01:46:17.945422"
   },
   "detailed_results": [
     {
       "test": "ML Models Health Check",
       "success": true,
-      "details": "ML models loaded and operational. All components: ['parser', 'ml_models', 'database', 'authentication']",
-      "response_time_ms": 62.37649917602539,
+      "details": "ML models loaded and operational. Response time: 86.0ms. All components: ['parser', 'ml_models', 'database', 'authentication']",
+      "response_time_ms": 85.99591255187988,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:14:25.814658"
+      "timestamp": "2025-10-09T01:46:16.524342"
+    },
+    {
+      "test": "Stability - Consecutive Requests",
+      "success": true,
+      "details": "All 10 requests successful. Avg: 9.6ms, Min: 7.6ms, Max: 12.0ms",
+      "response_time_ms": 9.60378646850586,
+      "status_code": 200,
+      "timestamp": "2025-10-09T01:46:17.621480"
     },
     {
       "test": "Root Endpoint",
       "success": true,
       "details": "API info accessible. Version: 2.0.0",
-      "response_time_ms": 9.165525436401367,
+      "response_time_ms": 7.971048355102539,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:14:25.823884"
+      "timestamp": "2025-10-09T01:46:17.629525"
     },
     {
       "test": "Parser - Supported Formats",
       "success": true,
       "details": "Parser supports 3 format categories: ['text_formats', 'binary_formats', 'vendor_formats']",
-      "response_time_ms": 9.68480110168457,
+      "response_time_ms": 7.019519805908203,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:14:25.833636"
+      "timestamp": "2025-10-09T01:46:17.636596"
     },
     {
       "test": "CORS Headers",
       "success": true,
       "details": "CORS handling operational. Origin header: handled by ingress",
-      "response_time_ms": 48.262834548950195,
+      "response_time_ms": 6.966352462768555,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:14:25.881940"
+      "timestamp": "2025-10-09T01:46:17.643599"
     },
     {
       "test": "Content-Type Headers",
       "success": true,
       "details": "Correct content-type: application/json",
-      "response_time_ms": 11.017322540283203,
+      "response_time_ms": 7.085323333740234,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:14:25.893004"
+      "timestamp": "2025-10-09T01:46:17.650721"
     },
     {
       "test": "Auth Me (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 48.9802360534668,
+      "response_time_ms": 7.318973541259766,
       "status_code": 401,
-      "timestamp": "2025-10-08T20:14:25.942034"
+      "timestamp": "2025-10-09T01:46:17.658085"
     },
     {
       "test": "Auth Logout (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 7.270574569702148,
+      "response_time_ms": 49.3161678314209,
       "status_code": 401,
-      "timestamp": "2025-10-08T20:14:25.949349"
+      "timestamp": "2025-10-09T01:46:17.707441"
     },
     {
       "test": "Assets (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 48.61760139465332,
+      "response_time_ms": 7.930517196655273,
       "status_code": 401,
-      "timestamp": "2025-10-08T20:14:25.998007"
+      "timestamp": "2025-10-09T01:46:17.715417"
     },
     {
       "test": "User Registration",
       "success": true,
-      "details": "User registered successfully. ID: 7cde792a-09b1-4ff1-8507-d7b9ba89830c, Auth method: email",
-      "response_time_ms": 58.97212028503418,
+      "details": "User registered successfully. ID: 9f67b202-40f9-41e1-8436-94815e230121, Auth method: email",
+      "response_time_ms": 45.80402374267578,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:14:26.057053"
+      "timestamp": "2025-10-09T01:46:17.761281"
     },
     {
       "test": "Authenticated User Profile",
       "success": true,
-      "details": "Profile retrieved. ID: 7cde792a-09b1-4ff1-8507-d7b9ba89830c, Auth method: email",
-      "response_time_ms": 9.956836700439453,
+      "details": "Profile retrieved. ID: 9f67b202-40f9-41e1-8436-94815e230121, Auth method: email",
+      "response_time_ms": 12.485027313232422,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:14:26.067076"
+      "timestamp": "2025-10-09T01:46:17.773818"
     },
     {
       "test": "File Upload Flow",
       "success": true,
-      "details": "File uploaded and parsed successfully. Upload ID: 1eface67-10b1-497b-b301-3069fa783370, Frequency points: 30",
-      "response_time_ms": 51.705121994018555,
+      "details": "File uploaded and parsed successfully. Upload ID: 9aa8968d-5a03-45ac-9d1a-dc62a1dfbae7, Frequency points: 30",
+      "response_time_ms": 21.86441421508789,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:14:26.118859"
+      "timestamp": "2025-10-09T01:46:17.795745"
     },
     {
       "test": "FRA Analysis Flow",
       "success": true,
-      "details": "ML analysis completed. Fault: healthy, Severity: mild, Confidence: 0.721, Processing time: 64.5ms",
-      "response_time_ms": 90.95263481140137,
+      "details": "ML analysis completed. Fault: healthy, Severity: mild, Confidence: 0.817, Processing time: 50.4ms",
+      "response_time_ms": 73.1508731842041,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:14:26.209924"
+      "timestamp": "2025-10-09T01:46:17.868982"
     },
     {
       "test": "Analysis Retrieval",
       "success": true,
-      "details": "Analysis retrieved successfully. Fault: healthy, Confidence: 0.721",
-      "response_time_ms": 8.856058120727539,
+      "details": "Analysis retrieved successfully. Fault: healthy, Confidence: 0.817",
+      "response_time_ms": 8.075952529907227,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:14:26.218854"
+      "timestamp": "2025-10-09T01:46:17.877127"
     },
     {
       "test": "Asset Management Flow",
       "success": true,
       "details": "Assets retrieved successfully. Total: 1, Assets with data: 1",
-      "response_time_ms": 12.141704559326172,
+      "response_time_ms": 8.645057678222656,
       "status_code": 200,
-      "timestamp": "2025-10-08T20:14:26.231055"
+      "timestamp": "2025-10-09T01:46:17.885852"
+    },
+    {
+      "test": "MongoDB Connection Stability",
+      "success": true,
+      "details": "All database operations successful. Avg response time: 29.7ms",
+      "response_time_ms": 29.684901237487793,
+      "status_code": 200,
+      "timestamp": "2025-10-09T01:46:17.945301"
     }
   ]
 }
