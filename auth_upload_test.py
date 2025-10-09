@@ -61,7 +61,7 @@ class AuthUploadTester:
             print(f"   📝 {details}")
 
     def create_fra_test_data(self):
-        """Create realistic FRA test data for upload."""
+        """Create realistic FRA test data for upload with proper frequency range."""
         return """# FRA Test Data - Transformer Analysis
 # Asset: TEST-TRANSFORMER-FRA-001
 # Manufacturer: TestCorp Industries
@@ -74,22 +74,26 @@ class AuthUploadTester:
 # Test Type: Frequency Response Analysis
 # 
 # Frequency (Hz), Magnitude (dB), Phase (degrees)
-10,42.5,8.2
-20,41.8,12.1
-50,40.2,18.5
-100,38.7,24.3
-200,36.9,31.2
-500,33.8,42.1
-1000,30.2,54.8
-2000,26.1,68.2
-5000,20.8,82.5
-10000,15.2,95.1
-20000,8.9,108.7
-50000,-2.1,125.3
-100000,-12.8,142.1
-200000,-24.5,158.9
-500000,-38.2,172.4
-1000000,-52.1,185.2
+20000,42.5,8.2
+25000,41.8,12.1
+30000,40.2,18.5
+40000,38.7,24.3
+50000,36.9,31.2
+75000,33.8,42.1
+100000,30.2,54.8
+150000,26.1,68.2
+200000,20.8,82.5
+300000,15.2,95.1
+500000,8.9,108.7
+750000,-2.1,125.3
+1000000,-12.8,142.1
+1500000,-24.5,158.9
+2000000,-38.2,172.4
+3000000,-52.1,185.2
+5000000,-65.3,198.7
+7500000,-78.9,212.1
+10000000,-92.4,225.8
+12000000,-105.7,238.9
 """
 
     def test_user_registration(self):
