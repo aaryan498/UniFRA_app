@@ -1142,6 +1142,7 @@ class UniFRABackendTester:
         # Phase 1: Basic connectivity and health
         basic_tests = [
             ("Health Check", self.test_health_check_ml_models),
+            ("Stability - Consecutive Requests", self.test_stability_consecutive_requests),
             ("Root Endpoint", self.test_root_endpoint),
             ("Supported Formats", self.test_supported_formats_detailed),
             ("CORS Headers", self.test_cors_headers),
