@@ -125,7 +125,7 @@ Improvement: 20x reduction
 **Result:** ✅ **200 OK with proper headers**
 
 ```
-URL: https://file-upload-repair-1.preview.emergentagent.com/
+URL: https://prod-server-migrate.preview.emergentagent.com/
 Status: 200 OK
 Headers: gzip compression, proper caching, Express powered
 ```

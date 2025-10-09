@@ -3,7 +3,7 @@
     "passed": 5,
     "total": 6,
     "success_rate": 0.8333333333333334,
-    "backend_url": "https://file-upload-repair-1.preview.emergentagent.com",
+    "backend_url": "https://prod-server-migrate.preview.emergentagent.com",
     "test_timestamp": "2025-10-09T03:41:11.535765"
   },
   "detailed_results": [
