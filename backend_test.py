@@ -67,6 +67,15 @@ class UniFRABackendTester:
             response = self.session.get(f"{self.backend_url}/api/health", timeout=10)
             response_time = (time.time() - start_time) * 1000
             
+            # Check response time requirement (< 100ms for health check)
+            if response_time > 100:
+                self.log_result(
+                    "ML Models Health Check", False,
+                    f"Response time {response_time:.1f}ms exceeds 100ms requirement",
+                    response_time, response.status_code
+                )
+                return False
+            
             if response.status_code == 200:
                 data = response.json()
                 
@@ -116,7 +125,7 @@ class UniFRABackendTester:
                 if components.get('ml_models') == 'operational':
                     self.log_result(
                         "ML Models Health Check", True,
-                        f"ML models loaded and operational. All components: {list(components.keys())}",
+                        f"ML models loaded and operational. Response time: {response_time:.1f}ms. All components: {list(components.keys())}",
                         response_time, response.status_code
                     )
                     return True
