@@ -295,6 +295,122 @@ class UniFRABackendTester:
             self.log_result("Content-Type Headers", False, f"Request failed: {str(e)}")
             return False
 
+    def test_stability_consecutive_requests(self):
+        """Test backend stability with multiple consecutive requests."""
+        try:
+            print(f"   🔄 Testing 10 consecutive health check requests...")
+            
+            response_times = []
+            failed_requests = 0
+            
+            for i in range(10):
+                try:
+                    start_time = time.time()
+                    response = self.session.get(f"{self.backend_url}/api/health", timeout=10)
+                    response_time = (time.time() - start_time) * 1000
+                    response_times.append(response_time)
+                    
+                    if response.status_code != 200:
+                        failed_requests += 1
+                        print(f"      Request {i+1}: FAILED (HTTP {response.status_code})")
+                    else:
+                        data = response.json()
+                        if data.get('status') != 'healthy':
+                            failed_requests += 1
+                            print(f"      Request {i+1}: FAILED (status: {data.get('status')})")
+                        else:
+                            print(f"      Request {i+1}: OK ({response_time:.1f}ms)")
+                    
+                    # Small delay between requests
+                    time.sleep(0.1)
+                    
+                except Exception as e:
+                    failed_requests += 1
+                    print(f"      Request {i+1}: FAILED ({str(e)})")
+                    response_times.append(0)
+            
+            # Calculate statistics
+            avg_response_time = sum(response_times) / len(response_times) if response_times else 0
+            max_response_time = max(response_times) if response_times else 0
+            min_response_time = min(response_times) if response_times else 0
+            
+            success_rate = ((10 - failed_requests) / 10) * 100
+            
+            if failed_requests == 0:
+                self.log_result(
+                    "Stability - Consecutive Requests", True,
+                    f"All 10 requests successful. Avg: {avg_response_time:.1f}ms, Min: {min_response_time:.1f}ms, Max: {max_response_time:.1f}ms",
+                    avg_response_time, 200
+                )
+                return True
+            else:
+                self.log_result(
+                    "Stability - Consecutive Requests", False,
+                    f"{failed_requests}/10 requests failed. Success rate: {success_rate:.1f}%",
+                    avg_response_time, None
+                )
+                return False
+                
+        except Exception as e:
+            self.log_result("Stability - Consecutive Requests", False, f"Test failed: {str(e)}")
+            return False
+
+    def test_mongodb_connection_stability(self):
+        """Test MongoDB connection stability through authenticated endpoints."""
+        if not self.auth_token:
+            self.log_result("MongoDB Connection Stability", False, "No auth token available")
+            return False
+            
+        try:
+            # Test multiple database operations
+            operations = [
+                ("User Profile", f"{self.backend_url}/api/auth/me"),
+                ("Assets List", f"{self.backend_url}/api/assets"),
+            ]
+            
+            headers = {"Authorization": f"Bearer {self.auth_token}"}
+            all_successful = True
+            response_times = []
+            
+            for op_name, url in operations:
+                try:
+                    start_time = time.time()
+                    response = self.session.get(url, headers=headers, timeout=10)
+                    response_time = (time.time() - start_time) * 1000
+                    response_times.append(response_time)
+                    
+                    if response.status_code not in [200, 401]:  # 401 is expected for some tests
+                        all_successful = False
+                        print(f"      {op_name}: FAILED (HTTP {response.status_code})")
+                    else:
+                        print(f"      {op_name}: OK ({response_time:.1f}ms)")
+                        
+                except Exception as e:
+                    all_successful = False
+                    print(f"      {op_name}: FAILED ({str(e)})")
+                    response_times.append(0)
+            
+            avg_response_time = sum(response_times) / len(response_times) if response_times else 0
+            
+            if all_successful:
+                self.log_result(
+                    "MongoDB Connection Stability", True,
+                    f"All database operations successful. Avg response time: {avg_response_time:.1f}ms",
+                    avg_response_time, 200
+                )
+                return True
+            else:
+                self.log_result(
+                    "MongoDB Connection Stability", False,
+                    "Some database operations failed",
+                    avg_response_time, None
+                )
+                return False
+                
+        except Exception as e:
+            self.log_result("MongoDB Connection Stability", False, f"Test failed: {str(e)}")
+            return False
+
     def test_supported_formats(self):
         """Test the supported formats endpoint."""
         try:
