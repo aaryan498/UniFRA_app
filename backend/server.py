@@ -207,6 +207,42 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+def generate_username_from_name(full_name: str) -> str:
+    """Generate a username from full name."""
+    # Convert to lowercase and replace spaces with underscores
+    base_username = full_name.lower().replace(" ", "_")
+    # Remove special characters, keep only alphanumeric and underscores
+    base_username = ''.join(c for c in base_username if c.isalnum() or c == '_')
+    # Limit to 20 characters
+    base_username = base_username[:20]
+    return base_username
+
+async def generate_unique_username(base_username: str) -> str:
+    """Generate a unique username by adding numbers if needed."""
+    username = base_username
+    counter = 1
+    while await db.users.find_one({"username": username}):
+        username = f"{base_username}{counter}"
+        counter += 1
+        if counter > 9999:  # Safety limit
+            username = f"{base_username}_{uuid.uuid4().hex[:6]}"
+            break
+    return username
+
+async def generate_guest_username() -> str:
+    """Generate a unique guest username."""
+    base = "guest"
+    # Generate a random 6-character suffix
+    suffix = uuid.uuid4().hex[:6]
+    username = f"{base}_{suffix}"
+    # Ensure uniqueness
+    return await generate_unique_username(username)
+
+async def check_username_available(username: str) -> bool:
+    """Check if username is available."""
+    existing = await db.users.find_one({"username": username})
+    return existing is None
+
 async def get_current_user(
     request: Request,
     token: Optional[str] = Depends(oauth2_scheme),
