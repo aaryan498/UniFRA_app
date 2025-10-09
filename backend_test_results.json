@@ -1,139 +1,59 @@
 {
   "summary": {
-    "passed": 16,
-    "total": 16,
-    "success_rate": 1.0,
+    "passed": 5,
+    "total": 6,
+    "success_rate": 0.8333333333333334,
     "backend_url": "https://file-upload-repair-1.preview.emergentagent.com",
-    "test_timestamp": "2025-10-09T01:46:17.945422"
+    "test_timestamp": "2025-10-09T03:41:11.535765"
   },
   "detailed_results": [
     {
       "test": "ML Models Health Check",
-      "success": true,
-      "details": "ML models loaded and operational. Response time: 86.0ms. All components: ['parser', 'ml_models', 'database', 'authentication']",
-      "response_time_ms": 85.99591255187988,
+      "success": false,
+      "details": "Response time 122.7ms exceeds 100ms requirement",
+      "response_time_ms": 122.6656436920166,
       "status_code": 200,
-      "timestamp": "2025-10-09T01:46:16.524342"
+      "timestamp": "2025-10-09T03:41:10.255317"
     },
     {
       "test": "Stability - Consecutive Requests",
       "success": true,
-      "details": "All 10 requests successful. Avg: 9.6ms, Min: 7.6ms, Max: 12.0ms",
-      "response_time_ms": 9.60378646850586,
+      "details": "All 10 requests successful. Avg: 20.4ms, Min: 9.4ms, Max: 64.5ms",
+      "response_time_ms": 20.35503387451172,
       "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.621480"
+      "timestamp": "2025-10-09T03:41:11.460003"
     },
     {
       "test": "Root Endpoint",
       "success": true,
       "details": "API info accessible. Version: 2.0.0",
-      "response_time_ms": 7.971048355102539,
+      "response_time_ms": 9.004592895507812,
       "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.629525"
+      "timestamp": "2025-10-09T03:41:11.469087"
     },
     {
       "test": "Parser - Supported Formats",
       "success": true,
       "details": "Parser supports 3 format categories: ['text_formats', 'binary_formats', 'vendor_formats']",
-      "response_time_ms": 7.019519805908203,
+      "response_time_ms": 8.24117660522461,
       "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.636596"
+      "timestamp": "2025-10-09T03:41:11.477382"
     },
     {
       "test": "CORS Headers",
       "success": true,
       "details": "CORS handling operational. Origin header: handled by ingress",
-      "response_time_ms": 6.966352462768555,
+      "response_time_ms": 48.853397369384766,
       "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.643599"
+      "timestamp": "2025-10-09T03:41:11.526277"
     },
     {
       "test": "Content-Type Headers",
       "success": true,
       "details": "Correct content-type: application/json",
-      "response_time_ms": 7.085323333740234,
+      "response_time_ms": 9.285926818847656,
       "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.650721"
-    },
-    {
-      "test": "Auth Me (Unauthenticated)",
-      "success": true,
-      "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 7.318973541259766,
-      "status_code": 401,
-      "timestamp": "2025-10-09T01:46:17.658085"
-    },
-    {
-      "test": "Auth Logout (Unauthenticated)",
-      "success": true,
-      "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 49.3161678314209,
-      "status_code": 401,
-      "timestamp": "2025-10-09T01:46:17.707441"
-    },
-    {
-      "test": "Assets (Unauthenticated)",
-      "success": true,
-      "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 7.930517196655273,
-      "status_code": 401,
-      "timestamp": "2025-10-09T01:46:17.715417"
-    },
-    {
-      "test": "User Registration",
-      "success": true,
-      "details": "User registered successfully. ID: 9f67b202-40f9-41e1-8436-94815e230121, Auth method: email",
-      "response_time_ms": 45.80402374267578,
-      "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.761281"
-    },
-    {
-      "test": "Authenticated User Profile",
-      "success": true,
-      "details": "Profile retrieved. ID: 9f67b202-40f9-41e1-8436-94815e230121, Auth method: email",
-      "response_time_ms": 12.485027313232422,
-      "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.773818"
-    },
-    {
-      "test": "File Upload Flow",
-      "success": true,
-      "details": "File uploaded and parsed successfully. Upload ID: 9aa8968d-5a03-45ac-9d1a-dc62a1dfbae7, Frequency points: 30",
-      "response_time_ms": 21.86441421508789,
-      "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.795745"
-    },
-    {
-      "test": "FRA Analysis Flow",
-      "success": true,
-      "details": "ML analysis completed. Fault: healthy, Severity: mild, Confidence: 0.817, Processing time: 50.4ms",
-      "response_time_ms": 73.1508731842041,
-      "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.868982"
-    },
-    {
-      "test": "Analysis Retrieval",
-      "success": true,
-      "details": "Analysis retrieved successfully. Fault: healthy, Confidence: 0.817",
-      "response_time_ms": 8.075952529907227,
-      "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.877127"
-    },
-    {
-      "test": "Asset Management Flow",
-      "success": true,
-      "details": "Assets retrieved successfully. Total: 1, Assets with data: 1",
-      "response_time_ms": 8.645057678222656,
-      "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.885852"
-    },
-    {
-      "test": "MongoDB Connection Stability",
-      "success": true,
-      "details": "All database operations successful. Avg response time: 29.7ms",
-      "response_time_ms": 29.684901237487793,
-      "status_code": 200,
-      "timestamp": "2025-10-09T01:46:17.945301"
+      "timestamp": "2025-10-09T03:41:11.535609"
     }
   ]
 }
