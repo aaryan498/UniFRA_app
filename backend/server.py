@@ -224,7 +224,7 @@ async def get_current_user(
                 if expires_at > datetime.now(timezone.utc):
                     user_data = await db.users.find_one({"_id": session_data["user_id"]})
                     if user_data:
-                    return UserProfile(
+                        return UserProfile(
                         id=str(user_data["_id"]),
                         email=user_data["email"],
                         full_name=user_data["full_name"],
