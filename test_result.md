@@ -291,7 +291,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Backend API endpoints testing"
     - "Production build optimization"
     - "Production server stability"
     - "Multiple preview attempts consistency"
