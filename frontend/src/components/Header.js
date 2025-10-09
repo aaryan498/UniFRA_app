@@ -141,6 +141,7 @@ const Header = ({ user, onMenuClick, onRefresh, onLogout, systemStatus }) => {
                   </div>
                   <div className="user-details">
                     <h3 className="user-name-large">{user?.full_name}</h3>
+                    <p className="user-username text-sm font-medium text-gray-600">@{user?.username || 'username'}</p>
                     <p className="user-email">{user?.email}</p>
                     <p className="user-auth-method">Signed in via {getAuthMethodDisplay()}</p>
                   </div>
