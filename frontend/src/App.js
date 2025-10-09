@@ -59,6 +59,11 @@ function App() {
         });
         
         if (response.data) {
+          // Set access token if provided
+          if (response.data.access_token) {
+            setAuthToken(response.data.access_token);
+          }
+          
           setUser({
             id: response.data.id,
             email: response.data.email,
