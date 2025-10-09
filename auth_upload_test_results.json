@@ -3,7 +3,7 @@
     "passed": 8,
     "total": 8,
     "success_rate": 1.0,
-    "backend_url": "https://prod-server-migrate.preview.emergentagent.com",
+    "backend_url": "https://login-flow-boost.preview.emergentagent.com",
     "test_timestamp": "2025-10-09T03:41:57.324103",
     "bearer_token_available": true,
     "session_cookies_available": false,
