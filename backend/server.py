@@ -687,6 +687,14 @@ async def register_user(user_data: UserCreate):
             detail="User with this email already exists"
         )
     
+    # Check if username is already taken
+    existing_username = await db.users.find_one({"username": user_data.username})
+    if existing_username:
+        raise HTTPException(
+            status_code=400,
+            detail="Username is already taken"
+        )
+    
     # Hash password
     hashed_password = get_password_hash(user_data.password)
     
@@ -696,9 +704,11 @@ async def register_user(user_data: UserCreate):
         "_id": user_id,
         "email": user_data.email,
         "full_name": user_data.full_name,
+        "username": user_data.username,
         "password_hash": hashed_password,
         "auth_method": "email",
         "profile_picture": None,
+        "is_guest": False,
         "created_at": datetime.now(timezone.utc),
         "last_login": datetime.now(timezone.utc)
     }
@@ -718,7 +728,9 @@ async def register_user(user_data: UserCreate):
             "id": user_id,
             "email": user_data.email,
             "full_name": user_data.full_name,
-            "auth_method": "email"
+            "username": user_data.username,
+            "auth_method": "email",
+            "is_guest": False
         }
     }
 
