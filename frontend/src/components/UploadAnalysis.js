@@ -57,11 +57,10 @@ const UploadAnalysis = ({ onAnalysisComplete }) => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post(`${API}/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      // Note: Don't set Content-Type header explicitly for FormData
+      // axios will set it automatically with the correct boundary
+      // This also ensures default headers like Authorization are preserved
+      const response = await axios.post(`${API}/upload`, formData);
 
       setUploadResult(response.data);
       setUploadStatus('uploaded');
