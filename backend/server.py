@@ -786,8 +786,10 @@ async def login_user(response: Response, form_data: OAuth2PasswordRequestForm = 
             "id": user_data["_id"],
             "email": user_data["email"],
             "full_name": user_data["full_name"],
+            "username": user_data.get("username", ""),
             "profile_picture": user_data.get("profile_picture"),
-            "auth_method": user_data.get("auth_method", "email")
+            "auth_method": user_data.get("auth_method", "email"),
+            "is_guest": user_data.get("is_guest", False)
         }
     }
 
