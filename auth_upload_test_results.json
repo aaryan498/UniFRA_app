@@ -1,79 +1,79 @@
 {
   "summary": {
-    "passed": 5,
+    "passed": 8,
     "total": 8,
-    "success_rate": 0.625,
+    "success_rate": 1.0,
     "backend_url": "https://file-upload-repair-1.preview.emergentagent.com",
-    "test_timestamp": "2025-10-09T03:41:03.593609",
+    "test_timestamp": "2025-10-09T03:41:57.324103",
     "bearer_token_available": true,
     "session_cookies_available": false,
-    "upload_id_bearer": "a20d91e8-f008-4752-9afd-63a53937e1f4",
-    "upload_id_session": null
+    "upload_id_bearer": "49244cca-ca4f-4895-9d6f-ba583733e8b3",
+    "upload_id_session": "78d0876a-4f3c-4b5a-a78c-add1c12668d3"
   },
   "detailed_results": [
     {
       "test": "User Registration",
       "success": true,
       "details": "User registered successfully. Token received: 165 chars",
-      "response_time_ms": 110.22639274597168,
+      "response_time_ms": 211.75479888916016,
       "status_code": 200,
-      "timestamp": "2025-10-09T03:41:03.383945"
+      "timestamp": "2025-10-09T03:41:56.833092"
     },
     {
       "test": "Bearer Token Auth",
       "success": true,
-      "details": "Bearer token authentication working. User: fra_test_33f5ba61@example.com",
-      "response_time_ms": 10.660886764526367,
+      "details": "Bearer token authentication working. User: fra_test_520d5675@example.com",
+      "response_time_ms": 11.216878890991211,
       "status_code": 200,
-      "timestamp": "2025-10-09T03:41:03.394665"
+      "timestamp": "2025-10-09T03:41:56.844370"
     },
     {
       "test": "Session Cookie Auth",
-      "success": false,
-      "details": "Session cookie auth failed: 401. Cookies might not be working.",
-      "response_time_ms": 10.027885437011719,
-      "status_code": 401,
-      "timestamp": "2025-10-09T03:41:03.404736"
+      "success": true,
+      "details": "Session cookie authentication working. User: fra_test_520d5675@example.com, Cookie: qWf1_7D_CfF_y69NQOTY...",
+      "response_time_ms": 102.11586952209473,
+      "status_code": 200,
+      "timestamp": "2025-10-09T03:41:56.946548"
     },
     {
       "test": "File Upload (Bearer Token)",
       "success": true,
-      "details": "File uploaded successfully with Bearer token. Upload ID: a20d91e8-f008-4752-9afd-63a53937e1f4, Frequency points: 19",
-      "response_time_ms": 50.902366638183594,
+      "details": "File uploaded successfully with Bearer token. Upload ID: 49244cca-ca4f-4895-9d6f-ba583733e8b3, Frequency points: 19",
+      "response_time_ms": 77.44932174682617,
       "status_code": 200,
-      "timestamp": "2025-10-09T03:41:03.455703"
+      "timestamp": "2025-10-09T03:41:57.024074"
     },
     {
       "test": "File Upload (Session Cookie)",
-      "success": false,
-      "details": "Authentication failed - Session cookie not accepted by upload endpoint",
-      "response_time_ms": 10.674238204956055,
-      "status_code": 401,
-      "timestamp": "2025-10-09T03:41:03.466424"
+      "success": true,
+      "details": "File uploaded successfully with session cookie. Upload ID: 78d0876a-4f3c-4b5a-a78c-add1c12668d3, Frequency points: 19",
+      "response_time_ms": 10.954141616821289,
+      "status_code": 200,
+      "timestamp": "2025-10-09T03:41:57.035095"
     },
     {
       "test": "ML Analysis (Bearer Token)",
       "success": true,
-      "details": "ML analysis completed with Bearer token. Fault: healthy, Confidence: 0.782",
-      "response_time_ms": 115.18669128417969,
+      "details": "ML analysis completed with Bearer token. Fault: healthy, Confidence: 0.706",
+      "response_time_ms": 94.14315223693848,
       "status_code": 200,
-      "timestamp": "2025-10-09T03:41:03.581691"
+      "timestamp": "2025-10-09T03:41:57.129313"
     },
     {
       "test": "ML Analysis (Session Cookie)",
-      "success": false,
-      "details": "No upload ID available for session cookie test",
-      "response_time_ms": null,
-      "status_code": null,
-      "timestamp": "2025-10-09T03:41:03.581735"
+      "success": true,
+      "details": "ML analysis completed with session cookie. Fault: healthy, Confidence: 0.749",
+      "response_time_ms": 100.91900825500488,
+      "status_code": 200,
+      "timestamp": "2025-10-09T03:41:57.230310"
     },
     {
       "test": "Assets Endpoint",
       "success": true,
       "details": "Assets retrieved successfully. Total: 1, Expected: 1",
-      "response_time_ms": 11.676788330078125,
+      "response_time_ms": 93.54043006896973,
       "status_code": 200,
-      "timestamp": "2025-10-09T03:41:03.593449"
+      "timestamp": "2025-10-09T03:41:57.323930"
     }
   ]
 }
