@@ -225,13 +225,13 @@ async def get_current_user(
                     user_data = await db.users.find_one({"_id": session_data["user_id"]})
                     if user_data:
                         return UserProfile(
-                        id=str(user_data["_id"]),
-                        email=user_data["email"],
-                        full_name=user_data["full_name"],
-                        profile_picture=user_data.get("profile_picture"),
-                        auth_method=user_data.get("auth_method", "unknown"),
-                        created_at=user_data["created_at"],
-                        last_login=user_data.get("last_login", user_data["created_at"])
+                            id=str(user_data["_id"]),
+                            email=user_data["email"],
+                            full_name=user_data["full_name"],
+                            profile_picture=user_data.get("profile_picture"),
+                            auth_method=user_data.get("auth_method", "unknown"),
+                            created_at=user_data["created_at"],
+                            last_login=user_data.get("last_login", user_data["created_at"])
                     )
         except Exception as e:
             logger.warning(f"Session token validation failed: {e}")
