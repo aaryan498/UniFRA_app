@@ -127,6 +127,9 @@ const Dashboard = ({ user, assets, systemStatus, onRefresh }) => {
             <h2 className="user-name-dashboard" data-testid="dashboard-user-name">
               {user?.full_name || 'Unknown User'}
             </h2>
+            <p className="user-username-dashboard text-sm font-medium text-gray-600" data-testid="dashboard-user-username">
+              @{user?.username || 'username'}
+            </p>
             <p className="user-email-dashboard" data-testid="dashboard-user-email">
               {user?.email || 'No email'}
             </p>
