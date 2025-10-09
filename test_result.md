@@ -225,10 +225,10 @@ frontend:
   - task: "File upload and analysis"
     implemented: true
     working: true
-    file: "components/UploadAnalysis.js"
-    stuck_count: 1
+    file: "components/UploadAnalysis.js, App.js"
+    stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: true
         agent: "testing"
@@ -239,6 +239,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "AUTHENTICATION & FILE UPLOAD ISSUE RESOLVED - All tests passed (8/8, 100% success rate). Root cause identified and fixed: (1) ML analysis was failing due to test data frequency range mismatch (normalizer expects 20kHz-12MHz, test data was 10Hz-1MHz), (2) Session cookie authentication required proper login flow setup. Comprehensive testing completed: User Registration/Login (✅), Bearer Token Authentication (✅), Session Cookie Authentication (✅), File Upload with Bearer Token (✅), File Upload with Session Cookie (✅), ML Analysis with Bearer Token (✅ fault: healthy, confidence: 0.706), ML Analysis with Session Cookie (✅ fault: healthy, confidence: 0.749), Assets Endpoint Verification (✅). Both authentication methods working perfectly for complete upload and analysis flow. User's reported 'not authenticated' error was due to frequency data preprocessing issue, not authentication failure."
+      - working: true
+        agent: "main"
+        comment: "FIXED authentication issues. Root cause: (1) UploadAnalysis.js was explicitly setting Content-Type header which overrode Authorization header - FIXED by removing explicit header to let axios handle it automatically, (2) Emergent OAuth flow wasn't saving access token - FIXED by adding token storage in App.js. Backend testing confirmed authentication is working perfectly with both Bearer tokens and session cookies. Added better error handling for 401 errors."
 
   - task: "Export functionality"
     implemented: true
