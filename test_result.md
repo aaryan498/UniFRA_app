@@ -310,6 +310,8 @@ test_plan:
 
 agent_communication:
   - agent: "main"
+    message: "Authentication bugs fixed. Requesting comprehensive frontend testing to verify: (1) User can register/login successfully, (2) File upload works with authentication (test with proper FRA CSV data), (3) ML analysis completes and returns results, (4) All visualizations render correctly (FRA frequency plots, fault probability charts, anomaly heatmaps, explainability plots), (5) Asset tracking works, (6) Complete workflow is functional. User emphasizes: DO NOT ALTER EXISTING FEATURES, ONLY FIX BUGS."
+  - agent: "main"
     message: "User reported file upload authentication issue. Investigating complete authentication flow with file upload endpoint. Need to test: (1) User registration/login, (2) Token/session management, (3) File upload with authentication, (4) ML analysis pipeline, (5) All visualizations. Will test backend first, then frontend."
   - agent: "main"
     message: "Frontend optimization complete. Removed duplicate plotly.js-dist-min, implemented 7-tier code splitting, created production build (8.2MB total, 350KB initial load), and set up Express server with compression. Initial load time reduced from 8-10s to <2s (80% faster). Memory usage from 6GB+ to 25MB (240x reduction). All features preserved. Ready for automated testing."
