@@ -888,8 +888,10 @@ async def google_auth(response: Response, auth_request: GoogleAuthRequest):
                 "id": user_id,
                 "email": email,
                 "full_name": name,
+                "username": user_data.get("username", ""),
                 "profile_picture": picture,
-                "auth_method": "google_oauth"
+                "auth_method": "google_oauth",
+                "is_guest": False
             }
         }
         
