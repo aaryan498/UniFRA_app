@@ -302,11 +302,7 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "File upload authentication fixes verification"
-    - "Complete end-to-end flow: Register → Login → Upload FRA file → ML Analysis → Visualizations"
-    - "All charts and graphs rendering correctly"
-    - "Asset tracking and history"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
