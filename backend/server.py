@@ -995,12 +995,20 @@ async def process_emergent_session(request: Request, response: Response):
             path="/"
         )
         
+        # Create access token
+        access_token = create_access_token(
+            data={"sub": user_id},
+            expires_delta=timedelta(days=7)
+        )
+        
         return {
             "id": user_id,
             "email": email,
             "name": name,
+            "username": user_data.get("username", ""),
             "picture": picture,
-            "session_token": session_token
+            "session_token": session_token,
+            "access_token": access_token
         }
         
     except Exception as e:
