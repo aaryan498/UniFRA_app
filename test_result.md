@@ -289,15 +289,11 @@ metadata:
 test_plan:
   current_focus:
     - "Backend API endpoints testing"
-    - "Frontend authentication flow"
-    - "Dashboard functionality"
-    - "File upload and analysis"
-    - "Chart rendering (Plotly lazy load)"
-    - "Export functionality"
     - "Production build optimization"
-    - "ML models operational"
+    - "Production server stability"
+    - "Multiple preview attempts consistency"
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
