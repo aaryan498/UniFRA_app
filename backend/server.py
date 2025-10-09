@@ -231,8 +231,10 @@ async def get_current_user(
                             id=str(user_data["_id"]),
                             email=user_data["email"],
                             full_name=user_data["full_name"],
+                            username=user_data.get("username", ""),
                             profile_picture=user_data.get("profile_picture"),
                             auth_method=user_data.get("auth_method", "unknown"),
+                            is_guest=user_data.get("is_guest", False),
                             created_at=user_data["created_at"],
                             last_login=user_data.get("last_login", user_data["created_at"])
                     )
