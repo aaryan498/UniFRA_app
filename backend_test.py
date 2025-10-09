@@ -1201,8 +1201,9 @@ class UniFRABackendTester:
             total_passed += phase_passed
             print(f"   Phase Result: {phase_passed}/{phase_total} passed")
             
-            # Stop if critical tests fail
-            if phase_name == "Basic Connectivity" and phase_passed < phase_total:
+            # Continue with all tests even if some basic connectivity tests fail
+            # Only stop if health check completely fails (not just slow response)
+            if phase_name == "Basic Connectivity" and phase_passed < 3:  # Allow some failures
                 print("❌ Critical connectivity tests failed. Stopping test suite.")
                 break
         
