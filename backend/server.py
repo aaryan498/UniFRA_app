@@ -933,14 +933,19 @@ async def process_emergent_session(request: Request, response: Response):
         user_data = await db.users.find_one({"email": email})
         
         if not user_data:
-            # Create new user
+            # Create new user with auto-generated username
             user_id = str(uuid.uuid4())
+            base_username = generate_username_from_name(name)
+            username = await generate_unique_username(base_username)
+            
             user_record = {
                 "_id": user_id,
                 "email": email,
                 "full_name": name,
+                "username": username,
                 "auth_method": "emergent_oauth",
                 "profile_picture": picture,
+                "is_guest": False,
                 "created_at": datetime.now(timezone.utc),
                 "last_login": datetime.now(timezone.utc)
             }
@@ -949,6 +954,16 @@ async def process_emergent_session(request: Request, response: Response):
         else:
             # Update existing user
             user_id = user_data["_id"]
+            # Generate username if doesn't exist
+            if not user_data.get("username"):
+                base_username = generate_username_from_name(name)
+                username = await generate_unique_username(base_username)
+                await db.users.update_one(
+                    {"_id": user_id},
+                    {"$set": {"username": username}}
+                )
+                user_data["username"] = username
+            
             await db.users.update_one(
                 {"_id": user_id},
                 {"$set": {
