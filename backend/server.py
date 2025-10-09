@@ -115,8 +115,10 @@ class UserProfile(BaseModel):
     id: str
     email: str
     full_name: str
+    username: str
     profile_picture: Optional[str] = None
-    auth_method: str  # 'email', 'google_oauth', 'emergent_oauth'
+    auth_method: str  # 'email', 'google_oauth', 'emergent_oauth', 'guest'
+    is_guest: bool = False
     created_at: datetime
     last_login: datetime
 
