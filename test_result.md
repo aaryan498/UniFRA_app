@@ -303,6 +303,8 @@ test_plan:
 
 agent_communication:
   - agent: "main"
+    message: "User reported file upload authentication issue. Investigating complete authentication flow with file upload endpoint. Need to test: (1) User registration/login, (2) Token/session management, (3) File upload with authentication, (4) ML analysis pipeline, (5) All visualizations. Will test backend first, then frontend."
+  - agent: "main"
     message: "Frontend optimization complete. Removed duplicate plotly.js-dist-min, implemented 7-tier code splitting, created production build (8.2MB total, 350KB initial load), and set up Express server with compression. Initial load time reduced from 8-10s to <2s (80% faster). Memory usage from 6GB+ to 25MB (240x reduction). All features preserved. Ready for automated testing."
   - agent: "testing"
     message: "Backend API comprehensive testing completed. Core functionality working perfectly: Health check (✅), Authentication endpoints (✅), Assets endpoint (✅), MongoDB connection (✅), ML models (✅). Minor issues: CORS headers not visible in responses (likely Kubernetes ingress handling), bcrypt password length validation error (non-critical). All critical backend APIs operational and responding correctly with proper status codes and authentication."
