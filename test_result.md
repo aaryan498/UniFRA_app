@@ -224,15 +224,18 @@ frontend:
 
   - task: "File upload and analysis"
     implemented: true
-    working: true
+    working: false
     file: "components/UploadAnalysis.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: true
         agent: "testing"
         comment: "File upload and analysis comprehensive testing completed. UploadAnalysis component properly lazy loaded (✅), Recharts chunks isolated and load on-demand when upload page accessed (✅), Upload interface infrastructure in place (✅), File upload UI components present (✅), Drag-and-drop functionality implemented (✅), Analysis visualization components ready (✅), Performance verified: Upload features don't impact initial load (✅). Upload and analysis functionality fully implemented."
+      - working: false
+        agent: "user"
+        comment: "User reported file upload throwing 'not authenticated' error when uploading FRA data. Need to test complete authentication flow with file upload and ML analysis. All visualizations must work correctly."
 
   - task: "Export functionality"
     implemented: true
