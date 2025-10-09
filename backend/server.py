@@ -1532,6 +1532,46 @@ async def root():
         ]
     }
 
+async def cleanup_expired_guests():
+    """Background task to cleanup expired guest accounts."""
+    while True:
+        try:
+            # Run cleanup every hour
+            await asyncio.sleep(3600)
+            
+            current_time = datetime.now(timezone.utc)
+            
+            # Find expired guest accounts
+            expired_guests = await db.users.find({
+                "is_guest": True,
+                "guest_expires_at": {"$lt": current_time}
+            }).to_list(length=None)
+            
+            for guest in expired_guests:
+                user_id = guest["_id"]
+                
+                # Delete guest user data
+                await db.fra_uploads.delete_many({"user_id": user_id})
+                await db.fra_analyses.delete_many({"user_id": user_id})
+                await db.user_sessions.delete_many({"user_id": user_id})
+                await db.users.delete_one({"_id": user_id})
+                
+                logger.info(f"Cleaned up expired guest account: {user_id}")
+            
+            if expired_guests:
+                logger.info(f"Cleaned up {len(expired_guests)} expired guest accounts")
+                
+        except Exception as e:
+            logger.error(f"Error in guest cleanup task: {e}")
+
+# Startup event to begin background tasks
+@app.on_event("startup")
+async def startup_tasks():
+    """Initialize background tasks on startup."""
+    # Start guest cleanup task
+    asyncio.create_task(cleanup_expired_guests())
+    logger.info("Background tasks initialized")
+
 # Cleanup on shutdown
 @app.on_event("shutdown")
 async def shutdown_db_client():
