@@ -1,0 +1,79 @@
+{
+  "summary": {
+    "passed": 4,
+    "total": 8,
+    "success_rate": 0.5,
+    "backend_url": "https://file-upload-repair-1.preview.emergentagent.com",
+    "test_timestamp": "2025-10-09T03:40:12.351773",
+    "bearer_token_available": true,
+    "session_cookies_available": false,
+    "upload_id_bearer": "438437d6-0281-4f86-b0a1-0dc2bd4845ef",
+    "upload_id_session": null
+  },
+  "detailed_results": [
+    {
+      "test": "User Registration",
+      "success": true,
+      "details": "User registered successfully. Token received: 165 chars",
+      "response_time_ms": 288.7990474700928,
+      "status_code": 200,
+      "timestamp": "2025-10-09T03:40:12.120532"
+    },
+    {
+      "test": "Bearer Token Auth",
+      "success": true,
+      "details": "Bearer token authentication working. User: fra_test_9c31adc3@example.com",
+      "response_time_ms": 15.403985977172852,
+      "status_code": 200,
+      "timestamp": "2025-10-09T03:40:12.135999"
+    },
+    {
+      "test": "Session Cookie Auth",
+      "success": false,
+      "details": "Session cookie auth failed: 401. Cookies might not be working.",
+      "response_time_ms": 51.389455795288086,
+      "status_code": 401,
+      "timestamp": "2025-10-09T03:40:12.187437"
+    },
+    {
+      "test": "File Upload (Bearer Token)",
+      "success": true,
+      "details": "File uploaded successfully with Bearer token. Upload ID: 438437d6-0281-4f86-b0a1-0dc2bd4845ef, Frequency points: 15",
+      "response_time_ms": 56.998252868652344,
+      "status_code": 200,
+      "timestamp": "2025-10-09T03:40:12.244507"
+    },
+    {
+      "test": "File Upload (Session Cookie)",
+      "success": false,
+      "details": "Authentication failed - Session cookie not accepted by upload endpoint",
+      "response_time_ms": 78.66597175598145,
+      "status_code": 401,
+      "timestamp": "2025-10-09T03:40:12.323221"
+    },
+    {
+      "test": "ML Analysis (Bearer Token)",
+      "success": false,
+      "details": "Analysis failed: 500",
+      "response_time_ms": 15.084981918334961,
+      "status_code": 500,
+      "timestamp": "2025-10-09T03:40:12.338357"
+    },
+    {
+      "test": "ML Analysis (Session Cookie)",
+      "success": false,
+      "details": "No upload ID available for session cookie test",
+      "response_time_ms": null,
+      "status_code": null,
+      "timestamp": "2025-10-09T03:40:12.338399"
+    },
+    {
+      "test": "Assets Endpoint",
+      "success": true,
+      "details": "Assets retrieved successfully. Total: 0, Expected: 1",
+      "response_time_ms": 13.206720352172852,
+      "status_code": 200,
+      "timestamp": "2025-10-09T03:40:12.351634"
+    }
+  ]
+}
