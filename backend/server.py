@@ -99,6 +99,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=8)
     full_name: str = Field(..., min_length=2)
+    username: str = Field(..., min_length=3, max_length=30)
     
 class UserLogin(BaseModel):
     """User login model."""
