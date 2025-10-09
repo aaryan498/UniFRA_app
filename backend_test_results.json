@@ -4,56 +4,56 @@
     "total": 6,
     "success_rate": 0.8333333333333334,
     "backend_url": "https://prod-server-migrate.preview.emergentagent.com",
-    "test_timestamp": "2025-10-09T03:41:11.535765"
+    "test_timestamp": "2025-10-09T05:56:58.044617"
   },
   "detailed_results": [
     {
       "test": "ML Models Health Check",
       "success": false,
-      "details": "Response time 122.7ms exceeds 100ms requirement",
-      "response_time_ms": 122.6656436920166,
+      "details": "Response time 111.0ms exceeds 100ms requirement",
+      "response_time_ms": 111.04464530944824,
       "status_code": 200,
-      "timestamp": "2025-10-09T03:41:10.255317"
+      "timestamp": "2025-10-09T05:56:56.870199"
     },
     {
       "test": "Stability - Consecutive Requests",
       "success": true,
-      "details": "All 10 requests successful. Avg: 20.4ms, Min: 9.4ms, Max: 64.5ms",
-      "response_time_ms": 20.35503387451172,
+      "details": "All 10 requests successful. Avg: 10.4ms, Min: 7.0ms, Max: 14.4ms",
+      "response_time_ms": 10.356736183166504,
       "status_code": 200,
-      "timestamp": "2025-10-09T03:41:11.460003"
+      "timestamp": "2025-10-09T05:56:57.974860"
     },
     {
       "test": "Root Endpoint",
       "success": true,
       "details": "API info accessible. Version: 2.0.0",
-      "response_time_ms": 9.004592895507812,
+      "response_time_ms": 7.467746734619141,
       "status_code": 200,
-      "timestamp": "2025-10-09T03:41:11.469087"
+      "timestamp": "2025-10-09T05:56:57.982400"
     },
     {
       "test": "Parser - Supported Formats",
       "success": true,
       "details": "Parser supports 3 format categories: ['text_formats', 'binary_formats', 'vendor_formats']",
-      "response_time_ms": 8.24117660522461,
+      "response_time_ms": 7.032632827758789,
       "status_code": 200,
-      "timestamp": "2025-10-09T03:41:11.477382"
+      "timestamp": "2025-10-09T05:56:57.989481"
     },
     {
       "test": "CORS Headers",
       "success": true,
       "details": "CORS handling operational. Origin header: handled by ingress",
-      "response_time_ms": 48.853397369384766,
+      "response_time_ms": 47.18637466430664,
       "status_code": 200,
-      "timestamp": "2025-10-09T03:41:11.526277"
+      "timestamp": "2025-10-09T05:56:58.036703"
     },
     {
       "test": "Content-Type Headers",
       "success": true,
       "details": "Correct content-type: application/json",
-      "response_time_ms": 9.285926818847656,
+      "response_time_ms": 7.735490798950195,
       "status_code": 200,
-      "timestamp": "2025-10-09T03:41:11.535609"
+      "timestamp": "2025-10-09T05:56:58.044486"
     }
   ]
 }
