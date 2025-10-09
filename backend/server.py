@@ -215,7 +215,13 @@ async def get_current_user(
     if session_token:
         try:
             session_data = await db.user_sessions.find_one({"session_token": session_token})
-            if session_data and session_data["expires_at"] > datetime.now(timezone.utc):
+            if session_data:
+                # Handle both timezone-aware and timezone-naive datetimes from MongoDB
+                expires_at = session_data["expires_at"]
+                if expires_at.tzinfo is None:
+                    expires_at = expires_at.replace(tzinfo=timezone.utc)
+                
+                if expires_at > datetime.now(timezone.utc):
                 user_data = await db.users.find_one({"_id": session_data["user_id"]})
                 if user_data:
                     return UserProfile(
