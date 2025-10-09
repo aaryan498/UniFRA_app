@@ -31,6 +31,8 @@
   "scripts": {
     "start": "craco start",
     "build": "GENERATE_SOURCEMAP=false craco build",
+    "serve": "node server.js",
+    "start-production": "bash start-production.sh",
     "test": "craco test",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "build:analyze": "GENERATE_SOURCEMAP=false craco build && npm run analyze"
