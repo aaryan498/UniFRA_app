@@ -1030,6 +1030,146 @@ async def logout_user(response: Response, current_user: UserProfile = Depends(re
 async def get_current_user_profile(current_user: UserProfile = Depends(require_auth)):
     """Get current user profile."""
     return current_user
+
+@app.get("/api/auth/check-username")
+async def check_username_availability(username: str):
+    """Check if username is available."""
+    # Validate username format
+    if len(username) < 3 or len(username) > 30:
+        return {"available": False, "message": "Username must be between 3 and 30 characters"}
+    
+    # Check if username contains only alphanumeric characters and underscores
+    if not all(c.isalnum() or c == '_' for c in username):
+        return {"available": False, "message": "Username can only contain letters, numbers, and underscores"}
+    
+    # Check if username is taken
+    is_available = await check_username_available(username)
+    return {
+        "available": is_available,
+        "message": "Username is available" if is_available else "Username is already taken"
+    }
+
+@app.post("/api/auth/guest")
+async def create_guest_user(response: Response):
+    """Create a guest user account."""
+    # Generate unique guest username
+    username = await generate_guest_username()
+    
+    # Create guest user record
+    user_id = str(uuid.uuid4())
+    user_record = {
+        "_id": user_id,
+        "email": f"{username}@unifra.guest",  # Temporary email for guest
+        "full_name": f"Guest User {username.split('_')[1]}",
+        "username": username,
+        "auth_method": "guest",
+        "profile_picture": None,
+        "is_guest": True,
+        "created_at": datetime.now(timezone.utc),
+        "last_login": datetime.now(timezone.utc),
+        "guest_expires_at": datetime.now(timezone.utc) + timedelta(hours=24)
+    }
+    
+    await db.users.insert_one(user_record)
+    
+    # Create access token (shorter expiry for guests)
+    access_token = create_access_token(
+        data={"sub": user_id},
+        expires_delta=timedelta(hours=24)
+    )
+    
+    # Create session
+    session_token = secrets.token_urlsafe(32)
+    session_expires = datetime.now(timezone.utc) + timedelta(hours=24)
+    
+    await db.user_sessions.insert_one({
+        "user_id": user_id,
+        "session_token": session_token,
+        "expires_at": session_expires,
+        "created_at": datetime.now(timezone.utc)
+    })
+    
+    # Set session cookie
+    response.set_cookie(
+        key="session_token",
+        value=session_token,
+        max_age=24 * 60 * 60,  # 24 hours
+        httponly=True,
+        secure=True,
+        samesite="none"
+    )
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": user_id,
+            "email": user_record["email"],
+            "full_name": user_record["full_name"],
+            "username": username,
+            "auth_method": "guest",
+            "is_guest": True
+        }
+    }
+
+class ConvertGuestRequest(BaseModel):
+    """Request model for converting guest to permanent account."""
+    email: EmailStr
+    password: str = Field(..., min_length=8)
+    full_name: str = Field(..., min_length=2)
+
+@app.post("/api/auth/convert-guest")
+async def convert_guest_to_permanent(
+    request: ConvertGuestRequest,
+    current_user: UserProfile = Depends(require_auth)
+):
+    """Convert guest account to permanent account."""
+    # Check if current user is a guest
+    if not current_user.is_guest:
+        raise HTTPException(
+            status_code=400,
+            detail="Only guest accounts can be converted"
+        )
+    
+    # Check if email is already in use
+    existing_user = await db.users.find_one({"email": request.email, "_id": {"$ne": current_user.id}})
+    if existing_user:
+        raise HTTPException(
+            status_code=400,
+            detail="Email is already in use"
+        )
+    
+    # Hash password
+    hashed_password = get_password_hash(request.password)
+    
+    # Update user record
+    await db.users.update_one(
+        {"_id": current_user.id},
+        {"$set": {
+            "email": request.email,
+            "full_name": request.full_name,
+            "password_hash": hashed_password,
+            "auth_method": "email",
+            "is_guest": False,
+            "last_login": datetime.now(timezone.utc)
+        },
+        "$unset": {
+            "guest_expires_at": ""
+        }}
+    )
+    
+    return {
+        "message": "Guest account successfully converted to permanent account",
+        "user": {
+            "id": current_user.id,
+            "email": request.email,
+            "full_name": request.full_name,
+            "username": current_user.username,
+            "auth_method": "email",
+            "is_guest": False
+        }
+    }
+
 # Forgot Password Models
 class ForgotPasswordRequest(BaseModel):
     """Request model for forgot password."""
