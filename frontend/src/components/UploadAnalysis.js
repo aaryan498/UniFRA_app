@@ -66,7 +66,14 @@ const UploadAnalysis = ({ onAnalysisComplete }) => {
       setUploadStatus('uploaded');
     } catch (error) {
       console.error('Upload failed:', error);
-      setError(error.response?.data?.detail || 'Upload failed');
+      
+      // Handle authentication errors specifically
+      if (error.response?.status === 401) {
+        setError('Authentication required. Please log in again.');
+      } else {
+        setError(error.response?.data?.detail || 'Upload failed');
+      }
+      
       setUploadStatus('error');
     }
   };
@@ -92,7 +99,14 @@ const UploadAnalysis = ({ onAnalysisComplete }) => {
       }
     } catch (error) {
       console.error('Analysis failed:', error);
-      setError(error.response?.data?.detail || 'Analysis failed');
+      
+      // Handle authentication errors specifically
+      if (error.response?.status === 401) {
+        setError('Authentication required. Please log in again.');
+      } else {
+        setError(error.response?.data?.detail || 'Analysis failed');
+      }
+      
       setUploadStatus('error');
     }
   };
