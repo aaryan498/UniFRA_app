@@ -300,9 +300,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "File upload and analysis with authentication"
-    - "Complete end-to-end flow testing"
-    - "ML analysis and visualizations"
+    - "File upload authentication fixes verification"
+    - "Complete end-to-end flow: Register → Login → Upload FRA file → ML Analysis → Visualizations"
+    - "All charts and graphs rendering correctly"
+    - "Asset tracking and history"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
