@@ -294,9 +294,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Production build optimization"
-    - "Production server stability"
-    - "Multiple preview attempts consistency"
+    - "File upload and analysis with authentication"
+    - "Complete end-to-end flow testing"
+    - "ML analysis and visualizations"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
