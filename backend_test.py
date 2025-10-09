@@ -1169,9 +1169,10 @@ class UniFRABackendTester:
             ("Analysis Retrieval", self.test_analysis_retrieval)
         ]
         
-        # Phase 5: Asset management
+        # Phase 5: Asset management and stability
         asset_tests = [
-            ("Asset Management Flow", self.test_asset_management_flow)
+            ("Asset Management Flow", self.test_asset_management_flow),
+            ("MongoDB Connection Stability", self.test_mongodb_connection_stability)
         ]
         
         all_test_phases = [
