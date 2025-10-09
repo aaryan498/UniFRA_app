@@ -3,7 +3,7 @@
     "passed": 14,
     "total": 14,
     "success_rate": 1.0,
-    "backend_url": "https://flow-analyzer-5.preview.emergentagent.com",
+    "backend_url": "https://preview-guardian.preview.emergentagent.com",
     "test_timestamp": "2025-10-08T20:14:26.231207"
   },
   "detailed_results": [
