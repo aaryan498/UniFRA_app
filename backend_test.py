@@ -1095,9 +1095,15 @@ class UniFRAAuthenticationTester:
                 )
                 return True
             else:
+                try:
+                    error_data = response.json()
+                    error_detail = error_data.get('detail', 'Unknown error')
+                except:
+                    error_detail = f"HTTP {response.status_code} - unable to parse error"
+                
                 self.log_result(
                     "Guest to Permanent Conversion", False,
-                    f"Conversion failed with status: {response.status_code}",
+                    f"Conversion failed: {error_detail}",
                     response_time, response.status_code
                 )
                 return False
