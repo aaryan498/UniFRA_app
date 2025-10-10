@@ -439,11 +439,19 @@ backend:
 metadata:
   created_by: "main_agent"
   version: "1.0"
-  test_sequence: 2
+  test_sequence: 3
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Username functionality for all users"
+    - "Guest user authentication"
+    - "Username availability checking"
+    - "New login UI with three options"
+    - "Username field with real-time validation"
+    - "Guest login functionality"
+    - "Username display on Dashboard"
+    - "Username display in Header"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
