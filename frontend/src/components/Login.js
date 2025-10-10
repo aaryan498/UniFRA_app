@@ -224,7 +224,7 @@ const Login = ({ onLogin }) => {
           </div>
         </button>
 
-        {/* Google OAuth (Emergent Platform) */}
+        {/* Google OAuth via UniFRA */}
         <button
           onClick={handleEmergentAuth}
           className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all duration-200"
