@@ -232,7 +232,7 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
               <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 truncate" data-testid="analysis-detail-title">
                 Analysis - {analysisData?.asset_metadata?.asset_id}
               </h1>
-              <p className="text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600 truncate">
                 {new Date(analysisData?.analysis_timestamp).toLocaleString()}
               </p>
             </div>
