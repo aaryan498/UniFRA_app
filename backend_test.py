@@ -496,17 +496,271 @@ class UniFRAAuthenticationTester:
             self.log_result("Root Endpoint", False, f"Request failed: {str(e)}")
             return False
 
-    # ========== AUTHENTICATION FLOW TESTS ==========
+    # ========== COMPREHENSIVE AUTHENTICATION FLOW TESTS ==========
     
-    def test_user_registration(self):
-        """Test user registration flow."""
+    def test_guest_login_flow(self):
+        """Test guest user creation and authentication flow."""
+        try:
+            start_time = time.time()
+            
+            response = self.session.post(
+                f"{self.backend_url}/api/auth/guest",
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check required fields in response
+                required_fields = ['access_token', 'token_type', 'user']
+                missing_fields = [field for field in required_fields if field not in data]
+                
+                if missing_fields:
+                    self.log_result(
+                        "Guest Login Flow", False,
+                        f"Missing fields in response: {missing_fields}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Store guest auth token
+                self.guest_token = data['access_token']
+                
+                # Verify guest user data
+                user = data.get('user', {})
+                self.guest_user_id = user.get('id')
+                self.guest_username = user.get('username')
+                
+                # Check guest username format (guest_XXXXXX)
+                if not self.guest_username or not self.guest_username.startswith('guest_'):
+                    self.log_result(
+                        "Guest Login Flow", False,
+                        f"Invalid guest username format: {self.guest_username}, expected guest_XXXXXX",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Check is_guest flag
+                if not user.get('is_guest'):
+                    self.log_result(
+                        "Guest Login Flow", False,
+                        f"is_guest flag is {user.get('is_guest')}, expected True",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Check auth method
+                if user.get('auth_method') != 'guest':
+                    self.log_result(
+                        "Guest Login Flow", False,
+                        f"Auth method is {user.get('auth_method')}, expected 'guest'",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                self.log_result(
+                    "Guest Login Flow", True,
+                    f"Guest user created successfully. Username: {self.guest_username}, ID: {self.guest_user_id}, is_guest: {user.get('is_guest')}",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "Guest Login Flow", False,
+                    f"Guest creation failed with status: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("Guest Login Flow", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("Guest Login Flow", False, f"Invalid JSON response: {str(e)}")
+            return False
+
+    def test_guest_access_protected_endpoints(self):
+        """Test guest user can access protected endpoints with token."""
+        if not self.guest_token:
+            self.log_result("Guest Access Protected Endpoints", False, "No guest token available")
+            return False
+            
+        try:
+            start_time = time.time()
+            
+            headers = {"Authorization": f"Bearer {self.guest_token}"}
+            response = self.session.get(
+                f"{self.backend_url}/api/auth/me",
+                headers=headers,
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Verify guest user profile
+                if data.get('username') != self.guest_username:
+                    self.log_result(
+                        "Guest Access Protected Endpoints", False,
+                        f"Username mismatch: expected {self.guest_username}, got {data.get('username')}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                if not data.get('is_guest'):
+                    self.log_result(
+                        "Guest Access Protected Endpoints", False,
+                        f"is_guest flag is {data.get('is_guest')}, expected True",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                self.log_result(
+                    "Guest Access Protected Endpoints", True,
+                    f"Guest can access protected endpoints. Username: {data.get('username')}, is_guest: {data.get('is_guest')}",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "Guest Access Protected Endpoints", False,
+                    f"Failed to access protected endpoint: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("Guest Access Protected Endpoints", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("Guest Access Protected Endpoints", False, f"Invalid JSON response: {str(e)}")
+            return False
+
+    def test_username_availability_check(self):
+        """Test username availability checking endpoint."""
+        try:
+            # Test 1: Check available username
+            start_time = time.time()
+            available_username = f"available_user_{uuid.uuid4().hex[:6]}"
+            
+            response = self.session.get(
+                f"{self.backend_url}/api/auth/check-username",
+                params={"username": available_username},
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get('available'):
+                    self.log_result(
+                        "Username Availability Check - Available", False,
+                        f"Available username marked as unavailable: {available_username}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                self.log_result(
+                    "Username Availability Check - Available", True,
+                    f"Available username correctly identified: {available_username}",
+                    response_time, response.status_code
+                )
+            else:
+                self.log_result(
+                    "Username Availability Check - Available", False,
+                    f"Failed to check username availability: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+            
+            # Test 2: Check taken username (use guest username if available)
+            if self.guest_username:
+                start_time = time.time()
+                response = self.session.get(
+                    f"{self.backend_url}/api/auth/check-username",
+                    params={"username": self.guest_username},
+                    timeout=10
+                )
+                response_time = (time.time() - start_time) * 1000
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    
+                    if data.get('available'):
+                        self.log_result(
+                            "Username Availability Check - Taken", False,
+                            f"Taken username marked as available: {self.guest_username}",
+                            response_time, response.status_code
+                        )
+                        return False
+                    
+                    self.log_result(
+                        "Username Availability Check - Taken", True,
+                        f"Taken username correctly identified: {self.guest_username}",
+                        response_time, response.status_code
+                    )
+                else:
+                    self.log_result(
+                        "Username Availability Check - Taken", False,
+                        f"Failed to check taken username: {response.status_code}",
+                        response_time, response.status_code
+                    )
+                    return False
+            
+            # Test 3: Check validation error (username < 3 chars)
+            start_time = time.time()
+            response = self.session.get(
+                f"{self.backend_url}/api/auth/check-username",
+                params={"username": "ab"},
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if data.get('available'):
+                    self.log_result(
+                        "Username Availability Check - Validation", False,
+                        "Short username (< 3 chars) marked as available",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                self.log_result(
+                    "Username Availability Check - Validation", True,
+                    f"Short username correctly rejected: {data.get('message')}",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "Username Availability Check - Validation", False,
+                    f"Failed validation check: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("Username Availability Check", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("Username Availability Check", False, f"Invalid JSON response: {str(e)}")
+            return False
+
+    def test_email_registration_flow(self):
+        """Test email registration with username functionality."""
         try:
             start_time = time.time()
             
             user_data = {
                 "email": self.test_user_email,
                 "password": self.test_user_password,
-                "full_name": self.test_user_name
+                "full_name": self.test_user_name,
+                "username": self.test_username
             }
             
             response = self.session.post(
@@ -525,7 +779,7 @@ class UniFRAAuthenticationTester:
                 
                 if missing_fields:
                     self.log_result(
-                        "User Registration", False,
+                        "Email Registration Flow", False,
                         f"Missing fields in response: {missing_fields}",
                         response_time, response.status_code
                     )
@@ -538,57 +792,83 @@ class UniFRAAuthenticationTester:
                 user = data.get('user', {})
                 if user.get('email') != self.test_user_email:
                     self.log_result(
-                        "User Registration", False,
+                        "Email Registration Flow", False,
                         f"Email mismatch: expected {self.test_user_email}, got {user.get('email')}",
                         response_time, response.status_code
                     )
                     return False
                 
+                if user.get('username') != self.test_username:
+                    self.log_result(
+                        "Email Registration Flow", False,
+                        f"Username mismatch: expected {self.test_username}, got {user.get('username')}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                if user.get('is_guest'):
+                    self.log_result(
+                        "Email Registration Flow", False,
+                        f"is_guest flag is {user.get('is_guest')}, expected False",
+                        response_time, response.status_code
+                    )
+                    return False
+                
                 self.log_result(
-                    "User Registration", True,
-                    f"User registered successfully. ID: {user.get('id')}, Auth method: {user.get('auth_method')}",
+                    "Email Registration Flow", True,
+                    f"User registered successfully. ID: {user.get('id')}, Username: {user.get('username')}, Auth method: {user.get('auth_method')}",
                     response_time, response.status_code
                 )
                 return True
                 
             elif response.status_code == 400:
-                # User might already exist, try login instead
-                return self.test_user_login()
+                try:
+                    error_data = response.json()
+                    if "already exists" in error_data.get('detail', ''):
+                        # User already exists, try login instead
+                        return self.test_email_login_flow()
+                    else:
+                        self.log_result(
+                            "Email Registration Flow", False,
+                            f"Registration error: {error_data.get('detail')}",
+                            response_time, response.status_code
+                        )
+                        return False
+                except:
+                    self.log_result(
+                        "Email Registration Flow", False,
+                        f"Registration failed with 400 - unable to parse error",
+                        response_time, response.status_code
+                    )
+                    return False
             elif response.status_code == 422:
                 try:
                     error_data = response.json()
                     self.log_result(
-                        "User Registration", False,
+                        "Email Registration Flow", False,
                         f"Validation error: {error_data}",
                         response_time, response.status_code
                     )
                 except:
                     self.log_result(
-                        "User Registration", False,
+                        "Email Registration Flow", False,
                         f"Validation error (422) - unable to parse error details",
                         response_time, response.status_code
                     )
                 return False
-            elif response.status_code == 500:
-                self.log_result(
-                    "User Registration", False,
-                    f"Server error - check backend logs for bcrypt/password issues",
-                    response_time, response.status_code
-                )
-                return False
             else:
                 self.log_result(
-                    "User Registration", False,
+                    "Email Registration Flow", False,
                     f"Unexpected status code: {response.status_code}",
                     response_time, response.status_code
                 )
                 return False
                 
         except requests.exceptions.RequestException as e:
-            self.log_result("User Registration", False, f"Request failed: {str(e)}")
+            self.log_result("Email Registration Flow", False, f"Request failed: {str(e)}")
             return False
         except json.JSONDecodeError as e:
-            self.log_result("User Registration", False, f"Invalid JSON response: {str(e)}")
+            self.log_result("Email Registration Flow", False, f"Invalid JSON response: {str(e)}")
             return False
 
     def test_user_login(self):
