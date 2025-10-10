@@ -436,9 +436,9 @@ const Login = ({ onLogin }) => {
   );
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-8">
+    <div className="min-h-screen flex items-center justify-center py-6 sm:py-12 px-3 sm:px-4 lg:px-8">
+      <div className="max-w-md w-full space-y-6 sm:space-y-8">
+        <div className="bg-white rounded-lg sm:rounded-xl shadow-xl border border-gray-100 p-4 sm:p-6 lg:p-8">
           {authMode === 'choose' && renderChooseAuth()}
           {(authMode === 'email' || authMode === 'register') && renderEmailAuth()}
           {authMode === 'forgot-password' && (
@@ -449,8 +449,8 @@ const Login = ({ onLogin }) => {
           )}
         </div>
         
-        <div className="text-center">
-          <p className="text-sm text-gray-500">
+        <div className="text-center px-2">
+          <p className="text-xs sm:text-sm text-gray-500">
             UniFRA v2.0 - Advanced Transformer Diagnostics Platform
           </p>
         </div>
