@@ -11,7 +11,7 @@ const Header = ({ user, onLogout }) => {
       'emergent_oauth': 'Google',
       'guest': 'Guest'
     };
-    return methodMap[user.auth_method] || user.auth_method.replace('_', ' ');
+    return methodMap[user.auth_method] || 'Unknown';
   };
 
   const getProfilePicture = () => {
