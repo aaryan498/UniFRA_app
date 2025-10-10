@@ -193,19 +193,19 @@ const Login = ({ onLogin }) => {
 
   const renderChooseAuth = () => (
     <div className="auth-choose">
-      <div className="text-center mb-8">
-        <div className="unifra-logo mb-6">
-          <svg className="w-20 h-20 mx-auto text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+      <div className="text-center mb-6 sm:mb-8">
+        <div className="unifra-logo mb-4 sm:mb-6">
+          <svg className="w-16 h-16 sm:w-20 sm:h-20 mx-auto text-blue-600" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
           </svg>
-          <h1 className="text-4xl font-bold text-gray-900 mt-4">UniFRA</h1>
-          <p className="text-xl text-gray-600 mt-2">Unified AI FRA Diagnostics</p>
-          <p className="text-sm text-gray-500 mt-1">AI-powered transformer fault detection and analysis</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mt-3 sm:mt-4">UniFRA</h1>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 mt-1 sm:mt-2 px-2">Unified AI FRA Diagnostics</p>
+          <p className="text-xs sm:text-sm text-gray-500 mt-1 px-4">AI-powered transformer fault detection and analysis</p>
         </div>
       </div>
 
-      <div className="space-y-4">
-        <h2 className="text-2xl font-semibold text-gray-900 text-center mb-6">
+      <div className="space-y-3 sm:space-y-4">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 text-center mb-4 sm:mb-6">
           Choose Your Login Method
         </h2>
 
