@@ -1,131 +1,131 @@
 {
   "summary": {
-    "passed": 12,
+    "passed": 13,
     "total": 13,
-    "success_rate": 0.9230769230769231,
+    "success_rate": 1.0,
     "backend_url": "https://auth-flow-update-4.preview.emergentagent.com",
-    "test_timestamp": "2025-10-10T06:44:35.917973"
+    "test_timestamp": "2025-10-10T06:44:54.011889"
   },
   "detailed_results": [
     {
       "test": "ML Models Health Check",
       "success": true,
-      "details": "ML models loaded and operational. Response time: 60.3ms. All components: ['parser', 'ml_models', 'database', 'authentication']",
-      "response_time_ms": 60.256242752075195,
+      "details": "ML models loaded and operational. Response time: 72.7ms. All components: ['parser', 'ml_models', 'database', 'authentication']",
+      "response_time_ms": 72.73364067077637,
       "status_code": 200,
-      "timestamp": "2025-10-10T06:44:35.651822"
+      "timestamp": "2025-10-10T06:44:53.736149"
     },
     {
       "test": "Root Endpoint",
       "success": true,
       "details": "API info accessible. Version: 2.0.0",
-      "response_time_ms": 6.707191467285156,
+      "response_time_ms": 5.713701248168945,
       "status_code": 200,
-      "timestamp": "2025-10-10T06:44:35.658572"
+      "timestamp": "2025-10-10T06:44:53.741910"
     },
     {
       "test": "Auth Me (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 5.832195281982422,
+      "response_time_ms": 46.12445831298828,
       "status_code": 401,
-      "timestamp": "2025-10-10T06:44:35.664443"
+      "timestamp": "2025-10-10T06:44:53.788071"
     },
     {
       "test": "Auth Logout (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 5.352497100830078,
+      "response_time_ms": 6.041049957275391,
       "status_code": 401,
-      "timestamp": "2025-10-10T06:44:35.669826"
+      "timestamp": "2025-10-10T06:44:53.794148"
     },
     {
       "test": "Assets (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 46.030521392822266,
+      "response_time_ms": 5.90968132019043,
       "status_code": 401,
-      "timestamp": "2025-10-10T06:44:35.715883"
+      "timestamp": "2025-10-10T06:44:53.800089"
     },
     {
       "test": "Guest Login Flow",
       "success": true,
-      "details": "Guest user created successfully. Username: guest_501b90, ID: 25104ffa-3373-42aa-9789-6334ac54932e, is_guest: True",
-      "response_time_ms": 7.250547409057617,
+      "details": "Guest user created successfully. Username: guest_d19883, ID: 60429e14-9732-4aee-a10e-726144fef9b5, is_guest: True",
+      "response_time_ms": 6.204128265380859,
       "status_code": 200,
-      "timestamp": "2025-10-10T06:44:35.723198"
+      "timestamp": "2025-10-10T06:44:53.806353"
     },
     {
       "test": "Guest Access Protected Endpoints",
       "success": true,
-      "details": "Guest can access protected endpoints. Username: guest_501b90, is_guest: True",
-      "response_time_ms": 7.132291793823242,
+      "details": "Guest can access protected endpoints. Username: guest_d19883, is_guest: True",
+      "response_time_ms": 6.281375885009766,
       "status_code": 200,
-      "timestamp": "2025-10-10T06:44:35.730371"
+      "timestamp": "2025-10-10T06:44:53.812676"
+    },
+    {
+      "test": "Guest to Permanent Conversion",
+      "success": true,
+      "details": "Guest converted successfully. Email: converted_93ac1b@example.com, Username preserved: guest_d19883, is_guest: False",
+      "response_time_ms": 16.5402889251709,
+      "status_code": 200,
+      "timestamp": "2025-10-10T06:44:53.829268"
     },
     {
       "test": "Username Availability Check - Available",
       "success": true,
-      "details": "Available username correctly identified: available_user_53b269",
-      "response_time_ms": 46.179771423339844,
+      "details": "Available username correctly identified: available_user_34318a",
+      "response_time_ms": 5.400896072387695,
       "status_code": 200,
-      "timestamp": "2025-10-10T06:44:35.776603"
+      "timestamp": "2025-10-10T06:44:53.834720"
     },
     {
       "test": "Username Availability Check - Taken",
       "success": true,
-      "details": "Taken username correctly identified: guest_501b90",
-      "response_time_ms": 6.355047225952148,
+      "details": "Taken username correctly identified: guest_d19883",
+      "response_time_ms": 45.662641525268555,
       "status_code": 200,
-      "timestamp": "2025-10-10T06:44:35.783002"
+      "timestamp": "2025-10-10T06:44:53.880423"
     },
     {
       "test": "Username Availability Check - Validation",
       "success": true,
       "details": "Short username correctly rejected: Username must be between 3 and 30 characters",
-      "response_time_ms": 45.36628723144531,
+      "response_time_ms": 5.413055419921875,
       "status_code": 200,
-      "timestamp": "2025-10-10T06:44:35.828409"
+      "timestamp": "2025-10-10T06:44:53.885882"
     },
     {
       "test": "Email Registration Flow",
       "success": true,
-      "details": "User registered successfully. ID: 441bc8d9-e53b-4371-963f-37d40c9c38e3, Username: testuser3db2bf, Auth method: email",
-      "response_time_ms": 15.604972839355469,
+      "details": "User registered successfully. ID: b255f209-d221-4e56-84a7-f656c0b8332b, Username: testuserfd97d9, Auth method: email",
+      "response_time_ms": 55.83310127258301,
       "status_code": 200,
-      "timestamp": "2025-10-10T06:44:35.844073"
+      "timestamp": "2025-10-10T06:44:53.941767"
     },
     {
       "test": "Email Login Flow",
       "success": true,
-      "details": "Login successful. Username: testuser3db2bf, Email: testuser2936df@example.com, Token type: bearer",
-      "response_time_ms": 14.995574951171875,
+      "details": "Login successful. Username: testuserfd97d9, Email: testuser0b2afe@example.com, Token type: bearer",
+      "response_time_ms": 15.503883361816406,
       "status_code": 200,
-      "timestamp": "2025-10-10T06:44:35.859111"
+      "timestamp": "2025-10-10T06:44:53.957347"
     },
     {
       "test": "User Profile with Username",
       "success": true,
-      "details": "Profile retrieved with username. ID: 441bc8d9-e53b-4371-963f-37d40c9c38e3, Username: testuser3db2bf, Auth method: email",
-      "response_time_ms": 46.93102836608887,
+      "details": "Profile retrieved with username. ID: b255f209-d221-4e56-84a7-f656c0b8332b, Username: testuserfd97d9, Auth method: email",
+      "response_time_ms": 47.14679718017578,
       "status_code": 200,
-      "timestamp": "2025-10-10T06:44:35.906088"
-    },
-    {
-      "test": "Guest to Permanent Conversion",
-      "success": false,
-      "details": "Conversion failed: Only guest accounts can be converted",
-      "response_time_ms": 5.8536529541015625,
-      "status_code": 400,
-      "timestamp": "2025-10-10T06:44:35.911991"
+      "timestamp": "2025-10-10T06:44:54.004551"
     },
     {
       "test": "Dashboard Access After Auth",
       "success": true,
       "details": "Dashboard assets endpoint accessible. Total assets: 0",
-      "response_time_ms": 5.810022354125977,
+      "response_time_ms": 7.1258544921875,
       "status_code": 200,
-      "timestamp": "2025-10-10T06:44:35.917841"
+      "timestamp": "2025-10-10T06:44:54.011734"
     }
   ]
 }
