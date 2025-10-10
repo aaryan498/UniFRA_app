@@ -1988,3 +1988,389 @@ body {
 @media (prefers-color-scheme: dark) {
   /* Add dark mode styles if needed */
 }
+
+
+/* ========================================
+   ENHANCED RESPONSIVE DESIGN - ALL DEVICES
+   ======================================== */
+
+/* Mobile First - Extra Small Devices (< 576px) */
+@media (max-width: 575px) {
+  /* Login Page */
+  .auth-choose button,
+  .auth-email button {
+    font-size: 0.875rem;
+    padding: 0.625rem 0.75rem;
+  }
+
+  /* Header */
+  .app-header {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.125rem;
+  }
+
+  /* Dashboard */
+  .dashboard-grid {
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+  }
+
+  /* Cards */
+  .card {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+
+  /* Tables */
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .table-header,
+  .table-row {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  /* User Profile */
+  .user-profile-card {
+    padding: 1rem;
+  }
+
+  .user-avatar-large {
+    width: 60px;
+    height: 60px;
+  }
+
+  .user-name-dashboard {
+    font-size: 1.25rem;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 100%;
+  }
+
+  .sidebar.closed {
+    width: 0;
+    display: none;
+  }
+
+  /* Page Headers */
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .page-subtitle {
+    font-size: 0.875rem;
+  }
+
+  /* Buttons */
+  .btn,
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Upload Section */
+  .upload-zone {
+    padding: 1.5rem;
+    min-height: 150px;
+  }
+
+  .upload-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  /* Analysis Cards */
+  .analysis-card {
+    padding: 0.75rem;
+  }
+
+  /* Modal */
+  .modal-content {
+    margin: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+}
+
+/* Small Devices - Tablets Portrait (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .assets-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+  }
+
+  .user-avatar-large {
+    width: 70px;
+    height: 70px;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .sidebar.open {
+    width: 100%;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
+
+/* Medium Devices - Tablets Landscape (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .assets-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .upload-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sidebar.open {
+    width: 220px;
+  }
+
+  .sidebar.closed {
+    width: 70px;
+  }
+
+  .main-content.sidebar-open {
+    margin-left: 220px;
+  }
+
+  .main-content.sidebar-closed {
+    margin-left: 70px;
+  }
+
+  .user-avatar-large {
+    width: 80px;
+    height: 80px;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+}
+
+/* Large Devices - Desktops (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .assets-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .upload-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sidebar.open {
+    width: 250px;
+  }
+
+  .main-content.sidebar-open {
+    margin-left: 250px;
+  }
+}
+
+/* Extra Large Devices - Large Desktops (≥ 1200px) */
+@media (min-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .assets-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .upload-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .container {
+    max-width: 1400px;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets for mobile */
+  button,
+  .nav-link,
+  .btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .nav-link {
+    padding: 0.75rem;
+  }
+
+  /* Disable hover effects on touch devices */
+  .btn:hover,
+  .nav-link:hover,
+  .card:hover {
+    transform: none;
+  }
+
+  /* Larger dropdown targets */
+  select,
+  input,
+  textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    min-height: 44px;
+  }
+}
+
+/* High DPI / Retina Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper borders and shadows */
+  .card,
+  .btn,
+  .input {
+    border-width: 0.5px;
+  }
+}
+
+/* Landscape Orientation - Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .sidebar {
+    height: auto;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .user-profile-section {
+    padding: 1rem;
+  }
+
+  .user-avatar-large {
+    width: 50px;
+    height: 50px;
+  }
+
+  .page-header {
+    padding: 1rem 0;
+  }
+}
+
+/* Tablet Specific Optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Better use of tablet screen space */
+  .main-content {
+    padding: 1.5rem;
+  }
+
+  .dashboard-content {
+    gap: 1.5rem;
+  }
+
+  /* Two-column layout for tablets */
+  .results-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .analysis-results {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Ultra-wide Screens (≥ 1920px) */
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1600px;
+  }
+
+  .dashboard-grid {
+    gap: 2rem;
+  }
+
+  .assets-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print Optimization */
+@media print {
+  .sidebar,
+  .app-header,
+  .sidebar-toggle,
+  .user-menu,
+  .btn,
+  button {
+    display: none !important;
+  }
+
+  .main-content {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
