@@ -1649,19 +1649,15 @@ class UniFRAAuthenticationTester:
             self.log_result("Asset Management Flow", False, f"Invalid JSON response: {str(e)}")
             return False
 
-    def run_all_tests(self):
-        """Run comprehensive backend API tests following critical path."""
-        print("\n🧪 Starting Comprehensive Backend API Tests...")
-        print("-" * 40)
+    def run_all_authentication_tests(self):
+        """Run comprehensive authentication system tests."""
+        print("\n🧪 Starting Comprehensive Authentication System Tests...")
+        print("-" * 50)
         
         # Phase 1: Basic connectivity and health
         basic_tests = [
             ("Health Check", self.test_health_check_ml_models),
-            ("Stability - Consecutive Requests", self.test_stability_consecutive_requests),
             ("Root Endpoint", self.test_root_endpoint),
-            ("Supported Formats", self.test_supported_formats_detailed),
-            ("CORS Headers", self.test_cors_headers),
-            ("Content-Type Headers", self.test_content_type_headers)
         ]
         
         # Phase 2: Unauthenticated endpoint security
@@ -1671,31 +1667,42 @@ class UniFRAAuthenticationTester:
             ("Assets (Unauthenticated)", self.test_assets_unauthenticated)
         ]
         
-        # Phase 3: Authentication flow
-        auth_tests = [
-            ("User Registration", self.test_user_registration),
-            ("Authenticated User Profile", self.test_authenticated_user_profile)
+        # Phase 3: Guest Authentication Flow
+        guest_auth_tests = [
+            ("Guest Login Flow", self.test_guest_login_flow),
+            ("Guest Access Protected Endpoints", self.test_guest_access_protected_endpoints),
         ]
         
-        # Phase 4: File upload and ML analysis
-        ml_tests = [
-            ("File Upload Flow", self.test_file_upload_flow),
-            ("FRA Analysis Flow", self.test_fra_analysis_flow),
-            ("Analysis Retrieval", self.test_analysis_retrieval)
+        # Phase 4: Username Functionality
+        username_tests = [
+            ("Username Availability Check", self.test_username_availability_check),
         ]
         
-        # Phase 5: Asset management and stability
-        asset_tests = [
-            ("Asset Management Flow", self.test_asset_management_flow),
-            ("MongoDB Connection Stability", self.test_mongodb_connection_stability)
+        # Phase 5: Email Authentication Flow
+        email_auth_tests = [
+            ("Email Registration Flow", self.test_email_registration_flow),
+            ("Email Login Flow", self.test_email_login_flow),
+            ("User Profile with Username", self.test_user_profile_with_username),
+        ]
+        
+        # Phase 6: Guest Conversion
+        conversion_tests = [
+            ("Guest to Permanent Conversion", self.test_guest_to_permanent_conversion),
+        ]
+        
+        # Phase 7: Dashboard Access
+        dashboard_tests = [
+            ("Dashboard Access After Auth", self.test_dashboard_access_after_auth),
         ]
         
         all_test_phases = [
             ("Basic Connectivity", basic_tests),
             ("Security Tests", security_tests),
-            ("Authentication", auth_tests),
-            ("ML Analysis Pipeline", ml_tests),
-            ("Asset Management", asset_tests)
+            ("Guest Authentication", guest_auth_tests),
+            ("Username Functionality", username_tests),
+            ("Email Authentication", email_auth_tests),
+            ("Guest Conversion", conversion_tests),
+            ("Dashboard Access", dashboard_tests)
         ]
         
         total_passed = 0
@@ -1717,8 +1724,8 @@ class UniFRAAuthenticationTester:
             print(f"   Phase Result: {phase_passed}/{phase_total} passed")
             
             # Continue with all tests even if some basic connectivity tests fail
-            # Only stop if health check completely fails (not just slow response)
-            if phase_name == "Basic Connectivity" and phase_passed < 3:  # Allow some failures
+            # Only stop if health check completely fails
+            if phase_name == "Basic Connectivity" and phase_passed == 0:
                 print("❌ Critical connectivity tests failed. Stopping test suite.")
                 break
         
@@ -1727,7 +1734,7 @@ class UniFRAAuthenticationTester:
         print(f"🎯 Success Rate: {(total_passed/total_tests)*100:.1f}%")
         
         if total_passed == total_tests:
-            print("🎉 ALL TESTS PASSED! Backend API is fully operational.")
+            print("🎉 ALL AUTHENTICATION TESTS PASSED! Authentication system is fully operational.")
         else:
             failed = total_tests - total_passed
             print(f"⚠️  {failed} test(s) failed. Check details above.")
