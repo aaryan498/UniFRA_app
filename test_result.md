@@ -459,9 +459,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Username functionality for all users"
-    - "Guest user authentication"
-    - "Username availability checking"
     - "New login UI with three options"
     - "Username field with real-time validation"
     - "Guest login functionality"
