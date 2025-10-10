@@ -216,7 +216,7 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 bg-white overflow-hidden flex flex-col">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
+      <div className="bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 py-3 sm:py-4 flex-shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button 
