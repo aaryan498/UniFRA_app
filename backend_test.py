@@ -1705,9 +1705,9 @@ class UniFRAAuthenticationTester:
             ("Basic Connectivity", basic_tests),
             ("Security Tests", security_tests),
             ("Guest Authentication", guest_auth_tests),
+            ("Guest Conversion", conversion_tests),
             ("Username Functionality", username_tests),
             ("Email Authentication", email_auth_tests),
-            ("Guest Conversion", conversion_tests),
             ("Dashboard Access", dashboard_tests)
         ]
         
