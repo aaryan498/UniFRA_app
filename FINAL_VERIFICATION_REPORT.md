@@ -125,7 +125,7 @@ Improvement: 20x reduction
 **Result:** ✅ **200 OK with proper headers**
 
 ```
-URL: https://login-flow-boost.preview.emergentagent.com/
+URL: https://auth-flow-update-4.preview.emergentagent.com/
 Status: 200 OK
 Headers: gzip compression, proper caching, Express powered
 ```
