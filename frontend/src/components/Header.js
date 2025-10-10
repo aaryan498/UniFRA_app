@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 
-const Header = ({ user, onMenuClick, onRefresh, onLogout, systemStatus }) => {
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
+const Header = ({ user, onLogout }) => {
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  const formatTimestamp = (timestamp) => {
-    if (!timestamp) return 'Unknown';
-    return new Date(timestamp).toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
-    });
+  const getAuthMethodDisplay = () => {
+    if (!user?.auth_method) return 'Unknown';
+    const methodMap = {
+      'email': 'Email',
+      'google_oauth': 'Google',
+      'emergent_oauth': 'Google',
+      'guest': 'Guest'
+    };
+    return methodMap[user.auth_method] || user.auth_method.replace('_', ' ');
   };
 
   const getProfilePicture = () => {
@@ -30,103 +32,36 @@ const Header = ({ user, onMenuClick, onRefresh, onLogout, systemStatus }) => {
     return 'U';
   };
 
-  const getAuthMethodDisplay = () => {
-    switch (user?.auth_method) {
-      case 'google_oauth':
-        return 'Google';
-      case 'emergent_oauth':
-        return 'Emergent';
-      case 'email':
-        return 'Email';
-      default:
-        return 'Unknown';
-    }
-  };
-
   return (
-    <header className="app-header">
-      <div className="header-left">
-        <button 
-          className="menu-button"
-          onClick={onMenuClick}
-          data-testid="menu-toggle"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-        
-        <div className="header-title">
-          <h1>UniFRA Diagnostics Platform</h1>
-          <p className="subtitle">AI-Powered Transformer FRA Analysis</p>
-        </div>
-      </div>
-
-      <div className="header-right">
-        {/* System Status */}
-        <div className="header-status">
-          {systemStatus && (
-            <div className="status-badge">
-              <div className={`status-indicator ${
-                systemStatus.status === 'healthy' ? 'healthy' : 'error'
-              }`}>
-                <div className="status-dot"></div>
-                <span className="status-text">
-                  {systemStatus.status === 'healthy' ? 'System OK' : 'System Error'}
-                </span>
-              </div>
-              <div className="status-time">
-                Last updated: {formatTimestamp(systemStatus.timestamp)}
-              </div>
+    <header className="app-header sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6">
+        <div className="flex items-center justify-between h-14 sm:h-16">
+          {/* Logo Section */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="flex items-center">
+              <svg className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+              <h1 className="ml-2 text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
+                UniFRA
+              </h1>
             </div>
-          )}
-        </div>
+            <span className="hidden sm:inline-block px-2 py-0.5 text-xs font-medium text-blue-600 bg-blue-50 rounded">
+              v2.0
+            </span>
+          </div>
 
-        {/* Refresh Button */}
-        <button 
-          className="refresh-button"
-          onClick={onRefresh}
-          data-testid="refresh-button"
-          title="Refresh data"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-        </button>
-
-        {/* User Menu */}
-        <div className="user-menu relative">
-          <button 
-            className="user-button"
-            onClick={() => setUserMenuOpen(!userMenuOpen)}
-            data-testid="user-menu"
-          >
-            <div className="user-avatar">
-              {getProfilePicture() ? (
-                <img 
-                  src={getProfilePicture()} 
-                  alt="Profile"
-                  className="w-full h-full rounded-full object-cover"
-                />
-              ) : (
-                <div className="flex items-center justify-center w-full h-full bg-blue-600 text-white font-medium text-sm">
-                  {getInitials()}
-                </div>
-              )}
-            </div>
-            <span className="user-name">{user?.full_name || 'User'}</span>
-            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-
-          {/* User Dropdown Menu */}
-          {userMenuOpen && (
-            <div className="user-dropdown">
-              <div className="dropdown-content">
-                {/* User Info */}
-                <div className="user-info">
-                  <div className="user-avatar-large">
+          {/* User Section */}
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* User Profile Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                className="flex items-center space-x-2 sm:space-x-3 focus:outline-none hover:bg-gray-50 rounded-lg p-1 sm:p-2 transition-colors duration-200"
+                data-testid="user-menu-button"
+              >
+                <div className="flex items-center space-x-2">
+                  <div className="user-avatar-small w-8 h-8 sm:w-10 sm:h-10">
                     {getProfilePicture() ? (
                       <img 
                         src={getProfilePicture()} 
@@ -134,75 +69,97 @@ const Header = ({ user, onMenuClick, onRefresh, onLogout, systemStatus }) => {
                         className="w-full h-full rounded-full object-cover"
                       />
                     ) : (
-                      <div className="flex items-center justify-center w-full h-full bg-blue-600 text-white font-bold text-lg">
+                      <div className="flex items-center justify-center w-full h-full bg-blue-600 text-white font-bold text-xs sm:text-sm">
                         {getInitials()}
                       </div>
                     )}
                   </div>
-                  <div className="user-details">
-                    <h3 className="user-name-large">{user?.full_name}</h3>
-                    <p className="user-username text-sm font-medium text-gray-600">@{user?.username || 'username'}</p>
-                    <p className="user-email">{user?.email}</p>
-                    <p className="user-auth-method">Signed in via {getAuthMethodDisplay()}</p>
+                  <div className="hidden md:block text-left">
+                    <p className="text-xs sm:text-sm font-medium text-gray-900 truncate max-w-[120px] lg:max-w-[200px]">
+                      {user?.full_name}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {getAuthMethodDisplay()}
+                    </p>
                   </div>
                 </div>
-
-                <div className="dropdown-divider"></div>
-
-                {/* Menu Items */}
-                <div className="dropdown-items">
-                  <button className="dropdown-item" data-testid="profile-settings">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    Profile Settings
-                  </button>
-                  
-                  <button className="dropdown-item" data-testid="account-preferences">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Preferences
-                  </button>
-                  
-                  <button className="dropdown-item" data-testid="help-support">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Help & Support
-                  </button>
-                </div>
-
-                <div className="dropdown-divider"></div>
-
-                {/* Logout */}
-                <button 
-                  className="dropdown-item logout-item"
-                  onClick={() => {
-                    setUserMenuOpen(false);
-                    onLogout();
-                  }}
-                  data-testid="logout-button"
+                <svg 
+                  className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isUserMenuOpen ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                  Sign Out
-                </button>
-              </div>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Dropdown Menu */}
+              {isUserMenuOpen && (
+                <>
+                  {/* Backdrop for mobile */}
+                  <div 
+                    className="fixed inset-0 z-40 md:hidden"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  />
+                  
+                  {/* Dropdown content */}
+                  <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                    {/* User Details Section */}
+                    <div className="px-4 py-3 border-b border-gray-100">
+                      <div className="flex items-start space-x-3">
+                        <div className="user-avatar-medium w-12 h-12 flex-shrink-0">
+                          {getProfilePicture() ? (
+                            <img 
+                              src={getProfilePicture()} 
+                              alt="Profile"
+                              className="w-full h-full rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center w-full h-full bg-blue-600 text-white font-bold text-lg">
+                              {getInitials()}
+                            </div>
+                          )}
+                        </div>
+                        <div className="user-details flex-1 min-w-0">
+                          <h3 className="user-name-large text-sm font-semibold text-gray-900 truncate">
+                            {user?.full_name}
+                          </h3>
+                          <p className="user-username text-sm font-medium text-gray-600 truncate">
+                            @{user?.username || 'username'}
+                          </p>
+                          <p className="user-email text-xs text-gray-500 truncate mt-1">
+                            {user?.email}
+                          </p>
+                          <p className="user-auth-method text-xs text-gray-400 mt-1">
+                            Signed in via {getAuthMethodDisplay()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Items */}
+                    <div className="py-2">
+                      <button
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          if (onLogout) onLogout();
+                        }}
+                        className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 transition-colors duration-150 flex items-center space-x-2"
+                        data-testid="logout-button"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Sign Out</span>
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
-
-      {/* Click outside handler for dropdown */}
-      {userMenuOpen && (
-        <div 
-          className="dropdown-overlay"
-          onClick={() => setUserMenuOpen(false)}
-        ></div>
-      )}
     </header>
   );
 };
