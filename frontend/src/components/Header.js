@@ -36,19 +36,32 @@ const Header = ({ user, onLogout, onMenuClick }) => {
     <header className="app-header sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="container mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between h-14 sm:h-16">
-          {/* Logo Section */}
-          <div className="flex items-center space-x-2 sm:space-x-3">
-            <div className="flex items-center">
-              <svg className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+          {/* Logo Section with Hamburger */}
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            {/* Hamburger Menu Icon */}
+            <button
+              onClick={onMenuClick}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Toggle menu"
+            >
+              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
-              <h1 className="ml-2 text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
-                UniFRA
-              </h1>
+            </button>
+            
+            <div className="flex flex-col">
+              <div className="flex items-center">
+                <svg className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <h1 className="ml-2 text-base sm:text-lg lg:text-xl font-bold text-gray-900">
+                  UniFRA Diagnostics Platform
+                </h1>
+              </div>
+              <p className="text-xs sm:text-sm text-gray-600 ml-8 sm:ml-9 hidden sm:block">
+                AI-Powered Transformer FRA Analysis
+              </p>
             </div>
-            <span className="hidden sm:inline-block px-2 py-0.5 text-xs font-medium text-blue-600 bg-blue-50 rounded">
-              v2.0
-            </span>
           </div>
 
           {/* User Section */}
