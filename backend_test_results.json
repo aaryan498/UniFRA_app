@@ -1,139 +1,131 @@
 {
   "summary": {
-    "passed": 16,
-    "total": 16,
-    "success_rate": 1.0,
+    "passed": 12,
+    "total": 13,
+    "success_rate": 0.9230769230769231,
     "backend_url": "https://auth-flow-update-4.preview.emergentagent.com",
-    "test_timestamp": "2025-10-09T05:57:20.008489"
+    "test_timestamp": "2025-10-10T06:44:16.089706"
   },
   "detailed_results": [
     {
       "test": "ML Models Health Check",
       "success": true,
-      "details": "ML models loaded and operational. Response time: 64.3ms. All components: ['parser', 'ml_models', 'database', 'authentication']",
-      "response_time_ms": 64.26835060119629,
+      "details": "ML models loaded and operational. Response time: 100.2ms. All components: ['parser', 'ml_models', 'database', 'authentication']",
+      "response_time_ms": 100.18324851989746,
       "status_code": 200,
-      "timestamp": "2025-10-09T05:57:18.571710"
-    },
-    {
-      "test": "Stability - Consecutive Requests",
-      "success": true,
-      "details": "All 10 requests successful. Avg: 8.6ms, Min: 7.4ms, Max: 10.1ms",
-      "response_time_ms": 8.554863929748535,
-      "status_code": 200,
-      "timestamp": "2025-10-09T05:57:19.658349"
+      "timestamp": "2025-10-10T06:44:15.794720"
     },
     {
       "test": "Root Endpoint",
       "success": true,
       "details": "API info accessible. Version: 2.0.0",
-      "response_time_ms": 8.156299591064453,
+      "response_time_ms": 7.973909378051758,
       "status_code": 200,
-      "timestamp": "2025-10-09T05:57:19.666576"
-    },
-    {
-      "test": "Parser - Supported Formats",
-      "success": true,
-      "details": "Parser supports 3 format categories: ['text_formats', 'binary_formats', 'vendor_formats']",
-      "response_time_ms": 6.962060928344727,
-      "status_code": 200,
-      "timestamp": "2025-10-09T05:57:19.673582"
-    },
-    {
-      "test": "CORS Headers",
-      "success": true,
-      "details": "CORS handling operational. Origin header: handled by ingress",
-      "response_time_ms": 9.166955947875977,
-      "status_code": 200,
-      "timestamp": "2025-10-09T05:57:19.682784"
-    },
-    {
-      "test": "Content-Type Headers",
-      "success": true,
-      "details": "Correct content-type: application/json",
-      "response_time_ms": 49.37171936035156,
-      "status_code": 200,
-      "timestamp": "2025-10-09T05:57:19.732191"
+      "timestamp": "2025-10-10T06:44:15.802742"
     },
     {
       "test": "Auth Me (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 7.747411727905273,
+      "response_time_ms": 7.248878479003906,
       "status_code": 401,
-      "timestamp": "2025-10-09T05:57:19.739987"
+      "timestamp": "2025-10-10T06:44:15.810040"
     },
     {
       "test": "Auth Logout (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 7.230043411254883,
+      "response_time_ms": 46.67305946350098,
       "status_code": 401,
-      "timestamp": "2025-10-09T05:57:19.747248"
+      "timestamp": "2025-10-10T06:44:15.856744"
     },
     {
       "test": "Assets (Unauthenticated)",
       "success": true,
       "details": "Correctly returned 401 for unauthenticated request",
-      "response_time_ms": 47.72591590881348,
+      "response_time_ms": 7.59434700012207,
       "status_code": 401,
-      "timestamp": "2025-10-09T05:57:19.795008"
+      "timestamp": "2025-10-10T06:44:15.864429"
     },
     {
-      "test": "User Registration",
+      "test": "Guest Login Flow",
       "success": true,
-      "details": "User registered successfully. ID: 9cf3d5ec-7c03-45bd-a302-1398d1a7abed, Auth method: email",
-      "response_time_ms": 58.96496772766113,
+      "details": "Guest user created successfully. Username: guest_ee5cc9, ID: 1ce05b78-ec96-4daa-b437-6b7dca7766e5, is_guest: True",
+      "response_time_ms": 9.453535079956055,
       "status_code": 200,
-      "timestamp": "2025-10-09T05:57:19.854034"
+      "timestamp": "2025-10-10T06:44:15.873948"
     },
     {
-      "test": "Authenticated User Profile",
+      "test": "Guest Access Protected Endpoints",
       "success": true,
-      "details": "Profile retrieved. ID: 9cf3d5ec-7c03-45bd-a302-1398d1a7abed, Auth method: email",
-      "response_time_ms": 13.408899307250977,
+      "details": "Guest can access protected endpoints. Username: guest_ee5cc9, is_guest: True",
+      "response_time_ms": 47.243356704711914,
       "status_code": 200,
-      "timestamp": "2025-10-09T05:57:19.867499"
+      "timestamp": "2025-10-10T06:44:15.921245"
     },
     {
-      "test": "File Upload Flow",
+      "test": "Username Availability Check - Available",
       "success": true,
-      "details": "File uploaded and parsed successfully. Upload ID: fce5c5be-ed27-465b-864b-4fc8167af4fd, Frequency points: 30",
-      "response_time_ms": 24.037837982177734,
+      "details": "Available username correctly identified: available_user_fb1d76",
+      "response_time_ms": 6.2255859375,
       "status_code": 200,
-      "timestamp": "2025-10-09T05:57:19.891602"
+      "timestamp": "2025-10-10T06:44:15.927526"
     },
     {
-      "test": "FRA Analysis Flow",
+      "test": "Username Availability Check - Taken",
       "success": true,
-      "details": "ML analysis completed. Fault: healthy, Severity: mild, Confidence: 0.776, Processing time: 58.1ms",
-      "response_time_ms": 79.72908020019531,
+      "details": "Taken username correctly identified: guest_ee5cc9",
+      "response_time_ms": 6.115436553955078,
       "status_code": 200,
-      "timestamp": "2025-10-09T05:57:19.971413"
+      "timestamp": "2025-10-10T06:44:15.933676"
     },
     {
-      "test": "Analysis Retrieval",
+      "test": "Username Availability Check - Validation",
       "success": true,
-      "details": "Analysis retrieved successfully. Fault: healthy, Confidence: 0.776",
-      "response_time_ms": 8.216142654418945,
+      "details": "Short username correctly rejected: Username must be between 3 and 30 characters",
+      "response_time_ms": 46.40913009643555,
       "status_code": 200,
-      "timestamp": "2025-10-09T05:57:19.979693"
+      "timestamp": "2025-10-10T06:44:15.980122"
     },
     {
-      "test": "Asset Management Flow",
+      "test": "Email Registration Flow",
       "success": true,
-      "details": "Assets retrieved successfully. Total: 1, Assets with data: 1",
-      "response_time_ms": 8.34798812866211,
+      "details": "User registered successfully. ID: edc81653-68a3-4721-85b0-7bb844d5bb0b, Username: testuser4f1f59, Auth method: email",
+      "response_time_ms": 25.023221969604492,
       "status_code": 200,
-      "timestamp": "2025-10-09T05:57:19.988095"
+      "timestamp": "2025-10-10T06:44:16.005213"
     },
     {
-      "test": "MongoDB Connection Stability",
+      "test": "Email Login Flow",
       "success": true,
-      "details": "All database operations successful. Avg response time: 10.1ms",
-      "response_time_ms": 10.11049747467041,
+      "details": "Login successful. Username: testuser4f1f59, Email: testuser8a01dc@example.com, Token type: bearer",
+      "response_time_ms": 64.31341171264648,
       "status_code": 200,
-      "timestamp": "2025-10-09T05:57:20.008386"
+      "timestamp": "2025-10-10T06:44:16.069584"
+    },
+    {
+      "test": "User Profile with Username",
+      "success": true,
+      "details": "Profile retrieved with username. ID: edc81653-68a3-4721-85b0-7bb844d5bb0b, Username: testuser4f1f59, Auth method: email",
+      "response_time_ms": 7.301807403564453,
+      "status_code": 200,
+      "timestamp": "2025-10-10T06:44:16.076937"
+    },
+    {
+      "test": "Guest to Permanent Conversion",
+      "success": false,
+      "details": "Conversion failed with status: 400",
+      "response_time_ms": 6.421089172363281,
+      "status_code": 400,
+      "timestamp": "2025-10-10T06:44:16.083394"
+    },
+    {
+      "test": "Dashboard Access After Auth",
+      "success": true,
+      "details": "Dashboard assets endpoint accessible. Total assets: 0",
+      "response_time_ms": 6.159305572509766,
+      "status_code": 200,
+      "timestamp": "2025-10-10T06:44:16.089596"
     }
   ]
 }
