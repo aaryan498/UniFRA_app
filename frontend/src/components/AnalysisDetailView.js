@@ -228,7 +228,7 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <div>
+            <div className="flex-1 min-w-0">
               <h1 className="text-2xl font-bold text-gray-900" data-testid="analysis-detail-title">
                 Analysis Details - {analysisData?.asset_metadata?.asset_id}
               </h1>
