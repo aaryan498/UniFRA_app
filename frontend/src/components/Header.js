@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Header = ({ user, onLogout }) => {
+const Header = ({ user, onLogout, onMenuClick }) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const getAuthMethodDisplay = () => {
