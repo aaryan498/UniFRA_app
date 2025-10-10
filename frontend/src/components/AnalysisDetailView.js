@@ -221,7 +221,7 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
           <div className="flex items-center space-x-4">
             <button 
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-full"
+              className="p-2 hover:bg-gray-100 rounded-full flex-shrink-0"
               data-testid="close-detail-view"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
