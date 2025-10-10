@@ -36,8 +36,19 @@ const Header = ({ user, onLogout, onMenuClick }) => {
     <header className="app-header sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="container mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between h-14 sm:h-16">
-          {/* Logo Section - LEFT SIDE */}
+          {/* Logo Section with Hamburger - LEFT SIDE */}
           <div className="flex items-center space-x-3 sm:space-x-4">
+            {/* Hamburger Menu Icon - BESIDE LOGO */}
+            <button
+              onClick={onMenuClick}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Toggle menu"
+            >
+              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+
             <div className="flex flex-col">
               <div className="flex items-center">
                 <svg className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
@@ -53,19 +64,8 @@ const Header = ({ user, onLogout, onMenuClick }) => {
             </div>
           </div>
 
-          {/* Right Section with Hamburger and User Profile */}
+          {/* Right Section with User Profile Only */}
           <div className="flex items-center space-x-2 sm:space-x-4">
-            {/* Hamburger Menu Icon - MOVED TO WHITE AREA */}
-            <button
-              onClick={onMenuClick}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              aria-label="Toggle menu"
-            >
-              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-
             {/* User Profile Dropdown */}
             <div className="relative">
               <button
