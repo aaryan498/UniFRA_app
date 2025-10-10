@@ -1,42 +1,49 @@
 #!/usr/bin/env python3
 """
-UniFRA Backend API Comprehensive Test Suite
+UniFRA Backend API Comprehensive Authentication Test Suite
 
-Tests ML models, parsers, preprocessing pipeline, and complete integration flows.
-Covers authentication, file upload, analysis, asset management, and export functionality.
+Tests complete authentication system with username functionality and guest login.
+Covers all authentication flows as requested in the review.
 Uses the production backend URL from frontend/.env configuration.
 """
 
 import requests
 import json
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import io
 import tempfile
 import uuid
+import random
+import string
 from dotenv import load_dotenv
 
 # Load frontend environment to get backend URL
 load_dotenv('/app/frontend/.env')
 BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'http://localhost:8001')
 
-class UniFRABackendTester:
+class UniFRAAuthenticationTester:
     def __init__(self):
         self.backend_url = BACKEND_URL
         self.session = requests.Session()
         self.test_results = []
         self.auth_token = None
+        self.guest_token = None
         self.session_cookie = None
-        self.test_user_email = f"test_user_{uuid.uuid4().hex[:8]}@example.com"
-        self.test_user_password = "TestPass123"  # Shorter password to avoid bcrypt length issues
+        self.test_user_email = f"testuser{uuid.uuid4().hex[:6]}@example.com"
+        self.test_user_password = "TestPass123"
         self.test_user_name = "Test User"
+        self.test_username = f"testuser{uuid.uuid4().hex[:6]}"
+        self.guest_user_id = None
+        self.guest_username = None
         self.upload_id = None
         self.analysis_id = None
         
-        print(f"🚀 UniFRA ML Models & Integration Flow Test Suite")
+        print(f"🚀 UniFRA Complete Authentication System Test Suite")
         print(f"📡 Testing backend at: {self.backend_url}")
         print(f"👤 Test user: {self.test_user_email}")
+        print(f"🏷️  Test username: {self.test_username}")
         print(f"⏰ Test started at: {datetime.now().isoformat()}")
         print("=" * 80)
 
