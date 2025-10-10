@@ -214,7 +214,7 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
   const { features, shapValues } = generateShapValues();
 
   return (
-    <div className="fixed inset-0 z-50 bg-white overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-white overflow-hidden flex flex-col">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
