@@ -254,7 +254,7 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
       </div>
 
       {/* Tab Navigation - Responsive with Horizontal Scroll */}
-      <div className="bg-white border-b border-gray-200 px-6">
+      <div className="bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 flex-shrink-0 overflow-x-auto">
         <nav className="flex space-x-8">
           {tabs.map((tab) => (
             <button
