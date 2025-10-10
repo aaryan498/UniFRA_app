@@ -274,7 +274,7 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
       </div>
 
       {/* Content Area - Responsive */}
-      <div className="flex-1 overflow-auto p-6">
+      <div className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
         {activeTab === 'overview' && (
           <div className="space-y-6">
             {/* Summary Cards */}
