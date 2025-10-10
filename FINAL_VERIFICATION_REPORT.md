@@ -125,7 +125,7 @@ Improvement: 20x reduction
 **Result:** ✅ **200 OK with proper headers**
 
 ```
-URL: https://hamburger-position.preview.emergentagent.com/
+URL: https://quick-menu-relocate.preview.emergentagent.com/
 Status: 200 OK
 Headers: gzip compression, proper caching, Express powered
 ```
