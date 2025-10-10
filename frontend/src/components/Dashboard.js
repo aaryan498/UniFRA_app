@@ -134,7 +134,15 @@ const Dashboard = ({ user, assets, systemStatus, onRefresh }) => {
               {user?.email || 'No email'}
             </p>
             <div className="user-auth-badge">
-              Signed in via {user?.auth_method?.replace('_', ' ') || 'Unknown'}
+              Signed in via {(() => {
+                const methodMap = {
+                  'email': 'Email',
+                  'google_oauth': 'Google',
+                  'emergent_oauth': 'Google',
+                  'guest': 'Guest'
+                };
+                return methodMap[user?.auth_method] || 'Unknown';
+              })()}
             </div>
           </div>
         </div>
