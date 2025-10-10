@@ -237,7 +237,7 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
               </p>
             </div>
           </div>
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3 w-full sm:w-auto">
             <button
               onClick={() => setExportModalOpen(true)}
               className="btn btn-outline"
