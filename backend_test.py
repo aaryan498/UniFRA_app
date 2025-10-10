@@ -1743,8 +1743,8 @@ class UniFRAAuthenticationTester:
 
 def main():
     """Main test execution."""
-    tester = UniFRABackendTester()
-    passed, total, results = tester.run_all_tests()
+    tester = UniFRAAuthenticationTester()
+    passed, total, results = tester.run_all_authentication_tests()
     
     # Save detailed results to file
     with open('/app/backend_test_results.json', 'w') as f:
