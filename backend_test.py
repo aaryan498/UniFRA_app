@@ -1691,7 +1691,7 @@ class UniFRAAuthenticationTester:
             ("User Profile with Username", self.test_user_profile_with_username),
         ]
         
-        # Phase 6: Guest Conversion
+        # Phase 6: Guest Conversion (must run before email auth to preserve guest token)
         conversion_tests = [
             ("Guest to Permanent Conversion", self.test_guest_to_permanent_conversion),
         ]
