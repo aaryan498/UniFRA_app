@@ -105,6 +105,66 @@
 user_problem_statement: "Fix and enhance the login/signup system with username functionality and guest login. Requirements: (1) Add username field for all users with real-time availability checking (red/green indicator), (2) Three login options visible on initial screen: Continue with UniFRA as Guest, Continue with Google (via Emergent), Login/Signup using Email, (3) Guest accounts expire after 24 hours if not converted, (4) Display username on dashboard and header, (5) Auto-generate usernames for Google/Emergent OAuth based on user's name, (6) DO NOT alter existing dashboard and system functionality."
 
 frontend:
+  - task: "New login UI with three options"
+    implemented: true
+    working: true
+    file: "frontend/src/components/Login.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Completely redesigned Login.js to show three options on initial screen: (1) Continue with UniFRA as Guest - creates temp guest account, (2) Continue with Google - uses Emergent OAuth platform, (3) Login/Signup using Email - opens email form. Removed broken Google OAuth button that required missing client ID. All three options clearly visible and accessible."
+        
+  - task: "Username field with real-time validation"
+    implemented: true
+    working: true
+    file: "frontend/src/components/Login.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Added username field to email signup form with real-time availability checking. Implements debounced API calls to /api/auth/check-username. Shows green border + checkmark when username available, red border + X when taken. Validates minimum 3 characters. Submit button disabled until username is available. User gets instant feedback while typing."
+        
+  - task: "Guest login functionality"
+    implemented: true
+    working: true
+    file: "frontend/src/components/Login.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Implemented handleGuestLogin function that calls POST /api/auth/guest endpoint. Creates guest user account with 24-hour expiry. Handles loading states and errors. Integrates with existing onLogin handler to authenticate guest users properly."
+        
+  - task: "Username display on Dashboard"
+    implemented: true
+    working: true
+    file: "frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Added username display to Dashboard user profile section. Shows @username below user's full name and above email. Styled with text-sm font-medium text-gray-600 classes. Includes fallback to 'username' if not provided. Username now visible in main dashboard profile card."
+        
+  - task: "Username display in Header"
+    implemented: true
+    working: true
+    file: "frontend/src/components/Header.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Added username display to Header user dropdown menu. Shows @username between full name and email in user details section. Consistent styling with Dashboard. Username now visible when user clicks on profile menu in header."
+
   - task: "Remove duplicate dependencies (plotly.js-dist-min)"
     implemented: true
     working: true
