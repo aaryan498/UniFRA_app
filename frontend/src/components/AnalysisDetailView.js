@@ -240,7 +240,7 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
           <div className="flex items-center space-x-2 sm:space-x-3 w-full sm:w-auto">
             <button
               onClick={() => setExportModalOpen(true)}
-              className="btn btn-outline"
+              className="btn btn-outline flex-1 sm:flex-none text-sm"
               data-testid="export-analysis-btn"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
