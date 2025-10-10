@@ -871,8 +871,8 @@ class UniFRAAuthenticationTester:
             self.log_result("Email Registration Flow", False, f"Invalid JSON response: {str(e)}")
             return False
 
-    def test_user_login(self):
-        """Test user login flow."""
+    def test_email_login_flow(self):
+        """Test email login flow with username verification."""
         try:
             start_time = time.time()
             
@@ -898,7 +898,7 @@ class UniFRAAuthenticationTester:
                 
                 if missing_fields:
                     self.log_result(
-                        "User Login", False,
+                        "Email Login Flow", False,
                         f"Missing fields in response: {missing_fields}",
                         response_time, response.status_code
                     )
@@ -911,25 +911,253 @@ class UniFRAAuthenticationTester:
                 if 'Set-Cookie' in response.headers:
                     self.session_cookie = response.headers['Set-Cookie']
                 
+                # Verify user profile includes username
+                user = data.get('user', {})
+                if not user.get('username'):
+                    self.log_result(
+                        "Email Login Flow", False,
+                        "Username not included in login response",
+                        response_time, response.status_code
+                    )
+                    return False
+                
                 self.log_result(
-                    "User Login", True,
-                    f"Login successful. Token type: {data.get('token_type')}, User: {data.get('user', {}).get('email')}",
+                    "Email Login Flow", True,
+                    f"Login successful. Username: {user.get('username')}, Email: {user.get('email')}, Token type: {data.get('token_type')}",
                     response_time, response.status_code
                 )
                 return True
             else:
                 self.log_result(
-                    "User Login", False,
+                    "Email Login Flow", False,
                     f"Login failed with status: {response.status_code}",
                     response_time, response.status_code
                 )
                 return False
                 
         except requests.exceptions.RequestException as e:
-            self.log_result("User Login", False, f"Request failed: {str(e)}")
+            self.log_result("Email Login Flow", False, f"Request failed: {str(e)}")
             return False
         except json.JSONDecodeError as e:
-            self.log_result("User Login", False, f"Invalid JSON response: {str(e)}")
+            self.log_result("Email Login Flow", False, f"Invalid JSON response: {str(e)}")
+            return False
+
+    def test_user_profile_with_username(self):
+        """Test user profile endpoint includes username."""
+        if not self.auth_token:
+            self.log_result("User Profile with Username", False, "No auth token available")
+            return False
+            
+        try:
+            start_time = time.time()
+            
+            headers = {"Authorization": f"Bearer {self.auth_token}"}
+            response = self.session.get(
+                f"{self.backend_url}/api/auth/me",
+                headers=headers,
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check required profile fields including username
+                required_fields = ['id', 'email', 'full_name', 'username', 'auth_method', 'created_at']
+                missing_fields = [field for field in required_fields if field not in data]
+                
+                if missing_fields:
+                    self.log_result(
+                        "User Profile with Username", False,
+                        f"Missing profile fields: {missing_fields}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                if data.get('email') != self.test_user_email:
+                    self.log_result(
+                        "User Profile with Username", False,
+                        f"Email mismatch: expected {self.test_user_email}, got {data.get('email')}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Verify username is included and correct
+                if not data.get('username'):
+                    self.log_result(
+                        "User Profile with Username", False,
+                        "Username field is empty or missing",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                self.log_result(
+                    "User Profile with Username", True,
+                    f"Profile retrieved with username. ID: {data.get('id')}, Username: {data.get('username')}, Auth method: {data.get('auth_method')}",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "User Profile with Username", False,
+                    f"Failed to get profile: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("User Profile with Username", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("User Profile with Username", False, f"Invalid JSON response: {str(e)}")
+            return False
+
+    def test_guest_to_permanent_conversion(self):
+        """Test converting guest account to permanent account."""
+        if not self.guest_token or not self.guest_user_id:
+            self.log_result("Guest to Permanent Conversion", False, "No guest token or user ID available")
+            return False
+            
+        try:
+            start_time = time.time()
+            
+            # Generate unique email for conversion
+            conversion_email = f"converted_{uuid.uuid4().hex[:6]}@example.com"
+            conversion_data = {
+                "email": conversion_email,
+                "password": "ConvertedPass123",
+                "full_name": "Converted User"
+            }
+            
+            headers = {"Authorization": f"Bearer {self.guest_token}"}
+            response = self.session.post(
+                f"{self.backend_url}/api/auth/convert-guest",
+                json=conversion_data,
+                headers=headers,
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check required fields
+                required_fields = ['message', 'user']
+                missing_fields = [field for field in required_fields if field not in data]
+                
+                if missing_fields:
+                    self.log_result(
+                        "Guest to Permanent Conversion", False,
+                        f"Missing fields in response: {missing_fields}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Verify conversion
+                user = data.get('user', {})
+                if user.get('email') != conversion_email:
+                    self.log_result(
+                        "Guest to Permanent Conversion", False,
+                        f"Email mismatch: expected {conversion_email}, got {user.get('email')}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                if user.get('is_guest'):
+                    self.log_result(
+                        "Guest to Permanent Conversion", False,
+                        f"is_guest flag is still {user.get('is_guest')}, expected False",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                if user.get('auth_method') != 'email':
+                    self.log_result(
+                        "Guest to Permanent Conversion", False,
+                        f"Auth method is {user.get('auth_method')}, expected 'email'",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                # Verify username is preserved
+                if user.get('username') != self.guest_username:
+                    self.log_result(
+                        "Guest to Permanent Conversion", False,
+                        f"Username not preserved: expected {self.guest_username}, got {user.get('username')}",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                self.log_result(
+                    "Guest to Permanent Conversion", True,
+                    f"Guest converted successfully. Email: {user.get('email')}, Username preserved: {user.get('username')}, is_guest: {user.get('is_guest')}",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "Guest to Permanent Conversion", False,
+                    f"Conversion failed with status: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("Guest to Permanent Conversion", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("Guest to Permanent Conversion", False, f"Invalid JSON response: {str(e)}")
+            return False
+
+    def test_dashboard_access_after_auth(self):
+        """Test authenticated users can access dashboard endpoints."""
+        if not self.auth_token:
+            self.log_result("Dashboard Access After Auth", False, "No auth token available")
+            return False
+            
+        try:
+            # Test assets endpoint
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.auth_token}"}
+            
+            response = self.session.get(
+                f"{self.backend_url}/api/assets",
+                headers=headers,
+                timeout=10
+            )
+            response_time = (time.time() - start_time) * 1000
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check response structure
+                if 'assets' not in data or 'total_count' not in data:
+                    self.log_result(
+                        "Dashboard Access After Auth", False,
+                        "Missing 'assets' or 'total_count' in response",
+                        response_time, response.status_code
+                    )
+                    return False
+                
+                self.log_result(
+                    "Dashboard Access After Auth", True,
+                    f"Dashboard assets endpoint accessible. Total assets: {data.get('total_count', 0)}",
+                    response_time, response.status_code
+                )
+                return True
+            else:
+                self.log_result(
+                    "Dashboard Access After Auth", False,
+                    f"Failed to access dashboard: {response.status_code}",
+                    response_time, response.status_code
+                )
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result("Dashboard Access After Auth", False, f"Request failed: {str(e)}")
+            return False
+        except json.JSONDecodeError as e:
+            self.log_result("Dashboard Access After Auth", False, f"Invalid JSON response: {str(e)}")
             return False
 
     def test_authenticated_user_profile(self):
