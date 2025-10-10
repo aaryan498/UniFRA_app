@@ -47,13 +47,13 @@ function App() {
   // Check for existing authentication
   const checkAuthStatus = useCallback(async () => {
     try {
-      // Check for session_id in URL fragment (Emergent OAuth)
+      // Check for session_id in URL fragment (Google OAuth)
       const hashParams = new URLSearchParams(window.location.hash.substring(1));
       const sessionId = hashParams.get('session_id');
       
       if (sessionId) {
-        // Process Emergent OAuth session
-        console.log('Processing Emergent OAuth session...');
+        // Process Google OAuth session
+        console.log('Processing Google OAuth session...');
         const response = await axios.post(`${API}/auth/emergent/session`, null, {
           headers: { 'X-Session-ID': sessionId }
         });
