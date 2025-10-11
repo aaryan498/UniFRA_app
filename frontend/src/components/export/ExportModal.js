@@ -312,7 +312,7 @@ const ExportModal = ({
     <div className="fixed inset-0 z-[60] overflow-y-auto" data-testid="export-modal">
       <div className="flex items-end sm:items-center justify-center min-h-screen px-2 sm:px-4 text-center">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75" onClick={onClose}></div>
+          <div className="absolute inset-0 bg-gray-900 opacity-75" onClick={onClose}></div>
         </div>
 
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
