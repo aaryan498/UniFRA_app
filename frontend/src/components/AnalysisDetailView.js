@@ -363,16 +363,16 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
         )}
 
         {activeTab === 'fra-analysis' && fraData && (
-          <div className="space-y-6">
+          <div className="space-y-3 sm:space-y-4 md:space-y-6">
             {/* Phase Pair Selection */}
             <div className="card">
-              <div className="card-header">
-                <div className="flex items-center justify-between">
-                  <h3 className="card-title">FRA Frequency Response Analysis</h3>
+              <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900">FRA Frequency Response Analysis</h3>
                   <select
                     value={selectedPhasePair}
                     onChange={(e) => setSelectedPhasePair(e.target.value)}
-                    className="px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     data-testid="phase-pair-selector"
                   >
                     <option value="H1-H2">H1-H2</option>
@@ -384,12 +384,12 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
                   </select>
                 </div>
               </div>
-              <div className="card-content">
+              <div className="card-content px-2 sm:px-3 md:px-4 py-3 sm:py-4 overflow-x-auto">
                 <FRAFrequencyPlot 
                   fraData={fraData}
                   anomalyBands={generateAnomalyBands()}
                   selectedPhasePair={selectedPhasePair}
-                  height={600}
+                  height={400}
                 />
               </div>
             </div>
@@ -397,32 +397,32 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
         )}
 
         {activeTab === 'fault-detection' && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <div className="space-y-3 sm:space-y-4 md:space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
               {/* Bar Chart */}
               <div className="card">
-                <div className="card-header">
-                  <h3 className="card-title">Fault Probabilities (Bar Chart)</h3>
+                <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900">Fault Probabilities (Bar Chart)</h3>
                 </div>
-                <div className="card-content">
+                <div className="card-content px-2 sm:px-3 md:px-4 py-3 sm:py-4 overflow-x-auto">
                   <FaultProbabilityChart 
                     faultProbabilities={analysisData?.fault_probabilities}
                     chartType="bar"
-                    height={400}
+                    height={350}
                   />
                 </div>
               </div>
 
               {/* Pie Chart */}
               <div className="card">
-                <div className="card-header">
-                  <h3 className="card-title">Fault Distribution (Pie Chart)</h3>
+                <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900">Fault Distribution (Pie Chart)</h3>
                 </div>
-                <div className="card-content">
+                <div className="card-content px-2 sm:px-3 md:px-4 py-3 sm:py-4 overflow-x-auto">
                   <FaultProbabilityChart 
                     faultProbabilities={analysisData?.fault_probabilities}
                     chartType="pie"
-                    height={400}
+                    height={350}
                   />
                 </div>
               </div>
