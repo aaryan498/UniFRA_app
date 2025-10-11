@@ -218,22 +218,24 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
       {/* Header - Fully Responsive */}
       <div className="bg-white border-b border-gray-200 px-2 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 flex-shrink-0">
         <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto">
+          {/* Left: Close Button + Title */}
+          <div className="flex items-center space-x-2 flex-1 min-w-0">
             <button 
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-full flex-shrink-0"
+              className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full flex-shrink-0 transition-colors"
               data-testid="close-detail-view"
+              aria-label="Close"
             >
-              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
             <div className="flex-1 min-w-0">
-              <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 truncate" data-testid="analysis-detail-title">
-                Analysis - {analysisData?.asset_metadata?.asset_id}
+              <h1 className="text-sm sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900 truncate" data-testid="analysis-detail-title">
+                <span className="hidden sm:inline">Analysis - </span>{analysisData?.asset_metadata?.asset_id || 'N/A'}
               </h1>
-              <p className="text-xs sm:text-sm text-gray-600 truncate">
-                {new Date(analysisData?.analysis_timestamp).toLocaleString()}
+              <p className="text-xs sm:text-sm text-gray-600 truncate hidden sm:block">
+                {analysisData?.analysis_timestamp ? new Date(analysisData.analysis_timestamp).toLocaleString() : ''}
               </p>
             </div>
           </div>
