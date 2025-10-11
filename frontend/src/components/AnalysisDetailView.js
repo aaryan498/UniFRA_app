@@ -431,49 +431,49 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
         )}
 
         {activeTab === 'explainability' && (
-          <div className="space-y-6">
+          <div className="space-y-3 sm:space-y-4 md:space-y-6">
             <div className="card">
-              <div className="card-header">
-                <h3 className="card-title">SHAP Feature Importance Analysis</h3>
-                <p className="card-subtitle">
+              <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-900">SHAP Feature Importance Analysis</h3>
+                <p className="text-xs sm:text-sm text-gray-600 mt-1">
                   Understanding how different features contribute to the ML prediction
                 </p>
               </div>
-              <div className="card-content">
+              <div className="card-content px-2 sm:px-3 md:px-4 py-3 sm:py-4 overflow-x-auto">
                 <ExplainabilityPlot 
                   shapValues={shapValues}
                   featureNames={features}
                   plotType="waterfall"
-                  height={500}
+                  height={400}
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
               <div className="card">
-                <div className="card-header">
-                  <h3 className="card-title">Feature Contributions (Bar Plot)</h3>
+                <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900">Feature Contributions (Bar Plot)</h3>
                 </div>
-                <div className="card-content">
+                <div className="card-content px-2 sm:px-3 md:px-4 py-3 sm:py-4 overflow-x-auto">
                   <ExplainabilityPlot 
                     shapValues={shapValues}
                     featureNames={features}
                     plotType="bar"
-                    height={350}
+                    height={300}
                   />
                 </div>
               </div>
 
               <div className="card">
-                <div className="card-header">
-                  <h3 className="card-title">Force Plot Analysis</h3>
+                <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900">Force Plot Analysis</h3>
                 </div>
-                <div className="card-content">
+                <div className="card-content px-2 sm:px-3 md:px-4 py-3 sm:py-4 overflow-x-auto">
                   <ExplainabilityPlot 
                     shapValues={shapValues}
                     featureNames={features}
                     plotType="force"
-                    height={350}
+                    height={300}
                   />
                 </div>
               </div>
@@ -482,18 +482,18 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
         )}
 
         {activeTab === 'anomalies' && fraData && (
-          <div className="space-y-6">
+          <div className="space-y-3 sm:space-y-4 md:space-y-6">
             <div className="card">
-              <div className="card-header">
-                <h3 className="card-title">Frequency Band Anomaly Analysis</h3>
-                <p className="card-subtitle">
+              <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-900">Frequency Band Anomaly Analysis</h3>
+                <p className="text-xs sm:text-sm text-gray-600 mt-1">
                   Heatmap visualization of anomalous frequency bands over time
                 </p>
               </div>
-              <div className="card-content">
+              <div className="card-content px-2 sm:px-3 md:px-4 py-3 sm:py-4 overflow-x-auto">
                 <AnomalyHeatmap 
                   fraData={fraData}
-                  height={500}
+                  height={400}
                 />
               </div>
             </div>
