@@ -277,19 +277,19 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
       {/* Content Area - Fully Responsive */}
       <div className="flex-1 overflow-auto p-2 sm:p-3 md:p-4 lg:p-6 bg-gray-50">
         {activeTab === 'overview' && (
-          <div className="space-y-6">
-            {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="space-y-3 sm:space-y-4 md:space-y-6">
+            {/* Summary Cards - Fully Responsive */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
               <div className="card">
-                <div className="card-header">
-                  <h3 className="card-title">Fault Classification</h3>
+                <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900">Fault Classification</h3>
                 </div>
-                <div className="card-content">
-                  <div className="text-2xl font-bold text-gray-900" data-testid="fault-classification">
+                <div className="card-content px-3 sm:px-4 py-3 sm:py-4">
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 break-words" data-testid="fault-classification">
                     {formatFaultName(analysisData?.predicted_fault_type || 'unknown')}
                   </div>
                   <div className="mt-2">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getSeverityColor(analysisData?.severity_level)}`}>
+                    <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getSeverityColor(analysisData?.severity_level)}`}>
                       {analysisData?.severity_level || 'Unknown'} Severity
                     </span>
                   </div>
@@ -297,28 +297,28 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
               </div>
 
               <div className="card">
-                <div className="card-header">
-                  <h3 className="card-title">Confidence Score</h3>
+                <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900">Confidence Score</h3>
                 </div>
-                <div className="card-content">
-                  <div className={`text-2xl font-bold ${getConfidenceColor(analysisData?.confidence_score || 0)}`} data-testid="confidence-score">
+                <div className="card-content px-3 sm:px-4 py-3 sm:py-4">
+                  <div className={`text-lg sm:text-xl md:text-2xl font-bold ${getConfidenceColor(analysisData?.confidence_score || 0)}`} data-testid="confidence-score">
                     {analysisData?.confidence_score ? (analysisData.confidence_score * 100).toFixed(1) : '0'}%
                   </div>
-                  <div className="mt-2 text-sm text-gray-600">
+                  <div className="mt-2 text-xs sm:text-sm text-gray-600">
                     ML Model Confidence
                   </div>
                 </div>
               </div>
 
-              <div className="card">
-                <div className="card-header">
-                  <h3 className="card-title">Anomaly Status</h3>
+              <div className="card sm:col-span-2 lg:col-span-1">
+                <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900">Anomaly Status</h3>
                 </div>
-                <div className="card-content">
-                  <div className={`text-2xl font-bold ${analysisData?.is_anomaly ? 'text-red-600' : 'text-green-600'}`} data-testid="anomaly-status">
+                <div className="card-content px-3 sm:px-4 py-3 sm:py-4">
+                  <div className={`text-lg sm:text-xl md:text-2xl font-bold break-words ${analysisData?.is_anomaly ? 'text-red-600' : 'text-green-600'}`} data-testid="anomaly-status">
                     {analysisData?.is_anomaly ? 'Anomaly Detected' : 'Normal Operation'}
                   </div>
-                  <div className="mt-2 text-sm text-gray-600">
+                  <div className="mt-2 text-xs sm:text-sm text-gray-600">
                     Score: {analysisData?.anomaly_score?.toFixed(3) || '0.000'}
                   </div>
                 </div>
