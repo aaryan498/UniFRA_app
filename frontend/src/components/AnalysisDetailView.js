@@ -254,14 +254,14 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
         </div>
       </div>
 
-      {/* Tab Navigation - Responsive with Horizontal Scroll */}
-      <div className="bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 flex-shrink-0 overflow-x-auto">
-        <nav className="flex space-x-4 sm:space-x-6 md:space-x-8 min-w-max">
+      {/* Tab Navigation - Fully Responsive with Horizontal Scroll */}
+      <div className="bg-white border-b border-gray-200 px-2 sm:px-4 md:px-6 flex-shrink-0 overflow-x-auto scrollbar-hide">
+        <nav className="flex space-x-2 sm:space-x-4 md:space-x-6 lg:space-x-8">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap ${
+              className={`py-2 sm:py-3 md:py-4 px-1 sm:px-2 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap transition-colors flex-shrink-0 ${
                 activeTab === tab.id
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -274,8 +274,8 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
         </nav>
       </div>
 
-      {/* Content Area - Responsive */}
-      <div className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
+      {/* Content Area - Fully Responsive */}
+      <div className="flex-1 overflow-auto p-2 sm:p-3 md:p-4 lg:p-6 bg-gray-50">
         {activeTab === 'overview' && (
           <div className="space-y-6">
             {/* Summary Cards */}
