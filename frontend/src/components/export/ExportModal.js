@@ -321,7 +321,9 @@ const ExportModal = ({
           <div className="bg-white px-3 sm:px-4 md:px-6 pt-4 sm:pt-5 pb-3 sm:pb-4">
             <div>
               <div className="w-full">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4" data-testid="export-modal-title">
+              {/* Header with close button on mobile */}
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900" data-testid="export-modal-title">
                   Export Analysis Report
                 </h3>
                 
