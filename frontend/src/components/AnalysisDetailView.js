@@ -327,34 +327,34 @@ const AnalysisDetailView = ({ analysisId, onClose }) => {
 
             {/* Quick Fault Analysis */}
             <div className="card">
-              <div className="card-header">
-                <h3 className="card-title">Quick Fault Analysis</h3>
+              <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-900">Quick Fault Analysis</h3>
               </div>
-              <div className="card-content">
+              <div className="card-content px-2 sm:px-3 md:px-4 py-3 sm:py-4 overflow-x-auto">
                 <FaultProbabilityChart 
                   faultProbabilities={analysisData?.fault_probabilities}
                   chartType="horizontal"
-                  height={300}
+                  height={250}
                 />
               </div>
             </div>
 
             {/* Recommendations */}
             <div className="card">
-              <div className="card-header">
-                <h3 className="card-title">Maintenance Recommendations</h3>
+              <div className="card-header px-3 sm:px-4 py-2 sm:py-3">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-900">Maintenance Recommendations</h3>
               </div>
-              <div className="card-content">
-                <ul className="space-y-3" data-testid="recommendations-list">
+              <div className="card-content px-3 sm:px-4 py-3 sm:py-4">
+                <ul className="space-y-2 sm:space-y-3" data-testid="recommendations-list">
                   {analysisData?.recommended_actions?.map((action, index) => (
-                    <li key={index} className="flex items-start space-x-3">
-                      <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium">
+                    <li key={index} className="flex items-start space-x-2 sm:space-x-3">
+                      <span className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium">
                         {index + 1}
                       </span>
-                      <span className="text-gray-800">{action}</span>
+                      <span className="text-xs sm:text-sm md:text-base text-gray-800">{action}</span>
                     </li>
                   )) || (
-                    <li className="text-gray-500">No specific recommendations available.</li>
+                    <li className="text-xs sm:text-sm text-gray-500">No specific recommendations available.</li>
                   )}
                 </ul>
               </div>
