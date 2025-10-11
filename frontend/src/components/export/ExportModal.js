@@ -311,6 +311,7 @@ const ExportModal = ({
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto" data-testid="export-modal">
       <div className="flex items-end sm:items-center justify-center min-h-screen px-2 sm:px-4 text-center">
+        {/* Backdrop */}
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
           <div className="absolute inset-0 bg-gray-900 opacity-75" onClick={onClose}></div>
         </div>
