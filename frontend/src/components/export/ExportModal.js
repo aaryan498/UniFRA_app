@@ -248,7 +248,7 @@ const ExportModal = ({
     }
   };
 
-  const exportToImage = async () => {
+  const exportToImage = async (html2canvas) => {
     // Create temporary preview with full content
     const tempContainer = document.createElement('div');
     tempContainer.style.position = 'absolute';
