@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Plot from 'react-plotly.js';
+import createPlotlyComponent from 'react-plotly.js/factory';
+import Plotly from 'plotly.js-basic-dist-min';
+const Plot = createPlotlyComponent(Plotly);
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
