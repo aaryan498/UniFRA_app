@@ -26,6 +26,24 @@ export const ExplainabilityPlot = lazy(() => import('./visualizations/Explainabi
 export const AnomalyHeatmap = lazy(() => import('./visualizations/AnomalyHeatmap'));
 
 // Wrapper component with Suspense
+export const LazyDashboard = (props) => (
+  <Suspense fallback={<LoadingFallback message="Loading dashboard..." />}>
+    <Dashboard {...props} />
+  </Suspense>
+);
+
+export const LazyHeader = (props) => (
+  <Suspense fallback={<LoadingFallback message="Loading..." />}>
+    <Header {...props} />
+  </Suspense>
+);
+
+export const LazySidebar = (props) => (
+  <Suspense fallback={<LoadingFallback message="Loading..." />}>
+    <Sidebar {...props} />
+  </Suspense>
+);
+
 export const LazySystemStatus = (props) => (
   <Suspense fallback={<LoadingFallback message="Loading System Status..." />}>
     <SystemStatus {...props} />
