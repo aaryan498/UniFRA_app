@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix and enhance the login/signup system with username functionality and guest login. Requirements: (1) Add username field for all users with real-time availability checking (red/green indicator), (2) Three login options visible on initial screen: Continue with UniFRA as Guest, Continue with Google (via Emergent), Login/Signup using Email, (3) Guest accounts expire after 24 hours if not converted, (4) Display username on dashboard and header, (5) Auto-generate usernames for Google/Emergent OAuth based on user's name, (6) DO NOT alter existing dashboard and system functionality."
+user_problem_statement: "FRONTEND OPTIMIZATION: Optimize UniFRA frontend to load in under 3 seconds without removing ANY functionality. Replace heavy dependencies with lightweight alternatives, implement proper lazy loading and code splitting. Critical: NO feature removal, NO UI changes, maintain all API integrations."
 
 frontend:
   - task: "New login UI with three options"
