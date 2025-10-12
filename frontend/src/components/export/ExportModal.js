@@ -1,6 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
 
 const ExportModal = ({ 
   isOpen, 
@@ -27,9 +25,22 @@ const ExportModal = ({
     setIsExporting(true);
     setExportSuccess(false);
     try {
+      // Dynamically load export libraries only when needed
+      let jsPDFModule, html2canvasModule;
+      
+      if (exportFormat === 'pdf' || exportFormat === 'image') {
+        // Load html2canvas for both PDF and image exports
+        html2canvasModule = (await import(/* webpackChunkName: "html2canvas" */ 'html2canvas')).default;
+      }
+      
+      if (exportFormat === 'pdf') {
+        // Load jsPDF only for PDF exports
+        jsPDFModule = (await import(/* webpackChunkName: "jspdf" */ 'jspdf')).jsPDF;
+      }
+      
       switch (exportFormat) {
         case 'pdf':
-          await exportToPDF();
+          await exportToPDF(jsPDFModule, html2canvasModule);
           break;
         case 'csv':
           await exportToCSV();
@@ -38,7 +49,7 @@ const ExportModal = ({
           await exportToJSON();
           break;
         case 'image':
-          await exportToImage();
+          await exportToImage(html2canvasModule);
           break;
         default:
           throw new Error('Unsupported export format');
@@ -56,7 +67,7 @@ const ExportModal = ({
     }
   };
 
-  const exportToPDF = async () => {
+  const exportToPDF = async (jsPDF, html2canvas) => {
     // Create a temporary container for PDF generation
     const pdfContainer = document.createElement('div');
     pdfContainer.style.position = 'absolute';
