@@ -11,6 +11,9 @@ const LoadingFallback = ({ message = 'Loading...' }) => (
 );
 
 // Lazy load heavy components
+export const Dashboard = lazy(() => import('./Dashboard'));
+export const Header = lazy(() => import('./Header'));
+export const Sidebar = lazy(() => import('./Sidebar'));
 export const SystemStatus = lazy(() => import('./SystemStatus'));
 export const AnalysisDetailView = lazy(() => import('./AnalysisDetailView'));
 export const AssetHistory = lazy(() => import('./AssetHistory'));
