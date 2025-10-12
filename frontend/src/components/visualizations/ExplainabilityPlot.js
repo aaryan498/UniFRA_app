@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
-import Plot from 'react-plotly.js';
+import createPlotlyComponent from 'react-plotly.js/factory';
+import Plotly from 'plotly.js-basic-dist-min';
+const Plot = createPlotlyComponent(Plotly);
 
 const ExplainabilityPlot = ({ 
   shapValues = [], 
