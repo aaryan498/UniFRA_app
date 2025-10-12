@@ -194,71 +194,78 @@ function App() {
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <Router>
         <div className="App">
-          <div className="app-layout">
-            {/* Sidebar */}
-            <Sidebar 
-              isOpen={sidebarOpen}
-              activeView={activeView}
-              onViewChange={setActiveView}
-              onToggle={() => setSidebarOpen(!sidebarOpen)}
-              systemStatus={systemStatus}
-            />
-
-            {/* Main Content */}
-            <div className={`main-content ${sidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-              {/* Header */}
-              <Header 
-                user={user}
-                onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-                onRefresh={refreshData}
-                onLogout={handleLogout}
+          <React.Suspense fallback={
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <p className="text-gray-600 mt-4">Loading dashboard...</p>
+            </div>
+          }>
+            <div className="app-layout">
+              {/* Sidebar */}
+              <LazySidebar 
+                isOpen={sidebarOpen}
+                activeView={activeView}
+                onViewChange={setActiveView}
+                onToggle={() => setSidebarOpen(!sidebarOpen)}
                 systemStatus={systemStatus}
               />
 
-              {/* Content Area */}
-              <div className="content-area">
-                <Routes>
-                  <Route path="/" element={
-                    <>
-                      {activeView === 'dashboard' && (
-                        <Dashboard 
-                          user={user}
-                          assets={assets}
-                          systemStatus={systemStatus}
-                          onRefresh={refreshData}
-                        />
-                      )}
-                      
-                      {activeView === 'upload' && (
-                        <LazyUploadAnalysis 
-                          user={user}
-                          onAnalysisComplete={refreshData}
-                        />
-                      )}
-                      
-                      {activeView === 'history' && (
-                        <LazyAssetHistory 
-                          user={user}
-                          assets={assets}
-                        />
-                      )}
-                      
-                      {activeView === 'system-status' && (
-                        <LazySystemStatus 
-                          systemStatus={systemStatus}
-                          onRefresh={checkSystemHealth}
-                        />
-                      )}
-                    </>
-                  } />
-                  <Route path="/dashboard" element={<Navigate to="/" />} />
-                  <Route path="/upload" element={<Navigate to="/" />} />
-                  <Route path="/history" element={<Navigate to="/" />} />
-                  <Route path="/system-status" element={<Navigate to="/" />} />
-                </Routes>
+              {/* Main Content */}
+              <div className={`main-content ${sidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+                {/* Header */}
+                <LazyHeader 
+                  user={user}
+                  onMenuClick={() => setSidebarOpen(!sidebarOpen)}
+                  onRefresh={refreshData}
+                  onLogout={handleLogout}
+                  systemStatus={systemStatus}
+                />
+
+                {/* Content Area */}
+                <div className="content-area">
+                  <Routes>
+                    <Route path="/" element={
+                      <>
+                        {activeView === 'dashboard' && (
+                          <LazyDashboard 
+                            user={user}
+                            assets={assets}
+                            systemStatus={systemStatus}
+                            onRefresh={refreshData}
+                          />
+                        )}
+                        
+                        {activeView === 'upload' && (
+                          <LazyUploadAnalysis 
+                            user={user}
+                            onAnalysisComplete={refreshData}
+                          />
+                        )}
+                        
+                        {activeView === 'history' && (
+                          <LazyAssetHistory 
+                            user={user}
+                            assets={assets}
+                          />
+                        )}
+                        
+                        {activeView === 'system-status' && (
+                          <LazySystemStatus 
+                            systemStatus={systemStatus}
+                            onRefresh={checkSystemHealth}
+                          />
+                        )}
+                      </>
+                    } />
+                    <Route path="/dashboard" element={<Navigate to="/" />} />
+                    <Route path="/upload" element={<Navigate to="/" />} />
+                    <Route path="/history" element={<Navigate to="/" />} />
+                    <Route path="/system-status" element={<Navigate to="/" />} />
+                  </Routes>
+                </div>
               </div>
             </div>
-          </div>
+          </React.Suspense>
         </div>
       </Router>
     </GoogleOAuthProvider>
