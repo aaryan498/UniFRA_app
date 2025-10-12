@@ -132,33 +132,30 @@ module.exports = {
         };
       }
 
-      // Development optimizations for memory efficiency
+      // Development optimizations for memory efficiency and faster loads
       if (env === 'development') {
-        // Faster rebuild times and lower memory usage
+        // Filesystem cache for fast rebuilds
         webpackConfig.cache = {
           type: 'filesystem',
           buildDependencies: {
             config: [__filename],
           },
         };
+        
+        // Disable code splitting in dev for faster loads
+        webpackConfig.optimization.splitChunks = false;
+        webpackConfig.optimization.runtimeChunk = false;
+        
+        // Faster rebuild times
         webpackConfig.optimization.removeAvailableModules = false;
         webpackConfig.optimization.removeEmptyChunks = false;
-        // Simplify code splitting in development
-        webpackConfig.optimization.splitChunks = {
-          chunks: 'async',
-          cacheGroups: {
-            defaultVendors: {
-              test: /[\\/]node_modules[\\/]/,
-              priority: -10,
-              reuseExistingChunk: true,
-            },
-            default: {
-              minChunks: 2,
-              priority: -20,
-              reuseExistingChunk: true,
-            },
-          },
-        };
+        webpackConfig.optimization.usedExports = false;
+        
+        // Fastest source maps for development
+        webpackConfig.devtool = 'eval-cheap-module-source-map';
+        
+        // Reduce memory usage
+        webpackConfig.optimization.minimize = false;
       }
 
       return webpackConfig;
