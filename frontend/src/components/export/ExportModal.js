@@ -57,43 +57,23 @@ const ExportModal = ({
   };
 
   const exportToPDF = async () => {
-    if (!reportRef.current) {
-      // Create a temporary container for PDF generation
-      const pdfContainer = document.createElement('div');
-      pdfContainer.style.position = 'absolute';
-      pdfContainer.style.left = '-9999px';
-      pdfContainer.style.width = '794px'; // A4 width in pixels at 96 DPI
-      pdfContainer.style.backgroundColor = '#ffffff';
-      pdfContainer.innerHTML = generatePDFContent();
-      document.body.appendChild(pdfContainer);
+    // Create a temporary container for PDF generation
+    const pdfContainer = document.createElement('div');
+    pdfContainer.style.position = 'absolute';
+    pdfContainer.style.left = '-9999px';
+    pdfContainer.style.width = '794px'; // A4 width in pixels at 96 DPI
+    pdfContainer.style.backgroundColor = '#ffffff';
+    pdfContainer.innerHTML = generatePDFContent();
+    document.body.appendChild(pdfContainer);
 
-      try {
-        const canvas = await html2canvas(pdfContainer, {
-          scale: 2,
-          useCORS: true,
-          logging: false,
-          width: 794,
-          height: 1123 // A4 height in pixels
-        });
-
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        
-        const filename = `FRA_Analysis_${assetId}_${new Date().toISOString().split('T')[0]}.pdf`;
-        pdf.save(filename);
-      } finally {
-        document.body.removeChild(pdfContainer);
-      }
-    } else {
-      // Use preview ref if available
-      const canvas = await html2canvas(reportRef.current, {
+    try {
+      // Capture the entire content with auto height
+      const canvas = await html2canvas(pdfContainer, {
         scale: 2,
         useCORS: true,
         logging: false,
+        width: 794,
+        windowWidth: 794,
         backgroundColor: '#ffffff'
       });
 
@@ -102,10 +82,31 @@ const ExportModal = ({
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      // Calculate how many pages we need
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = imgWidth / pdfWidth;
+      const imgHeightInPDF = imgHeight / ratio;
+      
+      let heightLeft = imgHeightInPDF;
+      let position = 0;
+      
+      // Add first page
+      pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeightInPDF);
+      heightLeft -= pdfHeight;
+      
+      // Add additional pages if needed
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeightInPDF;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeightInPDF);
+        heightLeft -= pdfHeight;
+      }
       
       const filename = `FRA_Analysis_${assetId}_${new Date().toISOString().split('T')[0]}.pdf`;
       pdf.save(filename);
+    } finally {
+      document.body.removeChild(pdfContainer);
     }
   };
 
