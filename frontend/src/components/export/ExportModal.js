@@ -238,44 +238,36 @@ const ExportModal = ({
   };
 
   const exportToImage = async () => {
-    if (!reportRef.current) {
-      // Create temporary preview if not shown
-      const tempContainer = document.createElement('div');
-      tempContainer.style.position = 'absolute';
-      tempContainer.style.left = '-9999px';
-      tempContainer.style.width = '1200px';
-      tempContainer.style.backgroundColor = '#ffffff';
-      tempContainer.style.padding = '40px';
-      tempContainer.innerHTML = generatePDFContent();
-      document.body.appendChild(tempContainer);
+    // Create temporary preview with full content
+    const tempContainer = document.createElement('div');
+    tempContainer.style.position = 'absolute';
+    tempContainer.style.left = '-9999px';
+    tempContainer.style.width = '1200px';
+    tempContainer.style.backgroundColor = '#ffffff';
+    tempContainer.style.padding = '40px';
+    tempContainer.innerHTML = generatePDFContent();
+    document.body.appendChild(tempContainer);
 
-      try {
-        const canvas = await html2canvas(tempContainer, {
-          scale: 2,
-          useCORS: true,
-          logging: false,
-          backgroundColor: '#ffffff'
-        });
-
-        const link = document.createElement('a');
-        link.download = `FRA_Analysis_${assetId}_${new Date().toISOString().split('T')[0]}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      } finally {
-        document.body.removeChild(tempContainer);
-      }
-    } else {
-      const canvas = await html2canvas(reportRef.current, {
+    try {
+      // Wait for content to render
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Capture the entire content with full height
+      const canvas = await html2canvas(tempContainer, {
         scale: 2,
         useCORS: true,
         logging: false,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        windowWidth: 1200,
+        width: 1200
       });
 
       const link = document.createElement('a');
       link.download = `FRA_Analysis_${assetId}_${new Date().toISOString().split('T')[0]}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
+    } finally {
+      document.body.removeChild(tempContainer);
     }
   };
 
